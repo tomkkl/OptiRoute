@@ -55,6 +55,12 @@ const LoginSignup = () => {
                 <img src={password_icon} alt=''/>
                 <input type='password' placeholder='Password'/>
             </div>
+            {action === "Sign Up" && (
+                <div className='input'>
+                    <img src={user_icon} alt=''/>
+                    <input type='security_question' placeholder='Security Question 1'/>
+                </div>
+            )}
             <div id = "signInGoogleDiv"> </div>
         <div className='submit-container'>
             <div className={action ==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
