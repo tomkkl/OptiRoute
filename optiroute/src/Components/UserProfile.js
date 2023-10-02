@@ -14,9 +14,15 @@ const UserProfile = () => {
       .catch((error) => console.error('Error fetching user data: ', error));
   }, []);
   
+  // Change profile picture
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
+  };
+
+  // Delete profile picture
+  const handleDeletePicture = () => {
+    setSelectedFile(null); // Reset the selected file to clear the current profile picture
   };
   if (!userData) {
     return <div>Loading...</div>;
