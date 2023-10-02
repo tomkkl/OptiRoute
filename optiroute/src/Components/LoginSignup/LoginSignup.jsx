@@ -5,11 +5,11 @@ import jwt_decode from "jwt-decode";
 import user_icon from '../Assets/person.png'
 import email_icon from '../Assets/email.png'
 import password_icon from '../Assets/password.png'
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const LoginSignup = () => {
     // Navigate to PW reset
-
+  const navigate = useNavigate();
     //Change to work with Mongo
     //State does not work as well
   const [user, setUser ] = useState({});
@@ -45,6 +45,7 @@ const LoginSignup = () => {
             {action==="Login"?<div></div> :<div className='input'>
                 <img src={user_icon} alt=''/>
                 <input type='text' placeholder='Name'/>
+                
             </div>}
             <div className='input'>
                 <img src={email_icon} alt=''/>
@@ -54,13 +55,17 @@ const LoginSignup = () => {
                 <img src={password_icon} alt=''/>
                 <input type='password' placeholder='Password'/>
             </div>
-            <div id = "signInGoogleDiv">
-
-            </div>
-        {action ==="Sign Up"?<div ></div>  :<div className="forgot-password">Lost Password? <span>Click Here</span></div>}
+            {action === "Sign Up" && (
+                <div className='input'>
+                    <img src={user_icon} alt=''/>
+                    <input type='security_question' placeholder='Security Question 1'/>
+                </div>
+            )}
+            <div id = "signInGoogleDiv"> </div>
         <div className='submit-container'>
             <div className={action ==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
             <div className={action ==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
+            {action === "Login" && <div className="submit" onClick={() => {navigate("/reset-password")}}>Forgot Password?</div>}
         </div>
     </div>
   )
