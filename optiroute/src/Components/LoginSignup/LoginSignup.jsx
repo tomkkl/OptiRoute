@@ -8,8 +8,7 @@ import password_icon from '../Assets/password.png'
 import { useNavigate } from "react-router-dom";
 
 const LoginSignup = () => {
-    // Navigate to PW reset
-
+    //Navigate to PW reset
     //Change to work with Mongo
     //State does not work as well
   const [user, setUser ] = useState({});
