@@ -4,6 +4,7 @@ import './LoginSignup.css'
 import jwt_decode from "jwt-decode";
 import user_icon from '../Assets/person.png'
 import email_icon from '../Assets/email.png'
+import phone_icon from '../Assets/phone.png'
 import password_icon from '../Assets/password.png'
 import { useNavigate } from 'react-router-dom';
 
@@ -35,11 +36,28 @@ const LoginSignup = () => {
   }, []);
 
   const [action,setAction] = useState("Sign Up");
+  const [signUpPhone, setSignUpPhone] = useState(false);
+  const [loginPhone, setLoginPhone] = useState(false);
   return (
     <div className='container'>
         <div className ='header'>
-            <div className='text'>{action}</div>
-            <div className='underline'></div>
+        <div className='text'>{action}</div>
+                {action === "Sign Up" ? (
+                    <button
+                        onClick={() => setSignUpPhone(!signUpPhone)}
+                        className="phone-user"
+                    >
+                        Sign up by {signUpPhone ? "Email" : "Phone Number"}
+                    </button>
+                ) : (
+                    <button
+                        onClick={() => setLoginPhone(!loginPhone)}
+                        className="phone-user"
+                    >
+                        Login by {loginPhone ? "Email" : "Phone Number"}
+                    </button>
+                )}
+                <div className='underline'></div>
         </div>
         <div className='inputs'></div>
             {action==="Login"?<div></div> :<div className='input'>
@@ -48,9 +66,12 @@ const LoginSignup = () => {
                 
             </div>}
             <div className='input'>
-                <img src={email_icon} alt=''/>
-                <input type='email' placeholder='Email'/>
-            </div>
+                    <img src={(action === "Sign Up" ? signUpPhone : loginPhone) ? phone_icon : email_icon} alt=''/>
+                    <input 
+                        type={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'tel' : 'email'} 
+                        placeholder={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'Phone Number' : 'Email'}
+                    />
+                    </div>
             <div className='input'>
                 <img src={password_icon} alt=''/>
                 <input type='password' placeholder='Password'/>
@@ -62,6 +83,7 @@ const LoginSignup = () => {
                 </div>
             )}
             <div id = "signInGoogleDiv"> </div>
+
         <div className='submit-container'>
             <div className={action ==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
             <div className={action ==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
