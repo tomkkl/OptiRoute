@@ -20,6 +20,11 @@ const UserProfile = () => {
   return (
     <div className="user-profile">
       <h1>User Profile</h1>
+      <img src={userData.avatar} alt="User Avatar" />
+      <h2>{userData.name}</h2>
+      <p>Email: {userData.email}</p>
+      <p>Bio: {userData.bio}</p>
+      {/* Add more user information as needed */}
     </div>
   );
 };
