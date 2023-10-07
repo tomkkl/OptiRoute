@@ -88,6 +88,7 @@ const LoginSignup = () => {
                     <img src={user_icon} alt=''/>
                     <input type='security_question' placeholder='Security Question 1'/>
                 </div>
+            )}
             <div>
             {!profile ? <LoginSocialFacebook
                 appID="172918275855498"
@@ -102,7 +103,6 @@ const LoginSignup = () => {
                 <FacebookLoginButton/>
             </LoginSocialFacebook>: ''}
             </div>
-            )}
             <div id = "signInGoogleDiv"> </div>
 
         <div className='submit-container'>
