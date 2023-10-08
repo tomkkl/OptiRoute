@@ -59,14 +59,8 @@ const LoginSignup = () => {
 
   const handleClick =  async event => {
     event.preventDefault();
+    //Do a check if on signup or login page
 
-    if (name.trim().length == 0) {
-        console.log('name value is empty');
-    } else if(email.trim().length == 0) {
-      console.log('Email/Telephone value is empty');
-    } else if(password.trim().length == 7){
-        console.log('password value is too short');
-    } else {
         const user = {name, email, password}
 
         const response = await fetch('/api/users', {
@@ -85,11 +79,12 @@ const LoginSignup = () => {
         if(response.ok) {
             setError(null)
             console.log('new user added', json)
+            {navigate("/home")}
+    
         }
         
 
-        {navigate("/home")}
-    }
+        
   };
 
   const [action,setAction] = useState("Sign Up");
@@ -167,8 +162,10 @@ const LoginSignup = () => {
             <div className={action ==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
             <div className={action ==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
             <div className="submit" onClick={handleClick}>Submit</div>
+            {error && <div className='error'>{error}</div>}
             {action === "Login" && <div className="submit" onClick={() => {navigate("/reset-password")}}>Forgot Password?</div>}
         </div>
+        
     </div>
   )
 }
