@@ -109,6 +109,7 @@ const LoginSignup = () => {
         <div className='submit-container'>
             <div className={action ==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
             <div className={action ==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
+            <div className="submit" onClick={()=>{navigate("/home")}}>Submit</div>
             {action === "Login" && <div className="submit" onClick={() => {navigate("/reset-password")}}>Forgot Password?</div>}
         </div>
     </div>
