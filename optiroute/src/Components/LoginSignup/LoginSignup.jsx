@@ -42,6 +42,33 @@ const LoginSignup = () => {
         { theme: "outline", size: "large"}
     )
   }, []);
+  const [name, setName] = useState('');
+  const [telEmail, setTelEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const handleChangeName = event => {
+    setName(event.target.value);
+  };
+
+  const handleChangeTelEmail = event => {
+    setTelEmail(event.target.value);
+  };
+  const handleChangePassword = event => {
+    setPassword(event.target.value);
+  };
+
+  const handleClick = event => {
+    event.preventDefault();
+
+    if (name.trim().length == 0) {
+        console.log('name value is empty');
+    } else if(telEmail.trim().length == 0) {
+      console.log('Email/Telephone value is empty');
+    } else if(password.trim().length == 0){
+        console.log('password value is empty');
+    } else {
+        {navigate("/home")}
+    }
+  };
 
   const [action,setAction] = useState("Sign Up");
   const [signUpPhone, setSignUpPhone] = useState(false);
@@ -70,19 +97,24 @@ const LoginSignup = () => {
         <div className='inputs'></div>
             {action==="Login"?<div></div> :<div className='input'>
                 <img src={user_icon} alt=''/>
-                <input type='text' placeholder='Name'/>
+                <input id = "name" type='text' placeholder='Name' onChange={handleChangeName}/>
                 
             </div>}
             <div className='input'>
                     <img src={(action === "Sign Up" ? signUpPhone : loginPhone) ? phone_icon : email_icon} alt=''/>
                     <input 
+                        id = "telEmail"
                         type={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'tel' : 'email'} 
                         placeholder={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'Phone Number' : 'Email'}
+                        onChange={handleChangeTelEmail}
                     />
                     </div>
             <div className='input'>
                 <img src={password_icon} alt=''/>
-                <input type='password' placeholder='Password'/>
+                <input
+                    id = "password" 
+                    type='password' placeholder='Password'
+                    onChange={handleChangePassword}/>
             </div>
             {action === "Sign Up" && (
                 <div className='input'>
@@ -109,7 +141,7 @@ const LoginSignup = () => {
         <div className='submit-container'>
             <div className={action ==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
             <div className={action ==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
-            <div className="submit" onClick={()=>{navigate("/home")}}>Submit</div>
+            <div className="submit" onClick={handleClick}>Submit</div>
             {action === "Login" && <div className="submit" onClick={() => {navigate("/reset-password")}}>Forgot Password?</div>}
         </div>
     </div>
