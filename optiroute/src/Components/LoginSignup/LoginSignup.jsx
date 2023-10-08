@@ -43,29 +43,51 @@ const LoginSignup = () => {
     )
   }, []);
   const [name, setName] = useState('');
-  const [telEmail, setTelEmail] = useState('');
+  const [email, setTelEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const handleChangeName = event => {
     setName(event.target.value);
   };
 
-  const handleChangeTelEmail = event => {
+  const handleChangeTelEmail = async event => {
     setTelEmail(event.target.value);
   };
   const handleChangePassword = event => {
     setPassword(event.target.value);
   };
 
-  const handleClick = event => {
+  const handleClick =  async event => {
     event.preventDefault();
 
     if (name.trim().length == 0) {
         console.log('name value is empty');
-    } else if(telEmail.trim().length == 0) {
+    } else if(email.trim().length == 0) {
       console.log('Email/Telephone value is empty');
-    } else if(password.trim().length == 0){
-        console.log('password value is empty');
+    } else if(password.trim().length == 7){
+        console.log('password value is too short');
     } else {
+        const user = {name, email, password}
+
+        const response = await fetch('/api/users', {
+            method: "POST",
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const json = await response.json()
+
+        if(!response.ok){
+            setError(json.error)
+        }
+
+        if(response.ok) {
+            setError(null)
+            console.log('new user added', json)
+        }
+        
+
         {navigate("/home")}
     }
   };
@@ -97,7 +119,8 @@ const LoginSignup = () => {
         <div className='inputs'></div>
             {action==="Login"?<div></div> :<div className='input'>
                 <img src={user_icon} alt=''/>
-                <input id = "name" type='text' placeholder='Name' onChange={handleChangeName}/>
+                <input id = "name" type='text' placeholder='Name' onChange={handleChangeName}
+                value = {name}/>
                 
             </div>}
             <div className='input'>
@@ -107,6 +130,7 @@ const LoginSignup = () => {
                         type={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'tel' : 'email'} 
                         placeholder={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'Phone Number' : 'Email'}
                         onChange={handleChangeTelEmail}
+                        value = {email}
                     />
                     </div>
             <div className='input'>
@@ -114,7 +138,8 @@ const LoginSignup = () => {
                 <input
                     id = "password" 
                     type='password' placeholder='Password'
-                    onChange={handleChangePassword}/>
+                    onChange={handleChangePassword}
+                    value = {password}/>
             </div>
             {action === "Sign Up" && (
                 <div className='input'>
