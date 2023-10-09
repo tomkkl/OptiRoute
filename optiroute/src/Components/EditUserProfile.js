@@ -5,6 +5,7 @@ class Username extends React.Component {
   constructor(props){
     super(props);
     this.state = {value: ""};
+    this.state = {value: ""};
   }
 
   changeValue(value) {
@@ -34,7 +35,18 @@ class App extends React.Component {
         <button onClick={this.clickHandler.bind(this)}>Change Username</button>
         <input id="name_input" type="text" />
         <Username ref={this.userNameRef} />
+
+        <button onClick={this.clickHandler.bind(this)}>Change Bio</button>
+        <input id="name_input" type="text" />
+        <Username ref={this.userNameRef} />
+
+
+        
+
       </div>
+
+      
+      
     );
   }
 }
