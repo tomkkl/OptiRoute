@@ -48,7 +48,7 @@ const ResetPassword = () => {
                 // if all good, display a thing that says password reset
                 // else display a error stating one of the info is wrong
             }}>Confirm Reset</div>
-            <div className={action ==="Back"?"submit gray":"submit"} onClick={()=>{navigate("/")}}>Back To Login</div>
+            <div className={action ==="Back"?"submit gray":"submit"} onClick={()=>{navigate("/login")}}>Back To Login</div>
         </div>
     </div>
   )

@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { LoginSocialFacebook} from 'reactjs-social-login';
 import {FacebookLoginButton} from "react-social-login-buttons";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Sidebar from '../Sidebar/Sidebar';
 
 const LoginSignup = () => {
     // Navigate to PW reset
@@ -97,6 +98,7 @@ const LoginSignup = () => {
   const [loginPhone, setLoginPhone] = useState(false);
   return (
     <div className='container'>
+        <Sidebar />
         <div className ='header'>
         <div className='text'>{action}</div>
                 {action === "Sign Up" ? (
