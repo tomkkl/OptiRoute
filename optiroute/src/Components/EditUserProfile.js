@@ -22,6 +22,8 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.userNameRef = React.createRef();
+        this.bioRef = React.createRef();
+        this.emailRef = React.createRef();
     }
 
   clickHandler() {
@@ -38,9 +40,11 @@ class App extends React.Component {
 
         <button onClick={this.clickHandler.bind(this)}>Change Bio</button>
         <input id="name_input" type="text" />
-        <Username ref={this.userNameRef} />
+        <Username ref={this.bioRef} />
 
-
+        <button onClick={this.clickHandler.bind(this)}>Change Email Address</button>
+        <input id="name_input" type="text" />
+        <Username ref={this.emailRef} />
         
 
       </div>
