@@ -26,6 +26,12 @@ const userSchema = new Schema({
     phonenumber: {
         type: Number,
         required: true
+    },
+    image: {
+        data: Buffer,
+        contentType: String,
+        required: true
+
     }
 
 }, { timestamps: true })

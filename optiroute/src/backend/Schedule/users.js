@@ -2,6 +2,23 @@ const express = require('express')
 const mongoose = require('mongoose')
 const User = require('../models/userModel')
 const router = express.Router();
+// Added
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+
+const upload = multer({ storage: storage });
+////////////////////////
 
 const {
     createUser,
@@ -36,16 +53,44 @@ router.get('/:id', async (req, res) => {
 })
 
 //Post a new user
-router.post('/', async (req, res) => {
-    const {name, email, password, username, bio, phonenumber} = req.body
-
-    try {
-        const user = await User.create({name, email, password, username, bio, phonenumber});
-        res.status(200).json(user)
-    } catch (error){
-        res.status(400).json({error: error.message})
+router.post('/', upload.single('image'), (req, res) => {
+ 
+    var obj = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        username: req.body.username,
+        bio: req.body.bio,
+        phonenumber: req.body.phonenumber,
+        img: {
+            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+            contentType: 'image/png'
+        }
     }
-})
+    imgSchema.create(obj)
+    .then ((err, item) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            // item.save();
+            res.redirect('/');
+        }
+    });
+});
+ 
+// router.post('/', async (req, res) => {
+//     const {name, email, password, username, bio, phonenumber, image} = req.body
+
+//     try {
+//         const user = await User.create({name, email, password, username, bio, phonenumber, image});
+//         res.status(200).json(user)
+//     } catch (error){
+//         res.status(400).json({error: error.message})
+//     }
+// })
+
+
 
 //Delete a user
 router.delete('/:id', async(req, res) => {
@@ -85,4 +130,3 @@ router.patch('/:id', async (req, res) => {
 })
 
 module.exports = router
-
