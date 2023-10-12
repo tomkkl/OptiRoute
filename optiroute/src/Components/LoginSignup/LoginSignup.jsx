@@ -42,8 +42,11 @@ const LoginSignup = () => {
         { theme: "outline", size: "large"}
     )
   }, []);
+  const [signUpPhone, setSignUpPhone] = useState(false);
+  const [loginPhone, setLoginPhone] = useState(false);
   const [name, setName] = useState('');
-  const [email, setTelEmail] = useState('');
+  const [telEmail, setTelEmail] = useState('');
+  const [securityQuestion, setSecurityQuestion] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const handleChangeName = event => {
@@ -56,16 +59,28 @@ const LoginSignup = () => {
   const handleChangePassword = event => {
     setPassword(event.target.value);
   };
+  const handleChangeSecurityQuestion = event => {
+    setSecurityQuestion(event.target.value);
+  };
+
 
   const handleClick =  async event => {
-    event.preventDefault();
-    //Do a check if on signup or login page
+    if(action ==="Sign Up"){
+        //Do check if email or phone number
+        console.log("SIGNUP")
+        event.preventDefault();
+        var userinsert = null;
+        if(!signUpPhone){
+            userinsert = {name, email:telEmail, password, securityQuestion}
+        } else {
+            userinsert = {name, phoneNumber:telEmail, password, securityQuestion}
+        }
+        // const user = {name, email:telEmail, password, securityQuestion}
 
-        const user = {name, email, password}
 
         const response = await fetch('/api/users', {
             method: "POST",
-            body: JSON.stringify(user),
+            body: JSON.stringify(userinsert),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -82,14 +97,14 @@ const LoginSignup = () => {
             {navigate("/home")}
     
         }
-        
-
-        
+    } else {
+        //Do check if email or phone number
+        console.log("LOGIN")
+    }
   };
 
   const [action,setAction] = useState("Sign Up");
-  const [signUpPhone, setSignUpPhone] = useState(false);
-  const [loginPhone, setLoginPhone] = useState(false);
+
   return (
     <div className='container'>
         <div className ='header'>
@@ -125,7 +140,7 @@ const LoginSignup = () => {
                         type={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'tel' : 'email'} 
                         placeholder={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'Phone Number' : 'Email'}
                         onChange={handleChangeTelEmail}
-                        value = {email}
+                        value = {telEmail}
                     />
                     </div>
             <div className='input'>
@@ -139,7 +154,11 @@ const LoginSignup = () => {
             {action === "Sign Up" && (
                 <div className='input'>
                     <img src={user_icon} alt=''/>
-                    <input type='security_question' placeholder='Security Question 1'/>
+                    <input 
+                    type='security_question' 
+                    placeholder='Security Question 1'
+                    onChange={handleChangeSecurityQuestion}
+                    value = {securityQuestion}/>
                 </div>
             )}
             <div>
@@ -162,9 +181,9 @@ const LoginSignup = () => {
             <div className={action ==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
             <div className={action ==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
             <div className="submit" onClick={handleClick}>Submit</div>
-            {error && <div className='error'>{error}</div>}
             {action === "Login" && <div className="submit" onClick={() => {navigate("/reset-password")}}>Forgot Password?</div>}
         </div>
+        {error && <div className='error'>{error}</div>}
         
     </div>
   )
