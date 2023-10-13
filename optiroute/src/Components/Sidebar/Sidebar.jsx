@@ -8,6 +8,7 @@ const Sidebar = () => {
             <Link to="/">Home</Link>
             <Link to="/about">About Team 17</Link>
             <Link to="/login">Login/Signup</Link>
+            <Link to="/calendar">Calendar</Link>
         </div>
     );
 };

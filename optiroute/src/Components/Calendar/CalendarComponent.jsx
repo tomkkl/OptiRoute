@@ -6,6 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import EventModal from "./EventModal";
 import Modal from "react-modal";
 import EventDetailModal from "./EventDetailModal";
+import DeleteEventModal from "./DeleteEventModal";
 
 Modal.setAppElement('#root');
 
@@ -15,41 +16,82 @@ function CalendarComponent() {
   const calendarRef = useRef(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [detailModalOpen, setDetailModalOpen] = useState(false); // State for event detail modal
+  const [editModalOpen, setEditModalOpen] = useState(false); // State for edit event modal
+  const [deleteEventModalOpen, setDeleteEventModalOpen] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState(null);
 
 
-   // Fetch events from the backend when the component mounts
-   useEffect(() => {
-    fetch('/api/events') // Assuming this endpoint returns the list of events
+  useEffect(() => {
+    fetch('/api/events')
       .then(response => response.json())
       .then(data => {
-        setEvents(data); // Set the events in the state
+        // Map MongoDB _id to FullCalendar id property
+        const eventsWithId = data.map(event => ({
+          ...event,
+          id: event._id, // Map MongoDB _id to FullCalendar id property
+          start: new Date(event.start), // Convert start and end to Date objects if they are in string format
+          end: new Date(event.end),
+        }));
+        console.log('Fetched events with IDs:', eventsWithId);
+        setEvents(eventsWithId);
       })
       .catch(error => {
         console.error('Error fetching events:', error);
       });
-  }, []); // Empty dependency array ensures the effect runs once after the initial render
+  }, []);
 
-  const onDeleteEvent = () => {
-    if (selectedEvent) {
-      const eventId = selectedEvent.id; // Assuming your event object has an 'id' property
-      fetch(`/api/events/${eventId}`, {
+  const openDeleteEventModal = (eventId) => {
+    setEventToDelete(eventId);
+    setDeleteEventModalOpen(true);
+  };
+  
+  const closeDeleteEventModal = () => {
+    setEventToDelete(null);
+    setDeleteEventModalOpen(false);
+  };
+
+  const onDeleteEvent = (eventId) => {
+    console.log('Deleting event with ID:', eventId); // Print out the eventId
+    fetch(`/api/events/${eventId}`, {
         method: 'DELETE',
-      })
-        .then(response => {
-          if (response.ok) {
+    })
+    .then(response => {
+        if (response.ok) {
             // Event deleted successfully, update the events state to remove the deleted event
             setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId));
             setDetailModalOpen(false); // Close the detail modal after deletion
-          } else {
+        } else {
             console.error('Error deleting event:', response.statusText);
-          }
-        })
-        .catch(error => {
-          console.error('Error deleting event:', error);
-        });
-    }
-  };
-  
+        }
+    })
+    .catch(error => {
+        console.error('Error deleting event:', error);
+    });
+};
+
+const onEditEvent = (updatedEvent) => {
+  console.log('Editing event with ID:', updatedEvent.id); // Print out the eventId
+  fetch(`/api/events/${updatedEvent.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedEvent),
+  })
+  .then(response => {
+      if (response.ok) {
+          // Event updated successfully, update the events state with the updated event
+          setEvents(prevEvents => prevEvents.map(event => (event.id === updatedEvent.id ? updatedEvent : event)));
+          setEditModalOpen(false); // Close the edit modal after updating the event
+      } else {
+          console.error('Error updating event:', response.statusText);
+      }
+  })
+  .catch(error => {
+      console.error('Error updating event:', error);
+  });
+};
+
   const onEventAdded = (event) => {
     const eventData = {
         title: event.title,
@@ -58,11 +100,6 @@ function CalendarComponent() {
         location: event.location,
         recurrence: event.recurrence,
         description: event.description,
-    };
-    const handleEventClick = (info) => {
-      // info.event holds the clicked event data
-      setSelectedEvent(info.event);
-      setDetailModalOpen(true);
     };
 
     fetch('/api/events', {
@@ -101,9 +138,12 @@ function CalendarComponent() {
         }}
         height={"90vh"}
         eventClick={(info) => {
-          // `info.event` contains the event object. You can extract the necessary details from it.
+          const clickedEventId = info.event.id;
+          console.log('Clicked event ID:', clickedEventId);
+          
           setSelectedEvent(info.event);
-          setDetailModalOpen(true); // Open the EventModal when an event is clicked
+          setDetailModalOpen(true);
+
         }}
       />
       <button onClick={() => setModalOpen(true)}>Add Event</button>
@@ -112,10 +152,14 @@ function CalendarComponent() {
         isOpen={detailModalOpen}
         onClose={() => setDetailModalOpen(false)}
         event={selectedEvent}
-        onDelete={onDeleteEvent} // Pass the onDeleteEvent handler to the EventDetailModal
-        onEdit={() => {
-          // Logic to open the edit event modal, if you have one
-        }}
+        onDelete={() => openDeleteEventModal(selectedEvent.id)}
+        onEdit={(onDeleteEvent)}
+      />
+
+      <DeleteEventModal
+        isOpen={deleteEventModalOpen}
+        onClose={closeDeleteEventModal}
+        onConfirm={() => onDeleteEvent(eventToDelete)}
       />
     </div>
   );
