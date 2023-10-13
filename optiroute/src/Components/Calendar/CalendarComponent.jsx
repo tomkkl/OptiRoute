@@ -172,7 +172,9 @@ const onEventUpdated = (updatedEvent) => {
 
         }}
       />
-      <button onClick={() => setModalOpen(true)}>Add Event</button>
+       <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+        <button onClick={() => setModalOpen(true)}>Add Event</button>
+      </div>
       <EventModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onEventAdded={event => onEventAdded(event)}></EventModal>
       <EventDetailModal
         isOpen={detailModalOpen}

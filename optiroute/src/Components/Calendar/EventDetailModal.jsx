@@ -15,7 +15,7 @@ export default function EventDetailModal({ isOpen, onClose, event, onEdit, onDel
  
     <Modal isOpen={isOpen} onRequestClose={onClose}>
       {event && (
-        <div>
+        <div className="modal-container">
           <h3><strong>Title:</strong>{event.title}</h3>
           <p><strong>Location:</strong> {event.extendedProps.location} {/* Access location from extendedProps */}</p>
           <p><strong>Category:</strong> {event.extendedProps.category} {/* Access Category from extendedProps */}</p>
