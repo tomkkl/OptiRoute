@@ -1,10 +1,11 @@
 import React from "react";
 import Modal from "react-modal";
+import "./EventDetail.css"; // Import the CSS file for styles
 
 export default function EventDetailModal({ isOpen, onClose, event, onEdit, onDelete }) {  
   if (event) {
     console.log("Event ID hfhhffh:", event); // Log the event ID when the modal is opened
-    console.log("Event ID hfhhffh:", event.title); // Log the event ID when the modal is opened
+    console.log("Event ID hfhhffh:", event.range); // Log the event ID when the modal is opened
     console.log("Event ID loc", event.extendedProps.location);
   }
   return (
