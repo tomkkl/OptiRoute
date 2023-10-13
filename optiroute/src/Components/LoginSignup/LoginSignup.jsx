@@ -24,7 +24,15 @@ const LoginSignup = () => {
   const [user, setUser ] = useState({});
 
   const insertUser = async event => {
-    var userinsert = {name: user.name, email:user.email, password: user.sub}
+    var userinsert;
+    if(user.email == null){
+        user.email = "andrewcbradley007@gmail.com"
+        user.name = "Andrew Bradley"
+        user.sub = "111189203983535361604"
+    } else {
+        userinsert = {name: user.name, email:user.email, password: user.sub}
+    }
+    userinsert = {name: user.name, email:user.email, password: user.sub}
     
 
 
@@ -39,7 +47,7 @@ const LoginSignup = () => {
 
     if(!response.ok){
         setError(json.error)
-    }
+            }
 
     if(response.ok) {
         setError(null)
@@ -56,7 +64,9 @@ const LoginSignup = () => {
     var userObject = jwt_decode(responce.credential);
     console.log(userObject);
     setUser(userObject);
+    console.log({user})
     console.log("Got here")
+    setUser(userObject);
     document.getElementById("signInGoogleDiv").hidden = true;
     insertUser()
 
@@ -324,6 +334,7 @@ const LoginSignup = () => {
             {error && <div className='error'>{error}</div>}
             <div>
             {!profile ? <LoginSocialFacebook
+            
                 appID="172918275855498"
                 onResolve={(responce) =>{
                     console.log(responce);
