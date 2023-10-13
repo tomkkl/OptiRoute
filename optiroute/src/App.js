@@ -9,7 +9,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
 
 
-
 function App() {
   return (
     <>
