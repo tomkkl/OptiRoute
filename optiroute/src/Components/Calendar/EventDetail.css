@@ -38,4 +38,14 @@
   }
   
   /* You can customize the styles further based on your design preferences */
-  
+  button {
+    margin-top: 10px;
+    margin-right: 10px; /* Add margin-right for spacing between buttons */
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
