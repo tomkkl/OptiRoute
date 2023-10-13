@@ -43,10 +43,29 @@ const LoginSignup = () => {
         { theme: "outline", size: "large"}
     )
   }, []);
+  const [signUpPhone, setSignUpPhone] = useState(false);
+  const [loginPhone, setLoginPhone] = useState(false);
+  const [loginUsername, setLoginUsername] = useState(false);
   const [name, setName] = useState('');
-  const [email, setTelEmail] = useState('');
+  const [telEmail, setTelEmail] = useState('');
+  const [securityQuestion, setSecurityQuestion] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [users, setUsers] = useState(null)
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const responce = await fetch('/api/users')
+      const json = await responce.json()
+
+      if(responce.ok){
+          setUsers(json)
+          console.log("Got users")
+      }
+    }
+    fetchUsers()
+  }, [])
+
   const handleChangeName = event => {
     setName(event.target.value);
   };
@@ -57,22 +76,79 @@ const LoginSignup = () => {
   const handleChangePassword = event => {
     setPassword(event.target.value);
   };
+  const handleChangeSecurityQuestion = event => {
+    setSecurityQuestion(event.target.value);
+  };
 
   const handleClick =  async event => {
-    event.preventDefault();
+    
+    if(action ==="Sign Up"){
+        //Do a check to see if all required fields are filled out
+        if(telEmail.length==0){
+            if(signUpPhone){
+                console.log("Phone is empty")
+                setError("Phone is empty")
+                return;
+            } else {
+                console.log("Email is empty")
+                setError("Email is empty")
+                return;
+            }
+            
+        } else if(name.length ==0){
+            console.log("Name too short")
+            setError("Name is empty")
+            return;
+        } else if(password.length <=7){
+            console.log("Password is less than 7 characters")
+            setError("Password is less than 7 characters")
+            return;
+        }else if(securityQuestion == 0){
+            console.log("Security Question is empty")
+            setError("Security Question is empty")
+            return;
+        }
+        //console.log(users)
+        for(i = 0; i <users.length; i++){
+            // console.log(users[i].email)
+            if(!signUpPhone){
+                if(users[i].email === telEmail){
+                    console.log("BAD EMAIL CAUGHT")
+                    setError("Email is taken")
+                    return;
+                    break;
+                }
+            } else {
+                if(users[i].phoneNumber === telEmail){
+                    console.log("BAD Phone Number CAUGHT")
+                    setError("Phone Number is taken")
+                    return;
+                    break;
+                }
+            }
+            if(users[i].name === name){
+                console.log("BAD Name CAUGHT")
+                setError("Name is taken")
+                return;
+                break;
+            }
+        }
+        //console.log(users.length)
 
-    if (name.trim().length == 0) {
-        console.log('name value is empty');
-    } else if(email.trim().length == 0) {
-      console.log('Email/Telephone value is empty');
-    } else if(password.trim().length == 7){
-        console.log('password value is too short');
-    } else {
-        const user = {name, email, password}
+        //Do check if email or phone number
+        console.log("SIGNUP")
+        event.preventDefault();
+        var userinsert = null;
+        if(!signUpPhone){
+            userinsert = {name, email:telEmail, password, securityQuestion}
+        } else {
+            userinsert = {name, phoneNumber:telEmail, password, securityQuestion}
+        }
+
 
         const response = await fetch('/api/users', {
             method: "POST",
-            body: JSON.stringify(user),
+            body: JSON.stringify(userinsert),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -86,16 +162,51 @@ const LoginSignup = () => {
         if(response.ok) {
             setError(null)
             console.log('new user added', json)
+            {navigate("/home")}
+    
         }
-        
+    } else if(action ==="Login"){
 
-        {navigate("/home")}
+        if(telEmail.length==0){
+            if(loginPhone){
+                console.log("Phone is empty")
+                setError("Phone is empty")
+                return;
+            } else if(loginUsername) {
+                console.log("Username is empty")
+                setError("Username is empty")
+                return;
+            } else {
+                console.log("Email is empty")
+                setError("Email is empty")
+                return;
+            }
+        }
+            
+        //Do check if email or phone number
+        for(i = 0; i <users.length; i++){
+            // console.log(users[i].email)
+            if(users[i].email === telEmail || users[i].phoneNumber === telEmail ||users[i].username === telEmail){
+                if(users[i].password === password){
+                    console.log("LOGGED IN YIPEEEE")
+                    {navigate("/home")}
+                } else {
+                    setError("INVALID LOGIN CREDENTIALS");
+                    return;
+                }
+            } 
+        }
+        setError("INVALID LOGIN CREDENTIALS");
+        console.log("INVALID LOGIN CREDENTIALS")
+        return;
+
+    } else {
+        console.log("LOGIN SIGNUP MESSED UP")
     }
   };
 
   const [action,setAction] = useState("Sign Up");
-  const [signUpPhone, setSignUpPhone] = useState(false);
-  const [loginPhone, setLoginPhone] = useState(false);
+
   return (
     <div className='container'>
         <Sidebar />
@@ -110,13 +221,37 @@ const LoginSignup = () => {
                     </button>
                 ) : (
                     <button
-                        onClick={() => setLoginPhone(!loginPhone)}
+                        onClick={() => (setLoginPhone(true), setLoginUsername(false))}
                         className="phone-user"
                     >
-                        Login by {loginPhone ? "Email" : "Phone Number"}
-                    </button>
+                        Login with Phone Number
+
+                    </button>             
                 )}
-                <div className='underline'></div>
+                {action === "Sign Up" ? (
+                    null
+                ) : (
+                    <button
+                        onClick={() => (setLoginPhone(false), setLoginUsername(true) )}
+                        className="phone-user"
+                    >
+                        Login with Username
+
+                    </button>           
+                      
+                )}
+                {action === "Sign Up" ? (
+                    null
+                ) : (
+                    <button
+                        onClick={() => (setLoginPhone(false), setLoginUsername(false) )}
+                        className="phone-user"
+                    >
+                        Login with Email
+
+                    </button>           
+                      
+                )}
         </div>
         <div className='inputs'></div>
             {action==="Login"?<div></div> :<div className='input'>
@@ -130,11 +265,14 @@ const LoginSignup = () => {
                     <input 
                         id = "telEmail"
                         type={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'tel' : 'email'} 
-                        placeholder={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'Phone Number' : 'Email'}
+                        placeholder={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'Phone Number' :
+                         (loginUsername ? "Username" :"Email")
+
+                        }
                         onChange={handleChangeTelEmail}
-                        value = {email}
+                        value = {telEmail}
                     />
-                    </div>
+            </div>
             <div className='input'>
                 <img src={password_icon} alt=''/>
                 <input
@@ -146,9 +284,14 @@ const LoginSignup = () => {
             {action === "Sign Up" && (
                 <div className='input'>
                     <img src={user_icon} alt=''/>
-                    <input type='security_question' placeholder='Security Question 1'/>
+                    <input 
+                    type='security_question' 
+                    placeholder='Security Question 1'
+                    onChange={handleChangeSecurityQuestion}
+                    value = {securityQuestion}/>
                 </div>
             )}
+            {error && <div className='error'>{error}</div>}
             <div>
             {!profile ? <LoginSocialFacebook
                 appID="172918275855498"
@@ -171,6 +314,7 @@ const LoginSignup = () => {
             <div className="submit" onClick={handleClick}>Submit</div>
             {action === "Login" && <div className="submit" onClick={() => {navigate("/reset-password")}}>Forgot Password?</div>}
         </div>
+        
     </div>
   )
 }

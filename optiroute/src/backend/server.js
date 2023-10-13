@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const scheduleUsers = require('./Schedule/users')
+const scheduleEvents =  require('./Schedule/event')
 
 // create express app
 const optiroute = express()
@@ -17,6 +18,9 @@ optiroute.use((req, res, next) => {
 //Users
 optiroute.use('/api/users',scheduleUsers)
 
+//Events
+optiroute.use('/api/events',scheduleEvents)
+
 //Connect to DB
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
@@ -28,4 +32,3 @@ mongoose.connect(process.env.MONGO_URI)
     .catch((error) => {
         console.log(error)
     })
-

@@ -53,44 +53,17 @@ router.get('/:id', async (req, res) => {
 })
 
 //Post a new user
-router.post('/', upload.single('image'), (req, res) => {
- 
-    var obj = {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        username: req.body.username,
-        bio: req.body.bio,
-        phonenumber: req.body.phonenumber,
-        img: {
-            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-            contentType: 'image/png'
-        }
+router.post('/', async (req, res) => {
+    const {name, email, phoneNumber, password, securityQuestion} = req.body
+    console.log("THis is seciry:\n" + securityQuestion);
+
+    try {
+        const user = await User.create({name, email, phoneNumber, password, securityQuestion});
+        res.status(200).json(user)
+    } catch (error){
+        res.status(400).json({error: error.message})
     }
-    imgSchema.create(obj)
-    .then ((err, item) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            // item.save();
-            res.redirect('/');
-        }
-    });
-});
- 
-// router.post('/', async (req, res) => {
-//     const {name, email, password, username, bio, phonenumber, image} = req.body
-
-//     try {
-//         const user = await User.create({name, email, password, username, bio, phonenumber, image});
-//         res.status(200).json(user)
-//     } catch (error){
-//         res.status(400).json({error: error.message})
-//     }
-// })
-
-
+})
 
 //Delete a user
 router.delete('/:id', async(req, res) => {
