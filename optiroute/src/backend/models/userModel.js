@@ -9,7 +9,7 @@ const userSchema = new Schema({
     },
     email:{
         type: String,
-        required: true
+        required: false
     },
     password: {
         type: String,
@@ -17,15 +17,15 @@ const userSchema = new Schema({
     },
     username: {
         type: String,
-        required: true
+        required: false
     },
     bio: {
         type: String,
-        required: true
+        required: false
     },
     phonenumber: {
-        type: Number,
-        required: true
+        type: String,
+        required: false
     },
     image: {
         data: Buffer,
