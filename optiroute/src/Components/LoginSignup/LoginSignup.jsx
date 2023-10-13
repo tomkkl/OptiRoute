@@ -23,12 +23,43 @@ const LoginSignup = () => {
 
   const [user, setUser ] = useState({});
 
-  function handleCallBackResponse(responce){
+  const insertUser = async event => {
+    var userinsert = {name: user.name, email:user.email, password: user.sub}
+    
+
+
+    const response = await fetch('/api/users', {
+        method: "POST",
+        body: JSON.stringify(userinsert),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    const json = await response.json()
+
+    if(!response.ok){
+        setError(json.error)
+    }
+
+    if(response.ok) {
+        setError(null)
+        console.log('new user added', json)
+        {navigate("/home")}
+
+    }
+    
+  }
+
+  function handleCallBackResponse(responce) {
     console.log("Encoded JWT ID token" + responce.credential);
+    console.log("\n")
     var userObject = jwt_decode(responce.credential);
     console.log(userObject);
     setUser(userObject);
+    console.log("Got here")
     document.getElementById("signInGoogleDiv").hidden = true;
+    insertUser()
+
   }
   useEffect(() => {
     /* global google */
@@ -78,6 +109,7 @@ const LoginSignup = () => {
   const handleChangeSecurityQuestion = event => {
     setSecurityQuestion(event.target.value);
   };
+ 
 
   const handleClick =  async event => {
     
@@ -304,7 +336,8 @@ const LoginSignup = () => {
                 <FacebookLoginButton/>
             </LoginSocialFacebook>: ''}
             </div>
-            <div id = "signInGoogleDiv"> </div>
+            <div id = "signInGoogleDiv"></div>
+
 
         <div className='submit-container'>
             <div className={action ==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
