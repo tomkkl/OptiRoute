@@ -83,17 +83,34 @@ const LoginSignup = () => {
 
 
   const handleClick =  async event => {
+    if(telEmail.length==0){
+        if(signUpPhone){
+            console.log("Phone is empty")
+            setError("Phone is empty")
+            return;
+        } else {
+            console.log("Email is empty")
+            setError("Email is empty")
+            return;
+        }
+        
+    } else if(name.length ==0){
+        console.log("Name too short")
+        setError("Name is empty")
+        return;
+    } else if(password.length <=7){
+        console.log("Password is less than 7 characters")
+        setError("Password is less than 7 characters")
+        return;
+    }else if(securityQuestion == 0){
+        console.log("Security Question is empty")
+        setError("Security Question is empty")
+        return;
+    } else {
+        console.log("gone wrong")
+    }
     if(action ==="Sign Up"){
         //Do a check to see if all required fields are filled out
-
-        //Do a check if the email, phone number, or username is already in use
-        // {users && user
-        //     console.log(user.id)
-        // if(user.email == {telEmail}){
-        //     console.log("Bade Email")
-        // }
-        // }
-
         //console.log(users)
         for(i = 0; i <users.length; i++){
             // console.log(users[i].email)
@@ -118,7 +135,6 @@ const LoginSignup = () => {
                 return;
                 break;
             }
-
         }
         //console.log(users.length)
 
@@ -152,9 +168,28 @@ const LoginSignup = () => {
             {navigate("/home")}
     
         }
-    } else {
+    } else if(action ==="Login"){
         //Do check if email or phone number
+        for(i = 0; i <users.length; i++){
+            // console.log(users[i].email)
+            if(!signUpPhone){
+                if(users[i].email === telEmail || users[i].phoneNumber === telEmail){
+                    if(users[i].password === password){
+                        console.log("LOGGED IN YIPEEEE")
+                        {navigate("/home")}
+                    } else {
+                        setError("INVALID LOGIN CREDENTIALS");
+                        return;
+                    }
+                } 
+            }
+        }
+        setError("INVALID LOGIN CREDENTIALS");
+        return;
         console.log("LOGIN")
+
+    } else {
+        console.log("LOGIN SIGNUP MESSED UP")
     }
   };
 
@@ -216,6 +251,7 @@ const LoginSignup = () => {
                     value = {securityQuestion}/>
                 </div>
             )}
+            {error && <div className='error'>{error}</div>}
             <div>
             {!profile ? <LoginSocialFacebook
                 appID="172918275855498"
@@ -238,7 +274,6 @@ const LoginSignup = () => {
             <div className="submit" onClick={handleClick}>Submit</div>
             {action === "Login" && <div className="submit" onClick={() => {navigate("/reset-password")}}>Forgot Password?</div>}
         </div>
-        {error && <div className='error'>{error}</div>}
         
     </div>
   )
