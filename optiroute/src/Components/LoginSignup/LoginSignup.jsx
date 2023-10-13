@@ -44,6 +44,7 @@ const LoginSignup = () => {
   }, []);
   const [signUpPhone, setSignUpPhone] = useState(false);
   const [loginPhone, setLoginPhone] = useState(false);
+  const [loginUsername, setLoginUsername] = useState(false);
   const [name, setName] = useState('');
   const [telEmail, setTelEmail] = useState('');
   const [securityQuestion, setSecurityQuestion] = useState('');
@@ -78,39 +79,34 @@ const LoginSignup = () => {
     setSecurityQuestion(event.target.value);
   };
 
-  
-  
-
-
   const handleClick =  async event => {
-    if(telEmail.length==0){
-        if(signUpPhone){
-            console.log("Phone is empty")
-            setError("Phone is empty")
-            return;
-        } else {
-            console.log("Email is empty")
-            setError("Email is empty")
-            return;
-        }
-        
-    } else if(name.length ==0){
-        console.log("Name too short")
-        setError("Name is empty")
-        return;
-    } else if(password.length <=7){
-        console.log("Password is less than 7 characters")
-        setError("Password is less than 7 characters")
-        return;
-    }else if(securityQuestion == 0){
-        console.log("Security Question is empty")
-        setError("Security Question is empty")
-        return;
-    } else {
-        console.log("gone wrong")
-    }
+    
     if(action ==="Sign Up"){
         //Do a check to see if all required fields are filled out
+        if(telEmail.length==0){
+            if(signUpPhone){
+                console.log("Phone is empty")
+                setError("Phone is empty")
+                return;
+            } else {
+                console.log("Email is empty")
+                setError("Email is empty")
+                return;
+            }
+            
+        } else if(name.length ==0){
+            console.log("Name too short")
+            setError("Name is empty")
+            return;
+        } else if(password.length <=7){
+            console.log("Password is less than 7 characters")
+            setError("Password is less than 7 characters")
+            return;
+        }else if(securityQuestion == 0){
+            console.log("Security Question is empty")
+            setError("Security Question is empty")
+            return;
+        }
         //console.log(users)
         for(i = 0; i <users.length; i++){
             // console.log(users[i].email)
@@ -169,24 +165,39 @@ const LoginSignup = () => {
     
         }
     } else if(action ==="Login"){
+
+        if(telEmail.length==0){
+            if(loginPhone){
+                console.log("Phone is empty")
+                setError("Phone is empty")
+                return;
+            } else if(loginUsername) {
+                console.log("Username is empty")
+                setError("Username is empty")
+                return;
+            } else {
+                console.log("Email is empty")
+                setError("Email is empty")
+                return;
+            }
+        }
+            
         //Do check if email or phone number
         for(i = 0; i <users.length; i++){
             // console.log(users[i].email)
-            if(!signUpPhone){
-                if(users[i].email === telEmail || users[i].phoneNumber === telEmail){
-                    if(users[i].password === password){
-                        console.log("LOGGED IN YIPEEEE")
-                        {navigate("/home")}
-                    } else {
-                        setError("INVALID LOGIN CREDENTIALS");
-                        return;
-                    }
-                } 
-            }
+            if(users[i].email === telEmail || users[i].phoneNumber === telEmail ||users[i].username === telEmail){
+                if(users[i].password === password){
+                    console.log("LOGGED IN YIPEEEE")
+                    {navigate("/home")}
+                } else {
+                    setError("INVALID LOGIN CREDENTIALS");
+                    return;
+                }
+            } 
         }
         setError("INVALID LOGIN CREDENTIALS");
+        console.log("INVALID LOGIN CREDENTIALS")
         return;
-        console.log("LOGIN")
 
     } else {
         console.log("LOGIN SIGNUP MESSED UP")
@@ -208,13 +219,37 @@ const LoginSignup = () => {
                     </button>
                 ) : (
                     <button
-                        onClick={() => setLoginPhone(!loginPhone)}
+                        onClick={() => (setLoginPhone(true), setLoginUsername(false))}
                         className="phone-user"
                     >
-                        Login by {loginPhone ? "Email" : "Phone Number"}
-                    </button>
+                        Login with Phone Number
+
+                    </button>             
                 )}
-                <div className='underline'></div>
+                {action === "Sign Up" ? (
+                    null
+                ) : (
+                    <button
+                        onClick={() => (setLoginPhone(false), setLoginUsername(true) )}
+                        className="phone-user"
+                    >
+                        Login with Username
+
+                    </button>           
+                      
+                )}
+                {action === "Sign Up" ? (
+                    null
+                ) : (
+                    <button
+                        onClick={() => (setLoginPhone(false), setLoginUsername(false) )}
+                        className="phone-user"
+                    >
+                        Login with Email
+
+                    </button>           
+                      
+                )}
         </div>
         <div className='inputs'></div>
             {action==="Login"?<div></div> :<div className='input'>
@@ -228,11 +263,14 @@ const LoginSignup = () => {
                     <input 
                         id = "telEmail"
                         type={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'tel' : 'email'} 
-                        placeholder={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'Phone Number' : 'Email'}
+                        placeholder={(action === "Sign Up" ? signUpPhone : loginPhone) ? 'Phone Number' :
+                         (loginUsername ? "Username" :"Email")
+
+                        }
                         onChange={handleChangeTelEmail}
                         value = {telEmail}
                     />
-                    </div>
+            </div>
             <div className='input'>
                 <img src={password_icon} alt=''/>
                 <input
