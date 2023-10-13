@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import Datetime from "react-datetime";
+import { useNavigate } from "react-router-dom";
+
 
 export default function EditEventModal({ isOpen, onClose, event, onEventUpdated }) {
   const [title, setTitle] = useState("");
@@ -65,13 +67,12 @@ export default function EditEventModal({ isOpen, onClose, event, onEventUpdated 
       // Call the onEventUpdated function with the updated event data
       onEventUpdated(updatedEventData);
       // Close the modal
-      onClose();
+      
     })
     .catch(error => {
       console.error('Error updating event:', error);
     });
   };
-  
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose}>
@@ -140,6 +141,9 @@ export default function EditEventModal({ isOpen, onClose, event, onEventUpdated 
             <Datetime value={end} onChange={(date) => setEnd(date)} />
           </div>
           <button className="button">Save Event</button>
+          <button type="button" className="button" onClick={onClose}>
+            Close
+          </button>
         </form>
       </div>
     </Modal>
