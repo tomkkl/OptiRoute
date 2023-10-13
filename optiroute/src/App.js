@@ -4,7 +4,11 @@ import LoginSignup from './Components/LoginSignup/LoginSignup';
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import About from './Components/About/About';
 import Home from './Components/Home/Home'; 
+import CalendarComponent from './Components/Calendar/CalendarComponent';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Modal from 'react-modal';
+
+
 
 function App() {
   return (
@@ -14,6 +18,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/login" element={<LoginSignup />} />
         <Route path="/about" element={<About />} />
+        <Route path="/calendar" element={<CalendarComponent />} />
       </Routes>
     </>
   );
