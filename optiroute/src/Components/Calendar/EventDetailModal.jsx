@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from 'react';
 import Modal from "react-modal";
 import "./EventDetail.css"; // Import the CSS file for styles
 
 export default function EventDetailModal({ isOpen, onClose, event, onEdit, onDelete }) {  
+  const [editModalOpen, setEditModalOpen] = useState(false);
   if (event) {
     console.log("Event ID hfhhffh:", event); // Log the event ID when the modal is opened
     console.log("Event ID hfhhffh:", event.range); // Log the event ID when the modal is opened
@@ -21,7 +22,7 @@ export default function EventDetailModal({ isOpen, onClose, event, onEdit, onDel
           <p><strong>Start Date:</strong> {event.start && event.start.toString()}</p>
           <p><strong>End Date:</strong> {event.end && event.end.toString()}</p>
           <button onClick={onClose}>Close</button>
-          <button onClick={onEdit}>Edit Event</button>
+          <button onClick={() => { onEdit(); setEditModalOpen(true); }}>Edit Event</button>
           <button onClick={() => onDelete(event.id)}>Delete Event</button>
           
         </div>
