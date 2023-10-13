@@ -1,4 +1,4 @@
-import React, { useState, useRef} from 'react'
+import React, { useState, useRef } from 'react'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import './UserProfile.css';
@@ -13,28 +13,77 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (!location.state || !location.state.userId) {
-        alert("Invalid access. Please login first.");
-        setInvalidAccess(true);
-        navigate("/");
+      alert("Invalid access. Please login first.");
+      setInvalidAccess(true);
+      navigate("/");
     }
-}, []);
+  }, []);
 
-  // if (location.state && location.state.userId) {
-  //   const userId = location.state && location.state.userId;
-  //   console.log("USERPROFILE: " + userId);
-  // }
   const userId = location.state?.userId;
-  console.log("USERPROFILE: " + userId);  
+  //console.log("USERPROFILE: " + userId);
+
+  ///////////////////////////////// Backend Data Transfer Start
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [bio, setBio] = useState('');
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const responce = await fetch('/api/users/' + userId)
+      const json = await responce.json()
+      if (responce.ok) {
+
+        setUser(json)
+        console.log("GOTH TSIEHEISJSLK")
+        // set everything
+        setName(json.name)
+        setEmail(json.email)
+        setPhone(json.phoneNumber)
+        try{
+          console.log("try")
+          setBio(json.bio)
+        } catch {
+          console.log("catch")
+          setBio("")
+        }
+
+      }
+    }
+    fetchUser()
+  }, [])
+  ///////////////////////////////// Backend Data Transfer End
 
   const fileInputRef = useRef(null);
 
   ///////////////////////////////// Update Username Start
-  const [currentUsername, setCurrentUsername] = useState('JohnDoe');
+  const [currentUsername, setCurrentUsername] = useState(name);
   const [newUsername, setNewUsername] = useState('');
 
   // Function to handle username updates
-  const handleUsernameUpdate = () => {
-    // Perform validation and update logic here
+  const handleUsernameUpdate = async event => {
+    
+    console.log("name")
+    user.name = newUsername
+    const response = await fetch('/api/users/' + userId, {
+      method: "PATCH",
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await response.json()
+
+    // if (!response.ok) {
+    //     setError(json.error)
+    // }
+
+    if (response.ok) {
+      // setError(null)
+      console.log('name changed')
+      console.log('new name: ' + user.name)
+    }
     setCurrentUsername(newUsername);
     setNewUsername(''); // Clear the input field
   };
@@ -42,12 +91,34 @@ const UserProfile = () => {
 
 
   /////////////////////////////// Update Email Address Start
-  const [currentEmail, setCurrentEmail] = useState('test@gmail.com');
+  const [currentEmail, setCurrentEmail] = useState(email);
   const [newEmail, setNewEmail] = useState('');
 
   // Function to handle Email updates
-  const handleEmailUpdate = () => {
+  const handleEmailUpdate = async event => {
     // Perform validation and update logic here
+
+    console.log("email")
+    user.email = newEmail
+    const response = await fetch('/api/users/' + userId, {
+      method: "PATCH",
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await response.json()
+
+    // if (!response.ok) {
+    //     setError(json.error)
+    // }
+
+    if (response.ok) {
+      // setError(null)
+      console.log('email changed')
+      console.log('new email: ' + user.email)
+    }
+
     setCurrentEmail(newEmail);
     setNewEmail(''); // Clear the input field
   };
@@ -55,23 +126,66 @@ const UserProfile = () => {
 
 
   /////////////////////////////// Update Bio Start
-  const [currentBio, setCurrentBio] = useState('I am a student');
+  const [currentBio, setCurrentBio] = useState(bio);
   const [newBio, setNewBio] = useState('');
 
   // Function to handle Email updates
-  const handleBioUpdate = () => {
+  const handleBioUpdate = async event => {
     // Perform validation and update logic here
+
+    console.log("bio")
+    user.bio = newBio
+    const response = await fetch('/api/users/' + userId, {
+      method: "PATCH",
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await response.json()
+
+    // if (!response.ok) {
+    //     setError(json.error)
+    // }
+
+    if (response.ok) {
+      // setError(null)
+      console.log('bio changed')
+      console.log('new bio: ' + user.bio)
+    }
+
     setCurrentBio(newBio);
-    setNewBio(''); // Clear the input field
+    //setNewBio(''); // Clear the input field
   };
   /////////////////////////////// Update Bio End
 
-
   /////////////////////////////// Update Phone Number Start
-  const [currentPhonenumber, setCurrentPhonenumber] = useState('012345');
+  const [currentPhonenumber, setCurrentPhonenumber] = useState(phone);
   const [newPhonenumber, setNewPhonenumber] = useState('');
   // Function to handle Email updates
-  const handlePhonenumberUpdate = () => {
+  const handlePhonenumberUpdate = async event => {
+
+    console.log("phone")
+    user.phoneNumber = newPhonenumber
+    const response = await fetch('/api/users/' + userId, {
+      method: "PATCH",
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await response.json()
+
+    // if (!response.ok) {
+    //     setError(json.error)
+    // }
+
+    if (response.ok) {
+      // setError(null)
+      console.log('phone changed')
+      console.log('new phone: ' + user.phoneNumber)
+      
+    }
     // Perform validation and update logic here
     setCurrentPhonenumber(newPhonenumber);
     setNewPhonenumber(''); // Clear the input field
@@ -119,7 +233,7 @@ const UserProfile = () => {
   }
 
   const executeProfileDelete = () => {
-    
+
     navigate("/login")  // Example: Redirecting user after deletion
   }
   ////////////////////////////// Delete Profile (Ben) End
@@ -135,7 +249,7 @@ const UserProfile = () => {
           </div>
           <div className='field-group'>
             <div className='inputs'>
-              <h1>Current Username: {currentUsername}</h1>
+              <h1>Current Username: {name}</h1>
               <div className='input'>
                 <input
                   type="text"
@@ -146,7 +260,7 @@ const UserProfile = () => {
               </div>
               <div className="submit" onClick={handleUsernameUpdate}>Update Username</div>
 
-              <h1>Current Email: {currentEmail}</h1>
+              <h1>Current Email: {email}</h1>
               <div className='input'>
                 <input
                   type="text"
@@ -157,7 +271,7 @@ const UserProfile = () => {
               </div>
               <div className="submit" onClick={handleEmailUpdate}>Update Email</div>
 
-              <h1>Current Phone Number: {currentPhonenumber}</h1>
+              <h1>Current Phone Number: {phone}</h1>
               <div className='input'>
                 <input
                   type="text"
@@ -168,8 +282,7 @@ const UserProfile = () => {
               </div>
               <div className="submit" onClick={handlePhonenumberUpdate}>Update Phone Number</div>
 
-
-              <h1>Current Bio: {currentBio}</h1>
+              <h1>Current Bio: {bio}</h1>
               <div className='input'>
                 <input
                   type="text"
@@ -211,7 +324,7 @@ const UserProfile = () => {
             </div>
           )}
         </div>
-        )}
+      )}
     </>
   )
 }

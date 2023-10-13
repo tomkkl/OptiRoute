@@ -21,10 +21,11 @@ const LoginSignup = () => {
 
   const insertUser = async event => {
     var userinsert;
+    console.log(user.name)
     if(user.email == null){
-        user.email = "andrewcbradley007@gmail.com"
-        user.name = "Andrew Bradley"
-        user.sub = "111189203983535361604"
+        user.email = "benlin2003@gmail.com"
+        user.name = "razz"
+        user.sub = "108558676009076436769"
     } else {
         userinsert = {name: user.name, email:user.email, password: user.sub}
     }
