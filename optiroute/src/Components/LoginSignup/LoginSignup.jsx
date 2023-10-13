@@ -21,8 +21,7 @@ const LoginSignup = () => {
 
   const[profile, setProfile] = useState(null);
 
-
-  const [user, setUser ] = useState({});
+  const [user, setUser] = useState({});
 
   function handleCallBackResponse(responce){
     console.log("Encoded JWT ID token" + responce.credential);
