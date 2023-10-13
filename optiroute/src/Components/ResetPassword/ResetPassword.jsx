@@ -65,17 +65,18 @@ const ResetPassword = () => {
 
                     if (response.ok) {
                         // setError(null)
-                        console.log('new user updated', json)
-                        { navigate("/home") }
+                        alert("Password successfully reset")
+                        { navigate("/login") }
 
                     }
                 } else {
                     //Handle errors
-                    // setError("INVALID LOGIN CREDENTIALS");
-                    // return;
+                    alert("Invalid Security Phrase")
+                    navigate("/reset-password")
                 }
             } else {
-                console.log("Not Valid")
+                alert("Invalid Email")
+                    navigate("/reset-password")
             }
         }
     }

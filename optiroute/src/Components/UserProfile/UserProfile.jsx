@@ -245,8 +245,17 @@ const UserProfile = () => {
     setShowDialog(true);
   }
 
-  const executeProfileDelete = () => {
-
+  const executeProfileDelete = async event => {
+    const response = await fetch('/api/users/' + userId, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await response.json()
+    if (response.ok) {
+      alert("Your account has been successfully deleted.")
+    }
     navigate("/login")  // Example: Redirecting user after deletion
   }
   ////////////////////////////// Delete Profile (Ben) End
