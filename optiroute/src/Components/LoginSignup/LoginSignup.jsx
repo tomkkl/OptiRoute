@@ -108,7 +108,7 @@ const LoginSignup = () => {
             return;
         }
         //console.log(users)
-        for(i = 0; i <users.length; i++){
+        for(let i = 0; i <users.length; i++){
             // console.log(users[i].email)
             if(!signUpPhone){
                 if(users[i].email === telEmail){
@@ -183,7 +183,7 @@ const LoginSignup = () => {
         }
             
         //Do check if email or phone number
-        for(i = 0; i <users.length; i++){
+        for(let i = 0; i <users.length; i++){
             // console.log(users[i].email)
             if(users[i].email === telEmail || users[i].phoneNumber === telEmail ||users[i].username === telEmail){
                 if(users[i].password === password){
@@ -285,7 +285,7 @@ const LoginSignup = () => {
                     <img src={user_icon} alt=''/>
                     <input 
                     type='security_question' 
-                    placeholder='Security Question 1'
+                    placeholder='Security Phrase'
                     onChange={handleChangeSecurityQuestion}
                     value = {securityQuestion}/>
                 </div>
