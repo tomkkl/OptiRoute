@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
     const { title, start, end, recurrence , category, location, description } = req.body;
 
     try {
-        const event = await Event.create({ title, start, end, recurrence  , category, location, description });
+        const event = await Event.create({ title, start, end, recurrence, category, location, description });
         res.status(201).json(event);
     } catch (error) {
         res.status(400).json({ error: error.message });
