@@ -20,7 +20,18 @@ const Home = () => {
         <Description />
         <div className='submit-container'>
           <div className="submit" onClick={() => { navigate("/login") }}>Sign Up Now!</div>
+
         </div>
+
+
+        <div className='submit-container'>
+          <div className="submit" onClick={() => { navigate("/user-profile") }}>TEST</div>
+
+        </div>
+
+
+
+
         <img src={design} alt="App Mockup" className="mockup-image" />
       </div>
 
