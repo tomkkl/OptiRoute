@@ -10,25 +10,62 @@ import { useNavigate } from 'react-router-dom';
 import { LoginSocialFacebook} from 'reactjs-social-login';
 import {FacebookLoginButton} from "react-social-login-buttons";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Sidebar from '../Sidebar/Sidebar';
 
 const LoginSignup = () => {
-    // Navigate to PW reset
+
   const navigate = useNavigate();
-    //Navigate to PW reset
-    //Change to work with Mongo
-    //State does not work as well
 
-  const[profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState(null);
 
-  const [user, setUser] = useState({});
+  const [user, setUser ] = useState({});
 
-  function handleCallBackResponse(responce){
+  const insertUser = async event => {
+    var userinsert;
+    if(user.email == null){
+        user.email = "andrewcbradley007@gmail.com"
+        user.name = "Andrew Bradley"
+        user.sub = "111189203983535361604"
+    } else {
+        userinsert = {name: user.name, email:user.email, password: user.sub}
+    }
+    userinsert = {name: user.name, email:user.email, password: user.sub}
+    
+
+
+    const response = await fetch('/api/users', {
+        method: "POST",
+        body: JSON.stringify(userinsert),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    const json = await response.json()
+
+    if(!response.ok){
+        setError(json.error)
+            }
+
+    if(response.ok) {
+        setError(null)
+        console.log('google user added', json)
+        console.log('google user id: ' + json._id)
+        navigate("/profile", { state: { userId: json._id } });
+    }
+    
+  }
+
+  function handleCallBackResponse(responce) {
     console.log("Encoded JWT ID token" + responce.credential);
+    console.log("\n")
     var userObject = jwt_decode(responce.credential);
     console.log(userObject);
     setUser(userObject);
+    console.log({user})
+    console.log("Got here")
+    setUser(userObject);
     document.getElementById("signInGoogleDiv").hidden = true;
+    insertUser()
+
   }
   useEffect(() => {
     /* global google */
@@ -78,6 +115,7 @@ const LoginSignup = () => {
   const handleChangeSecurityQuestion = event => {
     setSecurityQuestion(event.target.value);
   };
+ 
 
   const handleClick =  async event => {
     
@@ -161,8 +199,8 @@ const LoginSignup = () => {
         if(response.ok) {
             setError(null)
             console.log('new user added', json)
-            {navigate("/home")}
-    
+            console.log('new user id: ' + json._id);
+            navigate("/profile", { state: { userId: json._id } });
         }
     } else if(action ==="Login"){
 
@@ -187,16 +225,17 @@ const LoginSignup = () => {
             // console.log(users[i].email)
             if(users[i].email === telEmail || users[i].phoneNumber === telEmail ||users[i].username === telEmail){
                 if(users[i].password === password){
+
                     console.log("LOGGED IN YIPEEEE")
-                    {navigate("/home")}
+                    console.log("LOGGED IN ID: " + users[i]._id)
+                    navigate("/profile", { state: { userId: users[i]._id } });
                 } else {
                     setError("INVALID LOGIN CREDENTIALS");
+                    console.log("INVALID LOGIN CREDENTIALS")
                     return;
                 }
             } 
         }
-        setError("INVALID LOGIN CREDENTIALS");
-        console.log("INVALID LOGIN CREDENTIALS")
         return;
 
     } else {
@@ -208,7 +247,6 @@ const LoginSignup = () => {
 
   return (
     <div className='container'>
-        <Sidebar />
         <div className ='header'>
         <div className='text'>{action}</div>
                 {action === "Sign Up" ? (
@@ -293,6 +331,7 @@ const LoginSignup = () => {
             {error && <div className='error'>{error}</div>}
             <div>
             {!profile ? <LoginSocialFacebook
+            
                 appID="172918275855498"
                 onResolve={(responce) =>{
                     console.log(responce);
@@ -305,7 +344,8 @@ const LoginSignup = () => {
                 <FacebookLoginButton/>
             </LoginSocialFacebook>: ''}
             </div>
-            <div id = "signInGoogleDiv"> </div>
+            <div id = "signInGoogleDiv"></div>
+
 
         <div className='submit-container'>
             <div className={action ==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>

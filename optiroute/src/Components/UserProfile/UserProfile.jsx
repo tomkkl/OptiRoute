@@ -1,11 +1,30 @@
 import React, { useState, useRef} from 'react'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './UserProfile.css';
 import logo from '../Assets/logo.png'
 
 const UserProfile = () => {
   const navigate = useNavigate()
+
+  const location = useLocation();
+
+  const [invalidAccess, setInvalidAccess] = useState(false);
+
+  useEffect(() => {
+    if (!location.state || !location.state.userId) {
+        alert("Invalid access. Please login first.");
+        setInvalidAccess(true);
+        navigate("/");
+    }
+}, []);
+
+  // if (location.state && location.state.userId) {
+  //   const userId = location.state && location.state.userId;
+  //   console.log("USERPROFILE: " + userId);
+  // }
+  const userId = location.state?.userId;
+  console.log("USERPROFILE: " + userId);  
 
   const fileInputRef = useRef(null);
 
@@ -100,100 +119,100 @@ const UserProfile = () => {
   }
 
   const executeProfileDelete = () => {
-    // Actual logic to delete the profile.
-    // This could involve making an API call to the backend to delete the user's profile.
-
-    // After successful deletion (or even if there's an error), 
-    // you might want to navigate the user to another page or show a notification.
+    
     navigate("/login")  // Example: Redirecting user after deletion
   }
   ////////////////////////////// Delete Profile (Ben) End
 
   ////////////////////////////// RETURN
   return (
-    <div className='container'>
-      <div className='header'>
-        <div className='text'>Profile Settings</div>
-        <div className='underline'></div>
-      </div>
-      <div className='field-group'>
-        <div className='inputs'>
-          <h1>Current Username: {currentUsername}</h1>
-          <div className='input'>
-            <input
-              type="text"
-              value={newUsername}
-              onChange={(e) => setNewUsername(e.target.value)}
-              placeholder="Enter new username"
-            />
+    <>
+      {invalidAccess ? null : (
+        <div className='container'>
+          <div className='header'>
+            <div className='text'>Profile Settings</div>
+            <div className='underline'></div>
           </div>
-          <div className="submit" onClick={handleUsernameUpdate}>Update Username</div>
+          <div className='field-group'>
+            <div className='inputs'>
+              <h1>Current Username: {currentUsername}</h1>
+              <div className='input'>
+                <input
+                  type="text"
+                  value={newUsername}
+                  onChange={(e) => setNewUsername(e.target.value)}
+                  placeholder="Enter new username"
+                />
+              </div>
+              <div className="submit" onClick={handleUsernameUpdate}>Update Username</div>
 
-          <h1>Current Email: {currentEmail}</h1>
-          <div className='input'>
-            <input
-              type="text"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              placeholder="Enter new Email"
-            />
+              <h1>Current Email: {currentEmail}</h1>
+              <div className='input'>
+                <input
+                  type="text"
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  placeholder="Enter new Email"
+                />
+              </div>
+              <div className="submit" onClick={handleEmailUpdate}>Update Email</div>
+
+              <h1>Current Phone Number: {currentPhonenumber}</h1>
+              <div className='input'>
+                <input
+                  type="text"
+                  value={newPhonenumber}
+                  onChange={(e) => setNewPhonenumber(e.target.value)}
+                  placeholder="Enter new phone number"
+                />
+              </div>
+              <div className="submit" onClick={handlePhonenumberUpdate}>Update Phone Number</div>
+
+
+              <h1>Current Bio: {currentBio}</h1>
+              <div className='input'>
+                <input
+                  type="text"
+                  value={newBio}
+                  onChange={(e) => setNewBio(e.target.value)}
+                  placeholder="Enter new bio"
+                />
+              </div>
+              <div className="submit" onClick={handleBioUpdate}>Update Bio</div>
+
+              <div className='input'>
+                <input type="file" accept="image/*" onChange={handleFileChange} ref={fileInputRef} />
+              </div>
+              <div className="submit" onClick={handleUpload} disabled={!selectedFile}>Upload Image</div>
+              <div className="submit" onClick={handleFileRemove}>Remove Image</div>
+              {imageUrl && (
+                <div className='img'>
+                  <h3>Current Profile Picture:</h3>
+                  <img src={imageUrl} alt="Uploaded" className='profile-picture' />
+                </div>
+              )}
+              <div className="delete" onClick={deleteProfile}>Delete Profile</div>
+            </div>
           </div>
-          <div className="submit" onClick={handleEmailUpdate}>Update Email</div>
-
-          <h1>Current Phone Number: {currentPhonenumber}</h1>
-          <div className='input'>
-            <input
-              type="text"
-              value={newPhonenumber}
-              onChange={(e) => setNewPhonenumber(e.target.value)}
-              placeholder="Enter new phone number"
-            />
-          </div>
-          <div className="submit" onClick={handlePhonenumberUpdate}>Update Phone Number</div>
-
-
-          <h1>Current Bio: {currentBio}</h1>
-          <div className='input'>
-            <input
-              type="text"
-              value={newBio}
-              onChange={(e) => setNewBio(e.target.value)}
-              placeholder="Enter new bio"
-            />
-          </div>
-          <div className="submit" onClick={handleBioUpdate}>Update Bio</div>
-
-          <div className='input'>
-            <input type="file" accept="image/*" onChange={handleFileChange} ref={fileInputRef} />
-          </div>
-          <div className="submit" onClick={handleUpload} disabled={!selectedFile}>Upload Image</div>
-          <div className="submit" onClick={handleFileRemove}>Remove Image</div>
-          {imageUrl && (
-            <div className='img'>
-              <h3>Current Profile Picture:</h3>
-              <img src={imageUrl} alt="Uploaded" className='profile-picture' />
+          {showDialog && (
+            <div className="confirmation-dialog">
+              <p>Are you sure you want to delete your profile?</p>
+              <button onClick={() => {
+                executeProfileDelete();
+                setShowDialog(false);
+              }}>
+                Confirm
+              </button>
+              <button onClick={() => {
+                setShowDialog(false);
+              }}>
+                Cancel
+              </button>
             </div>
           )}
-          <div className="delete" onClick={deleteProfile}>Delete Profile</div>
         </div>
-      </div>
-      {showDialog && (
-        <div className="confirmation-dialog">
-          <p>Are you sure you want to delete your profile?</p>
-          <button onClick={() => {
-            executeProfileDelete();
-            setShowDialog(false);
-          }}>
-            Confirm
-          </button>
-          <button onClick={() => {
-            setShowDialog(false);
-          }}>
-            Cancel
-          </button>
-        </div>
-      )}
-    </div>
+        )}
+    </>
   )
 }
 
