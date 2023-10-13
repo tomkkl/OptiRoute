@@ -219,6 +219,9 @@ const LoginSignup = () => {
                 setError("Email is empty")
                 return;
             }
+        } else if(password.length == 0){
+            setError("Password is empty")
+            return;
         }
             
         //Do check if email or phone number
@@ -237,6 +240,7 @@ const LoginSignup = () => {
                 }
             } 
         }
+        setError("INVALID LOGIN CREDENTIALS");
         return;
 
     } else {

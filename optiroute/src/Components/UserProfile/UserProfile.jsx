@@ -269,6 +269,7 @@ const UserProfile = () => {
             <div className='text'>Profile Settings</div>
             <div className='underline'></div>
           </div>
+          <div className="submit" onClick={() => navigate("/calendar")}>To Calendar</div>
           <div className='field-group'>
             <div className='inputs'>
               <h1>Current Username: {name}</h1>
