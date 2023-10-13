@@ -70,15 +70,17 @@ const LoginSignup = () => {
   }
   useEffect(() => {
     /* global google */
-    google.accounts.id.initialize({
-        client_id: "984345413432-64d1vhk7u12h3iodbbft1s3435nc5i00.apps.googleusercontent.com",
-        callback: handleCallBackResponse
-    });
+        if (window.google && window.google.accounts && window.google.accounts.id) {
+        google.accounts.id.initialize({
+            client_id: "984345413432-64d1vhk7u12h3iodbbft1s3435nc5i00.apps.googleusercontent.com",
+            callback: handleCallBackResponse
+        });
 
-    google.accounts.id.renderButton(
-        document.getElementById("signInGoogleDiv"),
-        { theme: "outline", size: "large"}
-    )
+        google.accounts.id.renderButton(
+            document.getElementById("signInGoogleDiv"),
+            { theme: "outline", size: "large"}
+        )
+        }
   }, []);
   const [signUpPhone, setSignUpPhone] = useState(false);
   const [loginPhone, setLoginPhone] = useState(false);

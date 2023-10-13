@@ -76,7 +76,8 @@ const ResetPassword = () => {
                 }
             } else {
                 alert("Invalid Email")
-                    navigate("/reset-password")
+                navigate("/reset-password")
+                return;
             }
         }
     }
