@@ -7,6 +7,7 @@ import EventModal from "./EventModal";
 import Modal from "react-modal";
 import EventDetailModal from "./EventDetailModal";
 import DeleteEventModal from "./DeleteEventModal";
+import EditEventModal from './EditEventModal'; // Make sure the path is correct
 
 Modal.setAppElement('#root');
 
@@ -19,6 +20,7 @@ function CalendarComponent() {
   const [editModalOpen, setEditModalOpen] = useState(false); // State for edit event modal
   const [deleteEventModalOpen, setDeleteEventModalOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
+  const [editedEvent, setEditedEvent] = useState(null);
 
 
   useEffect(() => {
@@ -72,7 +74,7 @@ function CalendarComponent() {
 const onEditEvent = (updatedEvent) => {
   console.log('Editing event with ID:', updatedEvent.id); // Print out the eventId
   fetch(`/api/events/${updatedEvent.id}`, {
-      method: 'PUT',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -90,6 +92,29 @@ const onEditEvent = (updatedEvent) => {
   .catch(error => {
       console.error('Error updating event:', error);
   });
+};
+
+const onEventUpdated = (updatedEvent) => {
+  fetch(`/api/events/${updatedEvent.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updatedEvent),
+  })
+    .then((response) => {
+      if (response.ok) {
+        // Event updated successfully
+        console.log('Event updated successfully:', updatedEvent);
+        // Call the callback function provided via props (e.g., onEventUpdated)
+        onEventUpdated(updatedEvent);
+      } else {
+        console.error('Error updating event:', response.statusText);
+      }
+    })
+    .catch((error) => {
+      console.error('Error updating event:', error);
+    });
 };
 
   const onEventAdded = (event) => {
@@ -153,14 +178,28 @@ const onEditEvent = (updatedEvent) => {
         isOpen={detailModalOpen}
         onClose={() => setDetailModalOpen(false)}
         event={selectedEvent}
+        onEdit={() => setEditModalOpen(true)}
         onDelete={() => openDeleteEventModal(selectedEvent.id)}
-        onEdit={(onDeleteEvent)}
       />
 
       <DeleteEventModal
         isOpen={deleteEventModalOpen}
         onClose={closeDeleteEventModal}
         onConfirm={() => onDeleteEvent(eventToDelete)}
+      />
+
+      <EditEventModal
+        isOpen={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        event={editedEvent}
+        onEventUpdated={(updatedEvent) => {
+          // Update the event in the events state array
+          const updatedEvents = events.map((event) =>
+            event.id === updatedEvent.id ? updatedEvent : event
+          );
+          setEvents(updatedEvents);
+          setEditModalOpen(false);
+        }}
       />
     </div>
   );
@@ -169,4 +208,3 @@ const onEditEvent = (updatedEvent) => {
 export default CalendarComponent;
 
 //7:56
-
