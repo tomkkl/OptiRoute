@@ -100,6 +100,7 @@ const onEditEvent = (updatedEvent) => {
         location: event.location,
         recurrence: event.recurrence,
         description: event.description,
+        category: event.category
     };
 
     fetch('/api/events', {

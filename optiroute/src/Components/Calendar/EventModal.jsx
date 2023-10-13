@@ -10,6 +10,7 @@ export default function ({ isOpen, onClose, onEventAdded }) {
   const [location, setLocation] = useState("");
   const [recurrence, setRecurrence] = useState("none");
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("default"); // New state variable for category
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -21,6 +22,7 @@ export default function ({ isOpen, onClose, onEventAdded }) {
       location,
       recurrence,
       description,
+      category
     });
 
     onClose();
@@ -59,6 +61,19 @@ export default function ({ isOpen, onClose, onEventAdded }) {
               <option value="daily">Daily</option>
               <option value="weekly">Weekly</option>
               <option value="monthly">Monthly</option>
+            </select>
+          </div>
+          <div>
+            <label className="label">Category</label>
+            <select
+              className="select-field"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="default">Select Category</option>
+              <option value="work">Work</option>
+              <option value="personal">Personal</option>
+              <option value="meeting">Meeting</option>
             </select>
           </div>
           <div>
