@@ -53,6 +53,19 @@ const UserProfile = () => {
     }
     fetchUser()
   }, [])
+
+  const fetchUserData = async () => {
+    const response = await fetch('/api/users/' + userId);
+    const json = await response.json();
+    if (response.ok) {
+        setUser(json);
+        setName(json.name);
+        setEmail(json.email);
+        setPhone(json.phoneNumber);
+        setBio(json.bio || ""); // Use the OR operator to default to an empty string if bio is undefined
+    }
+};
+
   ///////////////////////////////// Backend Data Transfer End
 
   const fileInputRef = useRef(null);
@@ -83,8 +96,8 @@ const UserProfile = () => {
       // setError(null)
       console.log('name changed')
       console.log('new name: ' + user.name)
+      fetchUserData()
     }
-    setCurrentUsername(newUsername);
     setNewUsername(''); // Clear the input field
   };
   ///////////////////////////////// Update Username End
@@ -117,9 +130,9 @@ const UserProfile = () => {
       // setError(null)
       console.log('email changed')
       console.log('new email: ' + user.email)
+      fetchUserData();
     }
 
-    setCurrentEmail(newEmail);
     setNewEmail(''); // Clear the input field
   };
   /////////////////////////////// Update Email Address End
@@ -152,10 +165,10 @@ const UserProfile = () => {
       // setError(null)
       console.log('bio changed')
       console.log('new bio: ' + user.bio)
+      fetchUserData();
     }
 
-    setCurrentBio(newBio);
-    //setNewBio(''); // Clear the input field
+    setNewBio(''); // Clear the input field
   };
   /////////////////////////////// Update Bio End
 
@@ -184,10 +197,10 @@ const UserProfile = () => {
       // setError(null)
       console.log('phone changed')
       console.log('new phone: ' + user.phoneNumber)
-      
+      fetchUserData();
     }
     // Perform validation and update logic here
-    setCurrentPhonenumber(newPhonenumber);
+    //setCurrentPhonenumber(newPhonenumber);
     setNewPhonenumber(''); // Clear the input field
   };
   /////////////////////////////// Update Phone Number End
