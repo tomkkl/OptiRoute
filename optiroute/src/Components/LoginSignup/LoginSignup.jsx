@@ -49,6 +49,21 @@ const LoginSignup = () => {
   const [securityQuestion, setSecurityQuestion] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [users, setUsers] = useState(null)
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const responce = await fetch('/api/users')
+      const json = await responce.json()
+
+      if(responce.ok){
+          setUsers(json)
+          console.log("Got users")
+      }
+    }
+    fetchUsers()
+  }, [])
+
   const handleChangeName = event => {
     setName(event.target.value);
   };
@@ -63,9 +78,50 @@ const LoginSignup = () => {
     setSecurityQuestion(event.target.value);
   };
 
+  
+  
+
 
   const handleClick =  async event => {
     if(action ==="Sign Up"){
+        //Do a check to see if all required fields are filled out
+
+        //Do a check if the email, phone number, or username is already in use
+        // {users && user
+        //     console.log(user.id)
+        // if(user.email == {telEmail}){
+        //     console.log("Bade Email")
+        // }
+        // }
+
+        //console.log(users)
+        for(i = 0; i <users.length; i++){
+            // console.log(users[i].email)
+            if(!signUpPhone){
+                if(users[i].email === telEmail){
+                    console.log("BAD EMAIL CAUGHT")
+                    setError("Email is taken")
+                    return;
+                    break;
+                }
+            } else {
+                if(users[i].phoneNumber === telEmail){
+                    console.log("BAD Phone Number CAUGHT")
+                    setError("Phone Number is taken")
+                    return;
+                    break;
+                }
+            }
+            if(users[i].name === name){
+                console.log("BAD Name CAUGHT")
+                setError("Name is taken")
+                return;
+                break;
+            }
+
+        }
+        //console.log(users.length)
+
         //Do check if email or phone number
         console.log("SIGNUP")
         event.preventDefault();
@@ -75,7 +131,6 @@ const LoginSignup = () => {
         } else {
             userinsert = {name, phoneNumber:telEmail, password, securityQuestion}
         }
-        // const user = {name, email:telEmail, password, securityQuestion}
 
 
         const response = await fetch('/api/users', {
