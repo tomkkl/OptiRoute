@@ -96,7 +96,7 @@ const onEditEvent = (updatedEvent) => {
 
 const onEventUpdated = (updatedEvent) => {
   fetch(`/api/events/${updatedEvent.id}`, {
-    method: 'PUT',
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -160,7 +160,7 @@ const onEventUpdated = (updatedEvent) => {
         headerToolbar={{
           start: "today prev,next", // will normally be on the left. if RTL, will be on the right
           center: "title",
-          end: "dayGridMonth,timeGridWeek,timeGridDay", // will normally be on the right. if RTL, will be on the left
+          end: "timeGridDay,timeGridWeek,dayGridMonth", // will normally be on the right. if RTL, will be on the left
         }}
         height={"90vh"}
         eventClick={(info) => {

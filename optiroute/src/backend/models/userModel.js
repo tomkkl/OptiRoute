@@ -22,6 +22,10 @@ const userSchema = new Schema({
     securityQuestion: {
         type:String,
         required:false
+    },
+    bio: {
+        type:String,
+        required: false
     }
 }, { timestamps: true })
 
