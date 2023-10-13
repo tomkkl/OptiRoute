@@ -63,20 +63,38 @@ const UserProfile = () => {
   /////////////////////////////// Update Bio End
 
 
+  /////////////////////////////// Update Phone Number Start
+  const [currentPhonenumber, setCurrentPhonenumber] = useState('012345');
+  const [newPhonenumber, setNewPhonenumber] = useState(''); 
+
+  // Function to handle Email updates
+  const handlePhonenumberUpdate = () => {
+    // Perform validation and update logic here
+    setCurrentPhonenumber(newPhonenumber);
+    setNewPhonenumber(''); // Clear the input field
+  }; 
+
+
+  /////////////////////////////// Update Phone Number End
+
+
 
 
   ////////////////////////////// Update Profile Picture Start
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  
+  const defaultProfilePictureUrl = useState('optiroute/src/Components/Assets/logo.png');
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
   };
 
-  const handleFileRemove = (event) => {
-    setSelectedFile(logo);
+  const handleFileRemove = () => {
+    setImageUrl(null)
+    setSelectedFile(null);
+    setSelectedFile('optiroute/src/Components/Assets/logo.png')
+  
   };
 
   
@@ -164,64 +182,81 @@ const UserProfile = () => {
   //   fetchUsers()
   // }, [])
 
-  return(
-    // <div className='container'>
-    //   <div className='header'> 
-      
-    //   </div>
-    // </div>
+  return (
     <div className='container'>
-      <h1>Current Username: {currentUsername}</h1>
-      <input
-        type="text"
-        value={newUsername}
-        onChange={(e) => setNewUsername(e.target.value)}
-        placeholder="Enter new username"
-      />
-      <button onClick={handleUsernameUpdate}>Update Username</button>
+      <div className='header'>
+        <div className='text'>Profile Settings</div>
+        <div className='underline'></div>
+      </div>
 
-
-      <h1>Current Email: {currentEmail}</h1>
-      <input
-        type="text"
-        value={newEmail}
-        onChange={(e) => setNewEmail(e.target.value)}
-        placeholder="Enter new Email"
-      />
-      <button onClick={handleEmailUpdate}>Update Email</button>
-
-
-      <h1>Current Bio: {currentBio}</h1>
-      <input
-        type="text"
-        value={newBio}
-        onChange={(e) => setNewBio(e.target.value)}
-        placeholder="Enter new bio"
-      />
-      <button onClick={handleBioUpdate}>Update Bio</button>
-
-
-      <input type="file" accept="image/*" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload Image</button>
-      {imageUrl && (
-        <div className='img'>
-          <p>Profile Picture:</p>
-          <img src={imageUrl} alt="Uploaded" />
+      <div className='inputs'>
+        <h1>Current Username: {currentUsername}</h1>
+        <div className='input'>
+          <input
+            type="text"
+            value={newUsername}
+            onChange={(e) => setNewUsername(e.target.value)}
+            placeholder="Enter new username"
+          />
         </div>
-      )}
-      
-      <button onClick={handleFileRemove}>Remove Image</button>
+        <div className="submit" onClick={handleUsernameUpdate}>Update Username</div>
+
+        <h1>Current Email: {currentEmail}</h1>
+        <div className='input'>
+          <input
+            type="text"
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value)}
+            placeholder="Enter new Email"
+          />
+        </div>
+        <div className="submit" onClick={handleEmailUpdate}>Update Email</div>
 
 
 
+        <h1>Current Phone Number: {currentPhonenumber}</h1>
+        <div className='input'>
+          <input
+            type="text"
+            value={newPhonenumber}
+            onChange={(e) => setNewPhonenumber(e.target.value)}
+            placeholder="Enter new phone number"
+          />
+        </div>
+        <div className="submit" onClick={handlePhonenumberUpdate}>Update Phone Number</div>
+
+        <h1>Current Bio: {currentBio}</h1>
+        <div className='input'>
+          <input
+            type="text"
+            value={newBio}
+            onChange={(e) => setNewBio(e.target.value)}
+            placeholder="Enter new bio"
+          />
+        </div>
+        <div className="submit" onClick={handleBioUpdate}>Update Bio</div>
+
+        <div className='input'>
+          <input type="file" accept="image/*" onChange={handleFileChange} />
+        </div>
+        <div className="submit" onClick={handleUpload}>Upload Image</div>
+
+        <div className="submit" onClick={handleFileRemove}>Remove Image</div> 
+        {imageUrl && (
+          <div className='img'>
+            <p>Profile Picture:</p>
+            <img src={imageUrl} alt="Uploaded" />
+          </div>
+        )}
 
 
+
+        
+        
+        
+      </div>
     </div>
-
-    
   )
-
-  }
-
+}
 
 export default UserProfile
