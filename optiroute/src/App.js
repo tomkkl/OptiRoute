@@ -7,6 +7,7 @@ import Home from './Components/Home/Home';
 import CalendarComponent from './Components/Calendar/CalendarComponent';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
+import "react-datetime/css/react-datetime.css";
 
 
 

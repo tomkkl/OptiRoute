@@ -1,18 +1,27 @@
+// DeleteEventModal.js
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 
-export default function DeleteEventModal({ isOpen, onClose, onDelete, event }) {
-  const handleDelete = () => {
-    onDelete(event.id); // Implement the logic to delete the event
+const DeleteEventModal = ({ isOpen, onClose, onConfirm }) => {
+  const navigate = useNavigate();
+
+  const handleConfirm = () => {
+    onConfirm();
     onClose();
+    navigate("/calendar"); // Navigate back to the calendar page
   };
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose}>
-      <h2>Delete Event</h2>
-      <p>Are you sure you want to delete this event?</p>
-      <button onClick={handleDelete}>Delete Event</button>
-      <button onClick={onClose}>Cancel</button>
+      <div>
+        <h3>Confirm Deletion</h3>
+        <p>Are you sure you want to delete this event?</p>
+        <button onClick={handleConfirm}>Yes, Delete</button>
+        <button onClick={onClose}>Cancel</button>
+      </div>
     </Modal>
   );
-}
+};
+
+export default DeleteEventModal;
