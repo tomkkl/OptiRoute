@@ -1,104 +1,30 @@
-import UserInformation from "./UserInformation";
+import React, { useState } from 'react'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 
 const UserProfile = () => {
-    // Username
-    const [newUsername, setNewUsername] = useState('');
-    const [usernameChangeStatus, setUsernameChangeStatus] = useState(null);
+  // const [users, setUsers] = useState(null)
+  
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     const response = await fetch('http://localhost:4000/api/users')
+  //     const json = await response.json()
+      
+  //     if(response.ok) {
+  //       setUsers(json)
+  //     }
 
-    // Email Address
-    const [newEmailAddress, setNewEmailAddress] = useState('');
-    const [EmailAddressChangeStatus, setEmailAddressChangeStatus] = useState(null);
+  //   }
 
-    // Bio
-    const [newBio, setNewBio] = useState('');
-    const [bioChangeStatus, setBioChangeStatus] = useState(null);
+  //   fetchUsers()
+  // }, [])
 
-    // Phone Number
-    const [newPhoneNumber, setNewPhoneNumber] = useState('');
-    const [phoneNumberChangeStatus, setPhoneNumberChangeStatus] = useState(null);
-
-    // Stil need something similar for picture
-
-    // Function to handle username changes
-  const handleUsernameChange = () => {
-    setNewUsername(UserInformation.username);
-    setUsernameChangeStatus('Username changed successfully')
-
-  };
-
-    // Function to handle email address changes
-    const handleEmailAddressChange = () => {
-       setNewEmailAddress(UserInformation.email);
-       setEmailAddressChangeStatus('Email address changed successfully'); 
-    };
-
-    // Function to handle bio changes
-    const handleBioChange = () => {
-        setNewBio(UserInformation.bio);
-        setBioChangeStatus('Bio changed successfully');
-      };
-
-    // Function to handle phone number changes
-    const handlePhoneNumberChange = () => {
-        setNewPhoneNumber(UserInformation.phone);
-        setPhoneNumberChangeStatus('Phone number changed successfully');
-      };
-
-
-
-
-
-
-
-
-
-    return(
-        <div>
-            <h1>{UserInformation.name}</h1>
-            <p>{UserInformation.username}</p>
-            <p>{UserInformation.bio}</p>
-            <p>{UserInformation.email}</p>
-            <p>{UserInformation.phone}</p>
-            // Still need profile picture
-
-
-            <input
-          type="text"
-          placeholder="New Username"
-          value={newUsername}
-          onChange={(e) => setNewUsername(e.target.value)}
-        />
-        <button onClick={handleUsernameChange}>Change Username</button>
-
-
-            <input
-          type="text"
-          placeholder="New email address"
-          value={newEmailAddress}
-          onChange={(e) => setNewEmailAddress(e.target.value)}
-        />
-        <button onClick={handleEmailAddressChange}>Change Email Address</button> 
-
-
-        <input
-          type="text"
-          placeholder="New Bio"
-          value={newBio}
-          onChange={(e) => setNewBio(e.target.value)}
-        />
-        <button onClick={handleBioChange}>Change Bio</button> 
-
-
-
-        <input
-          type='number'
-          placeholder="New phone number"
-          value={newPhoneNumber}
-          onChange={(e) => setNewPhoneNumber(e.target.value)}
-        />
-        <button onClick={handlePhoneNumberChange}>Change Phone Number</button> 
-        </div>
-    );
+  return(
+    <div className='UserProfile'>
+      <h3>Hello</h3>
+    </div>
+  )
 
   }
 
