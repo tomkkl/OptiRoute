@@ -9,6 +9,7 @@ export default function EditEventModal({ isOpen, onClose, event, onEventUpdated 
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
   const [location, setLocation] = useState("");
+  const [address, setAddress] = useState("");
   const [recurrence, setRecurrence] = useState("none");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("default");
@@ -20,6 +21,7 @@ export default function EditEventModal({ isOpen, onClose, event, onEventUpdated 
       setStart(event.start);
       setEnd(event.end);
       setLocation(event.extendedProps.location);
+      setAddress(event.extendedProps.address);
       setRecurrence(event.extendedProps.recurrence);
       setDescription(event.extendedProps.description);
       setCategory(event.extendedProps.category);
@@ -37,6 +39,7 @@ export default function EditEventModal({ isOpen, onClose, event, onEventUpdated 
       end: end.toISOString(),
       extendedProps: {
         location,
+        address,
         recurrence,
         description,
         category,
@@ -49,6 +52,7 @@ export default function EditEventModal({ isOpen, onClose, event, onEventUpdated 
     console.log('Start Date:', updatedEventData.start);
     console.log('End Date:', updatedEventData.end);
     console.log('Location:', updatedEventData.extendedProps.location);
+    console.log('Address:', updatedEventData.extendedProps.address);
     console.log('Recurrence:', updatedEventData.extendedProps.recurrence);
     console.log('Description:', updatedEventData.extendedProps.description);
     console.log('Category:', updatedEventData.extendedProps.category);
@@ -94,6 +98,15 @@ export default function EditEventModal({ isOpen, onClose, event, onEventUpdated 
               placeholder="Location"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="label">Address</label>
+            <input
+              className="input-field"
+              placeholder="Address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
             />
           </div>
           <div>

@@ -30,6 +30,9 @@ const eventSchema = new Schema({
         required: true
         // You can specify additional validation or constraints if needed
     },
+    address: {
+        type: String,
+    },
     description: {
         type: String,
         required: true

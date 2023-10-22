@@ -123,6 +123,7 @@ const onEventUpdated = (updatedEvent) => {
         start: event.start,
         end: event.end,
         location: event.location,
+        address: event.address,
         recurrence: event.recurrence,
         description: event.description,
         category: event.category

@@ -18,6 +18,7 @@ export default function EventDetailModal({ isOpen, onClose, event, onEdit, onDel
         <div className="modal-container">
           <h3><strong>Title:</strong>{event.title}</h3>
           <p><strong>Location:</strong> {event.extendedProps.location} {/* Access location from extendedProps */}</p>
+          <p><strong>Address:</strong> {event.extendedProps.address} {/* Access address from extendedProps */}</p>
           <p><strong>Category:</strong> {event.extendedProps.category} {/* Access Category from extendedProps */}</p>
           <p><strong>Recurrence:</strong> {event.extendedProps.recurrence} {/* Access recurrence from extendedProps */}</p>
           <p><strong>Description:</strong> {event.extendedProps.description} {/* Access description from extendedProps */}</p>

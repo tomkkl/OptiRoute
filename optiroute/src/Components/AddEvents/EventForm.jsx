@@ -5,6 +5,7 @@ const EventForm = ({ onClose }) => {
   const [eventData, setEventData] = useState({
     name: '',
     location: '',
+    address: '',
     description: '',
     startDateTime: '',
     endDateTime: '',
@@ -38,6 +39,10 @@ const EventForm = ({ onClose }) => {
       <label>
         Location:
         <input type='text' name='location' value={eventData.location} onChange={handleInputChange} />
+      </label>
+      <label>
+        Address:
+        <input type='text' name='address' value={eventData.address} onChange={handleInputChange} />
       </label>
       <label>
         Start:

@@ -8,6 +8,7 @@ export default function ({ isOpen, onClose, onEventAdded }) {
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
   const [location, setLocation] = useState("");
+  const [address, setAddress] = useState("");
   const [recurrence, setRecurrence] = useState("none");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("default"); // New state variable for category
@@ -20,6 +21,7 @@ export default function ({ isOpen, onClose, onEventAdded }) {
       start,
       end,
       location,
+      address,
       recurrence,
       description,
       category
@@ -48,6 +50,15 @@ export default function ({ isOpen, onClose, onEventAdded }) {
               placeholder="Location"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="label">Title</label>
+            <input
+              className="input-field"
+              placeholder="Address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
             />
           </div>
           <div>
