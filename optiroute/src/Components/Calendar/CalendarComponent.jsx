@@ -122,8 +122,8 @@ const onEventUpdated = (updatedEvent) => {
         title: event.title,
         start: event.start,
         end: event.end,
-        location: event.location,
         address: event.address,
+        location: event.location,
         recurrence: event.recurrence,
         description: event.description,
         category: event.category

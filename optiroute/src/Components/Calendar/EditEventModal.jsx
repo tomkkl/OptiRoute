@@ -104,8 +104,8 @@ export default function EditEventModal({ isOpen, onClose, event, onEventUpdated 
             <label className="label">Address</label>
             <input
               className="input-field"
-              placeholder="Address"
               value={address}
+              placeholder="Address"
               onChange={(e) => setAddress(e.target.value)}
             />
           </div>
