@@ -5,6 +5,7 @@ import ResetPassword from './Components/ResetPassword/ResetPassword';
 import About from './Components/About/About';
 import Home from './Components/Home/Home'; 
 import CalendarComponent from './Components/Calendar/CalendarComponent';
+import CalendarMain from './Components/Calendar_v2/CalendarMain.jsx';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
 import "react-datetime/css/react-datetime.css";
@@ -19,7 +20,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/login" element={<LoginSignup />} />
         <Route path="/about" element={<About />} />
-        <Route path="/calendar" element={<CalendarComponent />} />
+        <Route path="/calendar" element={<CalendarMain />} />
       </Routes>
     </>
   );
