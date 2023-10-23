@@ -5,6 +5,7 @@ import ResetPassword from './Components/ResetPassword/ResetPassword';
 import About from './Components/About/About';
 import Home from './Components/Home/Home'; 
 import CalendarComponent from './Components/Calendar/CalendarComponent';
+import Map from './Components/Map/Map';
 import UserProfile from './Components/UserProfile/UserProfile';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
@@ -21,6 +22,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/calendar" element={<CalendarComponent />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/map" element={<Map />} />
       </Routes>
     </>
   );

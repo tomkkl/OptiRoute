@@ -8,6 +8,7 @@ import Modal from "react-modal";
 import EventDetailModal from "./EventDetailModal";
 import DeleteEventModal from "./DeleteEventModal";
 import EditEventModal from './EditEventModal'; // Make sure the path is correct
+import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 
@@ -21,6 +22,7 @@ function CalendarComponent() {
   const [deleteEventModalOpen, setDeleteEventModalOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
   const [editedEvent, setEditedEvent] = useState(null);
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -175,6 +177,10 @@ const onEventUpdated = (updatedEvent) => {
       />
        <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
         <button onClick={() => setModalOpen(true)}>Add Event</button>
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+        <button onClick={() => {navigate("/map")}}>Create Map</button>
       </div>
       <EventModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onEventAdded={event => onEventAdded(event)}></EventModal>
       <EventDetailModal
