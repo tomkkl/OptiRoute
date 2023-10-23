@@ -67,7 +67,7 @@ const UserProfile = () => {
   const [currentPhonenumber, setCurrentPhonenumber] = useState('012345');
   const [newPhonenumber, setNewPhonenumber] = useState(''); 
 
-  // Function to handle Email updates
+  // Function to handle phone number updates
   const handlePhonenumberUpdate = () => {
     // Perform validation and update logic here
     setCurrentPhonenumber(newPhonenumber);
@@ -108,6 +108,7 @@ const UserProfile = () => {
       }, 1000);
     }
   };
+
 
 
 
