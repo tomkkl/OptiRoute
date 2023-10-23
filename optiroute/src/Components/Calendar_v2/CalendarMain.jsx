@@ -6,6 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import EventDetailsModal from './EventDetailsModal'; // Import the EventDetailsModal component
+import AddEventModal from './AddEventModal';
 
 Modal.setAppElement('#root');
 
@@ -15,6 +16,7 @@ export default class CalendarMain extends React.Component {
     weekendsVisible: true,
     events: [],
     isModalOpen: false,
+    isAddEventModalOpen: false,
     selectedEvent: null,
   }
 
@@ -56,6 +58,12 @@ export default class CalendarMain extends React.Component {
   render() {
     return (
       <div>
+        <button onClick={this.openAddEventModal}>Add Event</button>
+        <AddEventModal
+          isOpen={this.state.isAddEventModalOpen}
+          closeModal={this.closeAddEventModal}
+          addEvent={this.addEvent}
+        />
         <div>
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -99,7 +107,7 @@ export default class CalendarMain extends React.Component {
 
     if (title) {
       calendarApi.addEvent({
-        id: createEventId(),
+        //id: createEventId(),
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
@@ -122,10 +130,43 @@ export default class CalendarMain extends React.Component {
     });
   };
 
+  openAddEventModal = () => {
+    this.setState({
+      isAddEventModalOpen: true,
+    });
+  };
+
+  closeAddEventModal = () => {
+    this.setState({
+      isAddEventModalOpen: false,
+    });
+  };
+
   handleEvents = (events) => {
     this.setState({
       currentEvents: events
     })
-  }
+  };
+
+  addEvent = ({ title, start, end, location, category, description }) => {
+    // Make a POST request to your API endpoint to save the event to MongoDB
+    fetch('/api/events', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, start, end, location, category, description }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response if needed
+        console.log('Event added successfully:', data);
+      })
+      .catch((error) => {
+        console.error('Error adding event:', error);
+      });
+  };
+
+
 
 }

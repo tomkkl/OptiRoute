@@ -19,13 +19,16 @@ const EventDetailsModal = ({ isOpen, closeModal, event }) => {
         <div className="modal-content">
           <h2>{event.title}</h2>
           <p>
-            <strong>Start:</strong> {formatDate(event.start, { year: 'numeric', month: 'short', day: 'numeric' })}
+            <strong>Start:      </strong> {formatDate(event.start, { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
           </p>
           <p>
-            <strong>End:</strong> {formatDate(event.end, { year: 'numeric', month: 'short', day: 'numeric' })}
+            <strong>End:        </strong> {formatDate(event.end, { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
           </p>
           <p>
-            <strong>Location:</strong> {event.extendedProps.location}
+            <strong>Location:   </strong> {event.extendedProps.location}
+          </p>
+          <p>
+            <strong>Category:   </strong> {event.extendedProps.category}
           </p>
           <p>
             <strong>Description:</strong> {event.extendedProps.description}
