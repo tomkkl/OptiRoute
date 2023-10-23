@@ -1,0 +1,31 @@
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px; /* Increase padding for a larger content area */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+  z-index: 2; /* Set z-index higher than the calendar */
+  width: 400px; /* Set the fixed width */
+  height: 300px; /* Set the fixed height */
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1; /* Set z-index lower than the modal */
+}
+
+.modal-content {
+  text-align: left;
+}
