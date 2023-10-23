@@ -10,7 +10,11 @@ function Noti() {
   };
 
   return (
-    
+    <div className="Noti">
+      <h1>Event Reminder App</h1>
+      <button onClick={showNotification}>Show Event Reminder</button>
+      <ToastContainer />
+    </div>
   );
 }
 
