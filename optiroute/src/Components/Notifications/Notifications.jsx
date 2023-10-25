@@ -1,36 +1,30 @@
+// NotificationApp.js
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function Notification(){
-  const notify = () => toast.info('Example Notification', {
-    position: "top-left",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-    });
+function Notifications() {
+  const showSuccessNotification = () => {
+    toast.success('Success notification');
+  };
+
+  const showErrorNotification = () => {
+    toast.error('Error notification');
+  };
+
+  const showWarningNotification = () => {
+    toast.warning('Warning notification');
+  };
 
   return (
-    <div>
-      <button onClick={notify}>Notify!</button>
-      <ToastContainer
-        position="top-left"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+    <div className="notification app">
+      <h1>Notifications</h1>
+      <button onClick={showSuccessNotification}>Show Success Notification</button>
+      <button onClick={showErrorNotification}>Show Error Notification</button>
+      <button onClick={showWarningNotification}>Show Warning Notification</button>
+      <ToastContainer />
     </div>
   );
 }
 
-export default Notification;
+export default Notifications;
