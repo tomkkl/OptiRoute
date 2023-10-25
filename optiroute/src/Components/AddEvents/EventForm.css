@@ -1,0 +1,98 @@
+.event-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align boxes on the left side */
+    margin: auto;
+    margin-top: 50px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+  }
+  
+  .label {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-top: 30px;
+  }
+  
+  .input-container {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  input,
+  textarea {
+    width: calc(100% - 20px); /* Added padding to the input width */
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button.save {
+    background-color: #3e5346;
+    color: #fff;
+  }
+  
+  button.cancel {
+    background-color: #EAEAEA;
+    color: #676767;
+  }
+  
+  button:hover {
+    background-color: #C1FFD5;
+  }
+  
+  /* EventForm.css */
+
+/* ... other styles ... */
+
+/* Style for the select dropdown */
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    appearance: none; /* Removes default arrow in some browsers */
+    background-color: #fff; /* Dropdown background color */
+    color: #333; /* Dropdown text color */
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Style for the dropdown arrow icon (optional) */
+  select::after {
+    content: '\25BC'; /* Unicode character for down arrow */
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+  }
+  
+  /* Hover effect for the dropdown */
+  select:hover {
+    border-color: #555; /* Border color on hover */
+  }
+  
