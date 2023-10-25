@@ -21,7 +21,7 @@ function App() {
         <Route path="/login" element={<LoginSignup />} />
         <Route path="/about" element={<About />} />
         <Route path="/calendar" element={<CalendarMain />} />
-//         <Route path="/calendar" element={<CalendarComponent />} />
+         {/* <Route path="/calendar" element={<CalendarComponent />} /> */}
         <Route path="/profile" element={<UserProfile />} />
       </Routes>
     </>

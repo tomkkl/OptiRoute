@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { formatDate } from '@fullcalendar/core';
 import './EventDetailsModal.css'; // Import the CSS file for modal styling
+import EditEventModal from './EditEventModal'; // Import the EditEventModal component
 
 Modal.setAppElement('#root');
 
-const EventDetailsModal = ({ isOpen, closeModal, event }) => {
-    console.log(event)
+const EventDetailsModal = ({ isOpen, closeModal, event, onEdit, onDelete }) => {
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
+  console.log(event)
+
+  const handleEdit = () => {
+    setEditModalOpen(true);
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
       contentLabel="Event Details"
-      className="modal"
+      className="modal-detail"
       overlayClassName="overlay"
     >
       {event && (
@@ -33,7 +40,19 @@ const EventDetailsModal = ({ isOpen, closeModal, event }) => {
           <p>
             <strong>Description:</strong> {event.extendedProps.description}
           </p>
+          <button onClick={handleEdit}>Edit</button>
+          <button onClick={onDelete}>Delete</button>
           <button onClick={closeModal}>Close</button>
+
+          {/* Render EditEventModal when isEditModalOpen is true */}
+          {isEditModalOpen && (
+            <EditEventModal
+              isOpen={isEditModalOpen}
+              closeModal={() => setEditModalOpen(false)}
+              event={event}
+              onEdit={onEdit}
+            />
+          )}
         </div>
       )}
     </Modal>
