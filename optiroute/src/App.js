@@ -7,6 +7,7 @@ import Home from './Components/Home/Home';
 import CalendarComponent from './Components/Calendar/CalendarComponent';
 import CalendarMain from './Components/Calendar_v2/CalendarMain.jsx';
 import UserProfile from './Components/UserProfile/UserProfile';
+import Notification from './Components/Notifications/Notifications';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
 import "react-datetime/css/react-datetime.css";
@@ -23,6 +24,7 @@ function App() {
         <Route path="/calendar" element={<CalendarMain />} />
 //         <Route path="/calendar" element={<CalendarComponent />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/Notification" element={<Notification />} />
       </Routes>
     </>
   );
