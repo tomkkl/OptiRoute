@@ -1,0 +1,49 @@
+.main-container {
+    display: flex;
+}
+
+.team-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 40px;
+    margin-top: 50px; /* Adjusted margin-top to give some space */
+    margin-bottom: 50px;
+    margin-left: 200px;
+    justify-content: center;
+    background-color: #f5f5f5;
+    width: 100%; /* Ensure the content takes up the rest of the space */
+    max-width: calc(100vw - 200px); /* Adjust this based on the sidebar's width */
+}
+
+.team-member {
+    width: 300px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.team-member-image {
+    width: 100%;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.team-member-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.team-member-title {
+    font-size: 20px;
+    color: #3E5346;  /* Using the color from your previous CSS */
+    margin-bottom: 15px;
+}
+
+.team-member-description {
+    font-size: 16px;
+    color: #797979;
+}
