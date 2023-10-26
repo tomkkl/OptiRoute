@@ -29,9 +29,9 @@ export default class CalendarMain extends React.Component {
 
           //assign color on category 
           let eventColor = "blue"; // Default color
-          if (event.category === 'work') {
+          if (event.category === 'Work') {
             eventColor = 'red'; // Work events are red
-          } else if (event.category === 'personal') {
+          } else if (event.category === 'Personal') {
             eventColor = 'green'; // Personal events are green
           }
 
@@ -77,7 +77,6 @@ export default class CalendarMain extends React.Component {
             selectable={true}
             firstDay={1}
             events={this.state.events} // Use events prop instead of initialEvents
-            select={this.handleDateSelect}
             //eventContent={renderEventContent} // custom render function
             eventClick={this.handleEventClick}
             eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
@@ -88,7 +87,13 @@ export default class CalendarMain extends React.Component {
             */
           />
         </div>
-        <EventDetailsModal isOpen={this.state.isModalOpen} closeModal={this.closeModal} event={this.state.selectedEvent} />
+        <EventDetailsModal
+          isOpen={this.state.isModalOpen}
+          closeModal={this.closeModal}
+          event={this.state.selectedEvent}
+          onEdit={this.updateEvent}
+          onDelete={this.handleDelete}
+        />
       </div>
     )
   }
@@ -99,26 +104,20 @@ export default class CalendarMain extends React.Component {
     })
   }
 
-  handleDateSelect = (selectInfo) => {
-    let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
-
-    calendarApi.unselect() // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        //id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      })
-    }
-  }
+  // handleEventClick = (clickInfo) => {
+  //   console.log(clickInfo);
+  //   this.setState({
+  //     selectedEvent: clickInfo.event,
+  //     isModalOpen: true,
+  //   });
+  // };
 
   handleEventClick = (clickInfo) => {
     this.setState({
-      selectedEvent: clickInfo.event,
+      selectedEvent: {
+        id: clickInfo.event.id,
+        event: clickInfo.event,
+      },
       isModalOpen: true,
     });
   };
@@ -148,24 +147,138 @@ export default class CalendarMain extends React.Component {
     })
   };
 
-  addEvent = ({ title, start, end, location, category, description }) => {
+  addEvent = ({ title, start, end, location, category, description, recurrence }) => {
     // Make a POST request to your API endpoint to save the event to MongoDB
     fetch('/api/events', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, start, end, location, category, description }),
+      body: JSON.stringify({ title, start, end, location, category, description, recurrence }),
     })
       .then((response) => response.json())
       .then((data) => {
         // Handle the response if needed
         console.log('Event added successfully:', data);
+        
+        // Update the events state to include the newly added event
+        const newEvent = {
+          id: data._id,
+          title: data.title,
+          start: new Date(data.start),
+          end: new Date(data.end),
+          recurrence: data.recurrence,
+          category: data.category,
+          location: data.location,
+          description: data.description,
+        };
+        
+        this.setState(prevState => ({
+          events: [...prevState.events, newEvent]
+        }));
       })
       .catch((error) => {
         console.error('Error adding event:', error);
       });
   };
+
+
+  handleDelete = () => {
+    const { selectedEvent } = this.state;
+    if (selectedEvent) {
+      // Make a DELETE request to your API endpoint to delete the selected event
+      fetch(`/api/events/${selectedEvent.id}`, {
+        method: 'DELETE',
+      })
+        .then((response) => {
+          if (response.ok) {
+            // Event deleted successfully, update the events state to remove the deleted event
+            this.setState(prevState => ({
+              events: prevState.events.filter(event => event.id !== selectedEvent.id),
+              selectedEvent: null,
+              isModalOpen: false,
+            }));
+          } else {
+            // Handle error if the event couldn't be deleted
+            console.error('Error deleting event:', response.statusText);
+          }
+        })
+        .catch((error) => {
+          console.error('Error deleting event:', error);
+        });
+    }
+  };
+
+
+//   updateEvent = ({ id, title, start, end, location, description, recurrence, category }) => {
+//   // Make a PUT request to update the event in the database
+//   fetch(`/api/events/${id}`, {
+//     method: 'PATCH',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({ title, start, end, location, description, recurrence, category }),
+//   })
+//     .then((response) => response.json())
+//     .then((updatedEvent) => {
+//       // Handle the updated event data as needed
+//       console.log('Event updated successfully:', updatedEvent);
+
+//       // Find the index of the updated event in the state
+//       const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
+
+//       // Update the events state to reflect the changes
+//       if (updatedEventIndex !== -1) {
+//         this.setState((prevState) => {
+//           const updatedEvents = [...prevState.events];
+//           updatedEvents[updatedEventIndex] = updatedEvent;
+//           return {
+//             events: updatedEvents,
+//             isModalOpen: false,
+//             selectedEvent: null,
+//           };
+//         });
+//       }
+//     })
+//     .catch((error) => {
+//       console.error('Error updating event:', error);
+//     });
+// };
+
+updateEvent = ({ id, title, start, end, location, description, recurrence, category }) => {
+  // Make a PUT request to update the event in the database
+  fetch(`/api/events/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ title, start, end, location, description, recurrence, category }),
+  })
+    .then((response) => response.json())
+    .then((updatedEvent) => {
+      // Handle the updated event data as needed
+      console.log('Event updated successfully:', updatedEvent);
+
+      // Find the index of the updated event in the state
+      const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
+
+      // Update the events state to reflect the changes
+      if (updatedEventIndex !== -1) {
+        this.setState((prevState) => {
+          const updatedEvents = [...prevState.events];
+          updatedEvents[updatedEventIndex] = updatedEvent;
+          return {
+            events: updatedEvents,
+            isModalOpen: false,
+            selectedEvent: null,
+          };
+        });
+      }
+    })
+    .catch((error) => {
+      console.error('Error updating event:', error);
+    });
+};
 
 
 
