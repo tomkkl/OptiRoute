@@ -8,7 +8,6 @@ Modal.setAppElement('#root');
 
 const EventDetailsModal = ({ isOpen, closeModal, event, onEdit, onDelete }) => {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-  console.log(event)
 
   const handleEdit = () => {
     setEditModalOpen(true);
