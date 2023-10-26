@@ -7,6 +7,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import EventDetailsModal from './EventDetailsModal'; // Import the EventDetailsModal component
 import AddEventModal from './AddEventModal';
+import './CalendarMain.css';
 
 Modal.setAppElement('#root');
 
@@ -80,11 +81,16 @@ export default class CalendarMain extends React.Component {
             //eventContent={renderEventContent} // custom render function
             eventClick={this.handleEventClick}
             eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
-            /* you can update a remote database when these fire:
-            eventAdd={function(){}}
-            eventChange={function(){}}
-            eventRemove={function(){}}
-            */
+            allDaySlot={false}
+            stickyHeaderDates={true}
+            height={'auto'}
+            // options={{
+            //   allDaySlot: false, // Set the allDaySlot option to false
+            //   aspectRatio:  3, 
+            //   height: "auto",
+            //   stickyHeaderDates: true,
+            // }}
+ 
           />
         </div>
         <EventDetailsModal
