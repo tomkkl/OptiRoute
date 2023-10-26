@@ -104,23 +104,15 @@ export default class CalendarMain extends React.Component {
     })
   }
 
-  // handleEventClick = (clickInfo) => {
-  //   console.log(clickInfo);
-  //   this.setState({
-  //     selectedEvent: clickInfo.event,
-  //     isModalOpen: true,
-  //   });
-  // };
-
   handleEventClick = (clickInfo) => {
+    console.log(clickInfo);
     this.setState({
-      selectedEvent: {
-        id: clickInfo.event.id,
-        event: clickInfo.event,
-      },
+      selectedEvent: clickInfo.event,
       isModalOpen: true,
     });
   };
+
+
 
   closeModal = () => {
     this.setState({
