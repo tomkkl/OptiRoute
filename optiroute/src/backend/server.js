@@ -16,16 +16,16 @@ optiroute.use((req, res, next) => {
 })
 
 //Users
-optiroute.use('/api/users',scheduleUsers)
+optiroute.use('/apiM/users',scheduleUsers)
 
 //Events
-optiroute.use('/api/events',scheduleEvents)
+optiroute.use('/apiM/events',scheduleEvents)
 
 //Connect to DB
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
-        // listen for port
-        optiroute.listen(process.env.PORT, () => {
+        // listen for port 4000
+        optiroute.listen(4000, () => {
         console.log('connected to db and listening on port 4000!!')
         })
     })
