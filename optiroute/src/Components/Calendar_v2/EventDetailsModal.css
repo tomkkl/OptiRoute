@@ -10,7 +10,7 @@
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
   z-index: 2; /* Set z-index higher than the calendar */
   width: 400px; /* Set the fixed width */
-  height: 300px; /* Set the fixed height */
+  height: 400px; /* Set the fixed height */
 }
 
 .overlay {

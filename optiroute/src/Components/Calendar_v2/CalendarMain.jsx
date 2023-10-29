@@ -36,16 +36,27 @@ export default class CalendarMain extends React.Component {
             eventColor = 'green'; // Personal events are green
           }
 
+          const start = new Date(event.start);
+          const end = new Date(event.end);
+          console.log(start);
+
           return {
+            allDay: false,
             id: event._id,
             title: event.title,
-            start: new Date(event.start),
-            end: new Date(event.end),
+            start: start,
+            end: end,
+            notification_time: new Date(event.notification_time),
             recurrence: event.recurrence,
             category: event.category,
             location: event.location,
             description: event.description,
             color: eventColor, // Set event color based on category
+            daysOfWeek: [1,3],
+            startTime: start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes(),
+            endTime: end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes(),
+            startRecur: new Date(event.startRecur), 
+            endRecur: new Date(event.endRecur),
           };
         });
         this.setState({ events: transformedEvents });
@@ -145,14 +156,14 @@ export default class CalendarMain extends React.Component {
     })
   };
 
-  addEvent = ({ title, start, end, location, category, description, recurrence }) => {
+  addEvent = ({ title, start, end, location, category, description, recurrence, notification_time, startRecur, endRecur}) => {
     // Make a POST request to your API endpoint to save the event to MongoDB
     fetch('/api/events', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, start, end, location, category, description, recurrence }),
+      body: JSON.stringify({ title, start, end, location, category, description, recurrence, notification_time, startRecur, endRecur}),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -165,10 +176,13 @@ export default class CalendarMain extends React.Component {
           title: data.title,
           start: new Date(data.start),
           end: new Date(data.end),
+          notification_time: new Date(data.notification_time),
           recurrence: data.recurrence,
           category: data.category,
           location: data.location,
           description: data.description,
+          startRecur: new Date(data.startRecur),
+          endRecur: new Date(data.endRecur)
         };
         
         this.setState(prevState => ({
@@ -243,14 +257,14 @@ export default class CalendarMain extends React.Component {
 //     });
 // };
 
-updateEvent = ({ id, title, start, end, location, description, recurrence, category }) => {
+updateEvent = ({ id, title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur }) => {
   // Make a PUT request to update the event in the database
   fetch(`/api/events/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, start, end, location, description, recurrence, category }),
+    body: JSON.stringify({ title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur}),
   })
     .then((response) => response.json())
     .then((updatedEvent) => {

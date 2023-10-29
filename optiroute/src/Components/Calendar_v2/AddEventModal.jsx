@@ -14,17 +14,21 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
     const [description, setDescription] = useState('');
     const [recurrence, setRecurrence] = useState(''); // State for recurrence field
     const [category, setCategory] = useState(''); // State for category field
+    const [notification_time, setNotification_time] = useState(''); // State for category field
+    const [startRecur, setStartRecur] = useState('');
+    const [endRecur, setEndRecur] = useState('');
+
 
     const handleAddEvent = () => {
-        if (title && start && end && location && description && recurrence && category) {
-          addEvent({ title, start, end, location, description, recurrence, category });
+        if (title && start && end && location && description && recurrence && category && notification_time) {
+          addEvent({ title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur});
           closeModal();
         } else {
           alert('Please fill out all fields.');
         }
     };
 
-    const recurrenceOptions = ['Daily', 'Weekly'];
+    const recurrenceOptions = ['No recurrence', 'Daily', 'Weekly'];
     const categoryOptions = ['Personal', 'Work'];
 
     return (
@@ -51,6 +55,12 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
             onChange={(date) => setEnd(date)}
             inputProps={{ placeholder: 'Select End Date and Time' }}
         />
+        <label>Notification Date and Time:</label>
+        <Datetime
+            value={notification_time}
+            onChange={(date) => setNotification_time(date)}
+            inputProps={{ placeholder: 'Select Notification Date and Time' }}
+        />
         <label>Location:</label>
         <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
         <div>
@@ -63,6 +73,14 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
                   </option>
               ))}
           </select>
+        </div>
+        <div>
+            <label>Start Recurring Date:</label>
+            <Datetime
+            value={startRecur}
+            onChange={(date) => setStartRecur(date)}
+            inputProps={{ placeholder: 'Select ' }}
+        />
         </div>
         <div>
           <label>Category:</label>
