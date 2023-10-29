@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import Datetime from "react-datetime";
 import {useGoogleMap, useLoadScript,} from '@react-google-maps/api'
+import MyComponent from './GMap'
 
 
 export default function Map() {
-
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: 'AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY'
-    })
-
-
+    const [name, setName] = useState('');
+    const handleChangeName = event => {
+        setName(event.target.value);
+    };
+    
     const [chosenDate, setChosenDate] = useState(new Date());
     return (
         <div>
@@ -24,6 +24,7 @@ export default function Map() {
             Create Map
                 onClick
             </button>
+            <MyComponent/>
         </div>
     );
 }
