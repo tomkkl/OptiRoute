@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import Datetime from "react-datetime";
 import {useGoogleMap, useLoadScript,} from '@react-google-maps/api'
-import MyComponent from './GMap'
+import GMap from './GMap'
 
 
 export default function Map() {
@@ -24,7 +24,7 @@ export default function Map() {
             Create Map
                 onClick
             </button>
-            <MyComponent/>
+            <GMap/>
         </div>
     );
 }

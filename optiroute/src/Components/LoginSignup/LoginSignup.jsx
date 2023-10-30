@@ -33,7 +33,7 @@ const LoginSignup = () => {
     
 
 
-    const response = await fetch('apiM/users', {
+    const response = await fetch('api/users', {
         method: "POST",
         body: JSON.stringify(userinsert),
         headers: {
@@ -94,7 +94,7 @@ const LoginSignup = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const responce = await fetch('/apiM/users')
+      const responce = await fetch('/api/users')
       const json = await responce.json()
 
       if(responce.ok){
@@ -186,7 +186,7 @@ const LoginSignup = () => {
         }
 
 
-        const response = await fetch('/apiM/users', {
+        const response = await fetch('/api/users', {
             method: "POST",
             body: JSON.stringify(userinsert),
             headers: {
