@@ -24,7 +24,7 @@ const notificationSchema = new Schema({
         required: true
     },
     description: {
-        type: Boolean,
+        type: Boolean,s
         required: true
     }
 }, { timestamps: true })

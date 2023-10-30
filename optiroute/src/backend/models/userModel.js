@@ -12,7 +12,7 @@ const userSchema = new Schema({
         required: false
     },
     phoneNumber :{
-        type:String,
+        type: String,
         required: false
     },
     password: {
@@ -20,11 +20,11 @@ const userSchema = new Schema({
         required: true
     },
     securityQuestion: {
-        type:String,
+        type: String,
         required:false
     },
     bio: {
-        type:String,
+        type: String,
         required: false
     }
 }, { timestamps: true })
