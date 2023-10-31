@@ -3,6 +3,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const notificationSchema = new Schema({
+    message: {
+        type: String,
+        required: true
+    },
     onOff: {
         type: Boolean,
         required: true
@@ -24,7 +28,7 @@ const notificationSchema = new Schema({
         required: true
     },
     description: {
-        type: Boolean,s
+        type: Boolean,
         required: true
     }
 }, { timestamps: true })
