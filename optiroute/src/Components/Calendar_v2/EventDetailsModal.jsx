@@ -57,6 +57,9 @@ const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) =
             <strong>Location:   </strong> {event.location}
           </p>
           <p>
+            <strong>Recurrence:   </strong> {event.recurrence}
+          </p>
+          <p>
             <strong>Category:   </strong> {event.category}
           </p>
           <p>
@@ -73,6 +76,7 @@ const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) =
               closeModal={() => setEditModalOpen(false)}
               event={event}
               onEdit={onEdit}
+              event_id={event_id}
             />
           )}
         </div>

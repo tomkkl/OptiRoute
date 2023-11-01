@@ -4,6 +4,8 @@ import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import './AddEventModal.css'; // Import your CSS file for modal styling
+
 
 Modal.setAppElement('#root');
 
@@ -43,12 +45,14 @@ class EditEventModal extends Component {
   }
 
   handleEditEvent = () => {
-    const { title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
-    const { event, onEdit, closeModal } = this.props;
-
-    if (title && start && end && location && description && recurrence && category && notification_time && startRecur && endRecur) {
+    const {title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
+    const {event, event_id, onEdit, closeModal } = this.props;
+    console.log("hhhhh")
+    console.log(event_id)
+    let id = event_id;
+    if (title && start && end && location && description && recurrence && category && notification_time) {
       const updatedEvent = {
-        id: event.id,
+        id,
         title,
         start,
         end,
@@ -79,7 +83,7 @@ class EditEventModal extends Component {
         isOpen={isOpen}
         onRequestClose={closeModal}
         contentLabel="Edit Event"
-        className="modal-add-event"
+        className="modal"
         overlayClassName="overlay"
       >
         {/* <div className="modal-content">
@@ -100,26 +104,26 @@ class EditEventModal extends Component {
         <label>Start Date and Time:</label>
         <Datetime
             value={start}
-            onChange={(date) => this.setState(date)}
+            onChange={(date) => this.setState({ start: date })}
             inputProps={{ placeholder: 'Select Start Date and Time' }}
         />
         <label>End Date and Time:</label>
         <Datetime
             value={end}
-            onChange={(date) => this.setState(date)}
+            onChange={(date) => this.setState({ end: date })}
             inputProps={{ placeholder: 'Select End Date and Time' }}
         />
         <label>Notification Date and Time:</label>
         <Datetime
             value={notification_time}
-            onChange={(date) => this.setState(date)}
+            onChange={(date) => this.setState({ notification_time: date })}
             inputProps={{ placeholder: 'Select Notification Date and Time' }}
         />
         <label>Location:</label>
-        <input type="text" value={location} onChange={(e) => this.setState(e.target.value)} />
+        <input type="text" value={location} onChange={(e) => this.setState({ location: e.target.value })} />
         <div>
         <label>Recurrence:</label>
-          <select className="select-field" value={recurrence} onChange={(e) => this.setState(e.target.value)}>
+          <select className="select-field" value={recurrence} onChange={(e) => this.setState({ recurrence: e.target.value })}>
               <option value="">Select Recurrence</option>
               {recurrenceOptions.map(option => (
                   <option key={option} value={option}>
@@ -133,7 +137,7 @@ class EditEventModal extends Component {
                     {/* Disable the input field when "No recurrence" is selected */}
                     <Datetime
                         value={startRecur}
-                        onChange={(date) => this.setStartRecur(date)}
+                        onChange={(date) => this.setState({ startRecur: date })}
                         inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence' }}
                     />
                 </div>
@@ -142,13 +146,13 @@ class EditEventModal extends Component {
                     {/* Disable the input field when "No recurrence" is selected */}
                     <Datetime
                         value={endRecur}
-                        onChange={(date) => this.setState(date)}
+                        onChange={(date) => this.setState({ endRecur: date })}
                         inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence' }}
                     />
                 </div>
         <div>
           <label>Category:</label>
-          <select className="select-field" value={category} onChange={(e) => this.setState(e.target.value)}>
+          <select className="select-field" value={category} onChange={(e) => this.setState({ category: e.target.value })}>
               <option value="">Select Category</option>
               {categoryOptions.map(option => (
                   <option key={option} value={option}>
@@ -158,7 +162,7 @@ class EditEventModal extends Component {
           </select>
         </div>
         <label>Description:</label>
-        <textarea value={description} onChange={(e) => this.setState(e.target.value)} />
+        <textarea value={description} onChange={(e) => this.setState({ description: e.target.value })} />
         <button onClick={this.handleEditEvent}>Save Changes</button>
           <button onClick={closeModal}>Cancel</button>
         </div>
