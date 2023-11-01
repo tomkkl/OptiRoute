@@ -87,6 +87,7 @@ export default class CalendarMain extends React.Component {
       });
   }
 
+
   render() {
     return (
       <div>
@@ -127,7 +128,7 @@ export default class CalendarMain extends React.Component {
         <EventDetailsModal
           isOpen={this.state.isModalOpen}
           closeModal={this.closeModal}
-          event={this.state.selectedEvent}
+          event_id={this.state.selectedEvent}
           onEdit={this.updateEvent}
           onDelete={this.handleDelete}
         />
@@ -143,10 +144,14 @@ export default class CalendarMain extends React.Component {
 
   handleEventClick = (clickInfo) => {
     console.log(clickInfo);
+    console.log(clickInfo.event.title);
+    console.log(clickInfo.event.id);
     this.setState({
-      selectedEvent: clickInfo.event,
+      selectedEvent: clickInfo.event.id,
       isModalOpen: true,
     });
+
+    
   };
 
 
@@ -255,14 +260,14 @@ export default class CalendarMain extends React.Component {
     const { selectedEvent } = this.state;
     if (selectedEvent) {
       // Make a DELETE request to your API endpoint to delete the selected event
-      fetch(`/api/events/${selectedEvent.id}`, {
+      fetch(`/api/events/${selectedEvent}`, {
         method: 'DELETE',
       })
         .then((response) => {
           if (response.ok) {
             // Event deleted successfully, update the events state to remove the deleted event
             this.setState(prevState => ({
-              events: prevState.events.filter(event => event.id !== selectedEvent.id),
+              events: prevState.events.filter(event => event.id !== selectedEvent),
               selectedEvent: null,
               isModalOpen: false,
             }));

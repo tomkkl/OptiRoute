@@ -84,7 +84,7 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
                     <Datetime
                         value={startRecur}
                         onChange={(date) => setStartRecur(date)}
-                        inputProps={{ placeholder: 'Select ', disabled: recurrence === 'No recurrence' }}
+                        inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence' }}
                     />
                 </div>
                 <div>
@@ -93,7 +93,7 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
                     <Datetime
                         value={endRecur}
                         onChange={(date) => setEndRecur(date)}
-                        inputProps={{ placeholder: 'Select ', disabled: recurrence === 'No recurrence' }}
+                        inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence' }}
                     />
                 </div>
         <div>
