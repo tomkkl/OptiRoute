@@ -38,7 +38,27 @@ export default class CalendarMain extends React.Component {
 
           const start = new Date(event.start);
           const end = new Date(event.end);
-          console.log(start);
+          let daysOfWeek = null;
+          let startTime = null;
+          let endTime = null;
+          let startRecur = null;
+          let endRecur = null;
+
+
+          if (event.endRecur) {
+            endRecur = new Date(event.endRecur).toISOString();
+          } 
+          console.log(endRecur);
+
+
+
+          if (event.recurrence !== "No recurrence") {
+            daysOfWeek = [1];
+            startTime = start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes();
+            endTime = end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
+            startRecur = new Date(event.startRecur).toISOString(); 
+          } else {endRecur = null;}
+        
 
           return {
             allDay: false,
@@ -52,11 +72,11 @@ export default class CalendarMain extends React.Component {
             location: event.location,
             description: event.description,
             color: eventColor, // Set event color based on category
-            daysOfWeek: [1,3],
-            startTime: start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes(),
-            endTime: end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes(),
-            startRecur: new Date(event.startRecur), 
-            endRecur: new Date(event.endRecur),
+            daysOfWeek: daysOfWeek,//[1,3],
+            startTime: startTime,
+            endTime: endTime,
+            startRecur: startRecur, 
+            endRecur: endRecur,
           };
         });
         this.setState({ events: transformedEvents });
@@ -169,20 +189,56 @@ export default class CalendarMain extends React.Component {
       .then((data) => {
         // Handle the response if needed
         console.log('Event added successfully:', data);
+
+        //assign color on category 
+        let eventColor = "blue"; // Default color
+        if (data.category === 'Work') {
+          eventColor = 'red'; // Work events are red
+        } else if (data.category === 'Personal') {
+          eventColor = 'green'; // Personal events are green
+        }
+
+        const start = new Date(data.start);
+        const end = new Date(data.end);
+        let daysOfWeek = null;
+        let startTime = null;
+        let endTime = null;
+        let startRecur = null;
+        let endRecur = null;
+
+
+        if (data.endRecur) {
+          endRecur = new Date(data.endRecur).toISOString();
+        } 
+        console.log(endRecur);
+
+
+
+        if (data.recurrence !== "No recurrence") {
+          daysOfWeek = [1];
+          startTime = start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes();
+          endTime = end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
+          startRecur = new Date(data.startRecur).toISOString(); 
+        } else {endRecur = null;}
         
         // Update the events state to include the newly added event
         const newEvent = {
-          id: data._id,
-          title: data.title,
-          start: new Date(data.start),
-          end: new Date(data.end),
-          notification_time: new Date(data.notification_time),
-          recurrence: data.recurrence,
-          category: data.category,
-          location: data.location,
-          description: data.description,
-          startRecur: new Date(data.startRecur),
-          endRecur: new Date(data.endRecur)
+          allDay: false,
+            id: data._id,
+            title: data.title,
+            start: start,
+            end: end,
+            notification_time: new Date(data.notification_time),
+            recurrence: data.recurrence,
+            category: data.category,
+            location: data.location,
+            description: data.description,
+            color: eventColor, // Set event color based on category
+            daysOfWeek: daysOfWeek,//[1,3],
+            startTime: startTime,
+            endTime: endTime,
+            startRecur: startRecur, 
+            endRecur: endRecur,
         };
         
         this.setState(prevState => ({
