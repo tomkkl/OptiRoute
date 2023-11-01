@@ -21,7 +21,11 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
 
     const handleAddEvent = () => {
         if (title && start && end && location && description && recurrence && category && notification_time) {
-          addEvent({ title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur});
+            const eventDetails = recurrence === 'No recurrence'
+                ? { title, start, end, location, description, recurrence, category, notification_time }
+                : { title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur };
+
+          addEvent(eventDetails);
           closeModal();
         } else {
           alert('Please fill out all fields.');
@@ -75,13 +79,23 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
           </select>
         </div>
         <div>
-            <label>Start Recurring Date:</label>
-            <Datetime
-            value={startRecur}
-            onChange={(date) => setStartRecur(date)}
-            inputProps={{ placeholder: 'Select ' }}
-        />
-        </div>
+                    <label>Start Recurring Date:</label>
+                    {/* Disable the input field when "No recurrence" is selected */}
+                    <Datetime
+                        value={startRecur}
+                        onChange={(date) => setStartRecur(date)}
+                        inputProps={{ placeholder: 'Select ', disabled: recurrence === 'No recurrence' }}
+                    />
+                </div>
+                <div>
+                    <label>End Recurring Date:</label>
+                    {/* Disable the input field when "No recurrence" is selected */}
+                    <Datetime
+                        value={endRecur}
+                        onChange={(date) => setEndRecur(date)}
+                        inputProps={{ placeholder: 'Select ', disabled: recurrence === 'No recurrence' }}
+                    />
+                </div>
         <div>
           <label>Category:</label>
           <select className="select-field" value={category} onChange={(e) => setCategory(e.target.value)}>

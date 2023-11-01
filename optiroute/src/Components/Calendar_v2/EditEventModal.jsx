@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
-import './EditEventModal.css'; // Import your CSS file for modal styling
+// import './EditEventModal.css'; // Import your CSS file for modal styling
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
