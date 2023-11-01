@@ -13,9 +13,26 @@ const router = express.Router();
 
 // Get all events
 router.get('/', async (req, res) => {
-    const events = await Event.find({}).sort({ createdAt: -1 });
-    res.status(200).json(events);
+    // BEN WORK 
+    const { query } = req.query;
+
+    if (query) {
+        // If there's a query parameter, search for events by title
+        const matchedEvents = await Event.find({ title: new RegExp(query, 'i') }).sort({ createdAt: -1 });
+        return res.status(200).json(matchedEvents);
+    } else {
+        // If no query parameter, return all events
+        const events = await Event.find({}).sort({ createdAt: -1 });
+        return res.status(200).json(events);
+    }
+
+    // BEN WORK
+    
+    /* this below here is the previous work that was here. keeping this incase my shit breaks everything */
+    //const events = await Event.find({}).sort({ createdAt: -1 });
+    //res.status(200).json(events);
 });
+
 
 // Get a single event
 router.get('/:id', async (req, res) => {

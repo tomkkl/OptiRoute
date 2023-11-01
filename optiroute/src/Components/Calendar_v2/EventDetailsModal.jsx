@@ -7,13 +7,14 @@ import EditEventModal from './EditEventModal'; // Import the EditEventModal comp
 Modal.setAppElement('#root');
 
 const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) => {
+  console.log("EventDetailsModal id: " + event_id)
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [event, setEvent] = useState(null);
+  const [triggerRefresh, setTriggerRefresh] = useState(false);
 
   const handleEdit = () => {
     setEditModalOpen(true);
   };
-  console.log(event_id);
 
   useEffect(() => {
     // Fetch event details based on event_id from your API
@@ -33,7 +34,7 @@ const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) =
     if (isOpen && event_id) {
       fetchEventDetails();
     }
-  }, [isOpen, event_id]);
+  }, [isOpen, event_id, triggerRefresh]); // added triggerRefresh here
 
 
   return (
@@ -73,7 +74,11 @@ const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) =
           {isEditModalOpen && (
             <EditEventModal
               isOpen={isEditModalOpen}
-              closeModal={() => setEditModalOpen(false)}
+              closeModal={() => {
+                setEditModalOpen(false)
+                // ben fix for not auto-update popup
+                setTriggerRefresh(t => !t);
+              }}
               event={event}
               onEdit={onEdit}
               event_id={event_id}
