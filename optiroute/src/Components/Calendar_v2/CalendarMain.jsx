@@ -7,11 +7,24 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import EventDetailsModal from './EventDetailsModal'; // Import the EventDetailsModal component
 import AddEventModal from './AddEventModal';
+import { useNavigate } from 'react-router-dom';
 import './CalendarMain.css';
 
 Modal.setAppElement('#root');
 
-export default class CalendarMain extends React.Component {
+function useNavigateWrapper() {
+  const navigate = useNavigate();
+  return navigate;
+}
+
+function CalendarMainWrapper() {
+  const navigate = useNavigateWrapper();
+
+  return <CalendarMain navigate={navigate} />;
+}
+
+
+export class CalendarMain extends React.Component {
 
   state = {
     weekendsVisible: true,
@@ -19,6 +32,7 @@ export default class CalendarMain extends React.Component {
     isModalOpen: false,
     isAddEventModalOpen: false,
     selectedEvent: null,
+    searchTerm: ""
   }
 
   componentDidMount() {
@@ -87,6 +101,39 @@ export default class CalendarMain extends React.Component {
       });
   }
 
+  // Ben work
+  handleSearchChange = (e) => {
+    this.setState({ searchTerm: e.target.value});
+  };
+
+  handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const { searchTerm } = this.state;
+    this.props.navigate(`/search?query=${searchTerm}`);
+    this.setState({ searchTerm: "" });
+  };
+
+  // css here 
+  searchInputStyle = {
+    padding: '8px 12px',
+    borderRadius: '4px',
+    border: '1px solid #ccc',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    marginRight: '10px',
+    width: '200px'
+  };
+  
+  searchButtonStyle = {
+    padding: '8px 12px',
+    borderRadius: '4px',
+    border: 'none',
+    backgroundColor: '#4C6EA5',
+    color: 'white',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s'
+  };
+  //
+
 
   render() {
     return (
@@ -132,6 +179,20 @@ export default class CalendarMain extends React.Component {
           onEdit={this.updateEvent}
           onDelete={this.handleDelete}
         />
+        <div className='flex-container-center'>
+          <button onClick={() => this.props.navigate(`/recurring-events`)} className='common-dimensions'>Show Recurring Events</button>
+        </div>
+      
+        <form onSubmit={this.handleSearchSubmit} style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+        <input // <form onSubmit... - START OF BEN WORK
+          type="text" 
+          placeholder="Search All Events"
+          value={this.searchTerm}
+          onChange={this.handleSearchChange}
+          style={this.searchInputStyle}
+          className="common-dimensions"
+        />
+      </form >
       </div>
     )
   }
@@ -355,4 +416,4 @@ updateEvent = ({ id, title, start, end, location, description, recurrence, categ
 
 
 
-}
+} export default CalendarMainWrapper;
