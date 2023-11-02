@@ -31,9 +31,9 @@ const UserProfile = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const responce = await fetch('/api/users/' + userId)
-      const json = await responce.json()
-      if (responce.ok) {
+      const response = await fetch('/api/users/' + userId)
+      const json = await response.json()
+      if (response.ok) {
 
         setUser(json)
         console.log("GOTH TSIEHEISJSLK")
