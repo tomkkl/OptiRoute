@@ -2,14 +2,21 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import Datetime from "react-datetime";
 import {useGoogleMap, useLoadScript,} from '@react-google-maps/api'
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+
 import GMap from './GMap'
+import Home from '../Home/Home'
 
-
-export default function Map() {
+const Map = () => {
     const [name, setName] = useState('');
     const handleChangeName = event => {
         setName(event.target.value);
     };
+
+    // const { isLoaded } = useJsApiLoader({
+    //     id: 'google-map-script',
+    //     googleMapsApiKey: "AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY"
+    //   })
     
     const [chosenDate, setChosenDate] = useState(new Date());
     return (
@@ -28,3 +35,5 @@ export default function Map() {
         </div>
     );
 }
+
+export default Map
