@@ -7,6 +7,7 @@ import Home from './Components/Home/Home';
 import CalendarMain from './Components/Calendar_v2/CalendarMain.jsx';
 import UserProfile from './Components/UserProfile/UserProfile';
 import Search from './Components/Search/Search';
+import Category from './Components/Category/Category.jsx';
 import Recurrence from './Components/Recurrence/Recurrence';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
@@ -25,6 +26,7 @@ function App() {
          {/* <Route path="/calendar" element={<CalendarComponent />} /> */}
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/category" element={<Category />} />
         <Route path="/recurring-events" element={<Recurrence />} />
       </Routes>
     </>

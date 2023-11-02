@@ -3,6 +3,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const scheduleUsers = require('./Schedule/users')
 const scheduleEvents =  require('./Schedule/event')
+const colorEvents =  require('./Schedule/color')
+
 
 // create express app
 const optiroute = express()
@@ -20,6 +22,10 @@ optiroute.use('/api/users',scheduleUsers)
 
 //Events
 optiroute.use('/api/events',scheduleEvents)
+
+//Colors
+optiroute.use('/api/colors',colorEvents)
+
 
 //Connect to DB
 mongoose.connect(process.env.MONGO_URI)

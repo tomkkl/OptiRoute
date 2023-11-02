@@ -24,6 +24,7 @@
     "moment-timezone": "^0.5.43",
     "mongose": "^0.0.2-security",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-datepicker": "^4.21.0",
     "react-datetime": "^3.2.0",
     "react-dom": "^18.2.0",

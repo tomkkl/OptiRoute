@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
@@ -17,6 +17,7 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
     const [notification_time, setNotification_time] = useState(''); // State for category field
     const [startRecur, setStartRecur] = useState('');
     const [endRecur, setEndRecur] = useState('');
+    const [categoryOptions, setCategoryOptions] = useState([]);
 
 
     const handleAddEvent = () => {
@@ -33,7 +34,21 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
     };
 
     const recurrenceOptions = ['No recurrence', 'Daily', 'Weekly'];
-    const categoryOptions = ['Personal', 'Work'];
+    useEffect(() => {
+        // Fetch category options from the database
+        fetch('/api/colors')
+            .then(response => response.json())
+            .then(data => {
+                // Update categoryOptions state with the received categories
+                // console.log(data);
+                // console.log(data.colorName);
+                setCategoryOptions(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, []); // Empty dependency array ensures the effect runs once after the initial render
+
 
     return (
     <Modal
@@ -79,34 +94,38 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
           </select>
         </div>
         <div>
-                    <label>Start Recurring Date:</label>
-                    {/* Disable the input field when "No recurrence" is selected */}
-                    <Datetime
-                        value={startRecur}
-                        onChange={(date) => setStartRecur(date)}
-                        inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence' }}
-                    />
-                </div>
-                <div>
-                    <label>End Recurring Date:</label>
-                    {/* Disable the input field when "No recurrence" is selected */}
-                    <Datetime
-                        value={endRecur}
-                        onChange={(date) => setEndRecur(date)}
-                        inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence' }}
-                    />
-                </div>
-        <div>
-          <label>Category:</label>
-          <select className="select-field" value={category} onChange={(e) => setCategory(e.target.value)}>
-              <option value="">Select Category</option>
-              {categoryOptions.map(option => (
-                  <option key={option} value={option}>
-                      {option}
-                  </option>
-              ))}
-          </select>
-        </div>
+        <label>Start Recurring Date:</label>
+        {/* Disable the input field when "No recurrence" is selected */}
+        <Datetime
+            value={startRecur}
+            onChange={(date) => setStartRecur(date)}
+            inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence' }}
+        />
+    </div>
+    <div>
+        <label>End Recurring Date:</label>
+        {/* Disable the input field when "No recurrence" is selected */}
+        <Datetime
+            value={endRecur}
+            onChange={(date) => setEndRecur(date)}
+            inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence' }}
+        />
+    </div>
+    <div>
+        <label>Category:</label>
+        <select className="select-field" value={category} onChange={(e) => setCategory(e.target.value)}>
+            <option value="">Select Category</option>
+            {categoryOptions.length > 0 ? (
+                categoryOptions.map(option => (
+                    <option key={option.id} value={option.colorName}>
+                        {option.colorName}
+                    </option>
+                ))
+            ) : (
+                <option value="" disabled>No Category added</option>
+            )}
+        </select>
+    </div>
         <label>Description:</label>
         <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
         <button onClick={handleAddEvent}>Add Event</button>
