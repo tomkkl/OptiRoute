@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, {useEffect } from 'react';
 import Modal from 'react-modal';
-import { formatDate } from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import EventDetailsModal from './EventDetailsModal'; // Import the EventDetailsModal component
 import AddEventModal from './AddEventModal';
+import AddColorModal from './AddColorModal';
 import { useNavigate } from 'react-router-dom';
 import './CalendarMain.css';
 
@@ -31,8 +31,10 @@ export class CalendarMain extends React.Component {
     events: [],
     isModalOpen: false,
     isAddEventModalOpen: false,
+    isAddColorModalOpen: false,
     selectedEvent: null,
-    searchTerm: ""
+    searchTerm: "",
+    categoryTerm: "",
   }
 
   componentDidMount() {
@@ -42,13 +44,16 @@ export class CalendarMain extends React.Component {
       .then((data) => {
         const transformedEvents = data.map((event) => {
 
+          let eventColor = 'blue';
           //assign color on category 
-          let eventColor = "blue"; // Default color
           if (event.category === 'Work') {
             eventColor = 'red'; // Work events are red
           } else if (event.category === 'Personal') {
             eventColor = 'green'; // Personal events are green
           }
+          // this.getColorCode(event.category);
+          // let eventColor = this.state.eventColor;
+          // console.log(eventColor)
 
           const start = new Date(event.start);
           const end = new Date(event.end);
@@ -118,6 +123,17 @@ export class CalendarMain extends React.Component {
     this.setState({ searchTerm: "" });
   };
 
+  handleCategoryChange = (e) => {
+    this.setState({ categoryTerm: e.target.value});
+  };
+
+  handleCategoryhSubmit = (e) => {
+    e.preventDefault();
+    const { categoryTerm } = this.state;
+    this.props.navigate(`/category?category=${categoryTerm}`);
+    this.setState({ categoryTerm: "" });
+  };
+
   // css here 
   searchInputStyle = {
     padding: '8px 12px',
@@ -144,10 +160,16 @@ export class CalendarMain extends React.Component {
     return (
       <div>
         <button onClick={this.openAddEventModal}>Add Event</button>
+        <button onClick={this.openAddColorModal}>Add Category</button>
         <AddEventModal
           isOpen={this.state.isAddEventModalOpen}
           closeModal={this.closeAddEventModal}
           addEvent={this.addEvent}
+        />
+        <AddColorModal
+          isOpen={this.state.isAddColorModalOpen}
+          closeModal={this.closeAddColorModal}
+          addColor={this.addColor}
         />
         <div>
           <FullCalendar
@@ -198,6 +220,19 @@ export class CalendarMain extends React.Component {
           className="common-dimensions"
         />
       </form >
+
+      <form onSubmit={this.handleCategoryhSubmit} style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+        <input // <form onSubmit... - START OF BEN WORK
+          type="text" 
+          placeholder="Search All Category"
+          value={this.categoryTerm}
+          onChange={this.handleCategoryChange}
+          style={this.searchInputStyle}
+          className="common-dimensions"
+        />
+      </form >
+
+
       </div>
     )
   }
@@ -221,7 +256,6 @@ export class CalendarMain extends React.Component {
   };
 
 
-
   closeModal = () => {
     this.setState({
       selectedEvent: null,
@@ -238,6 +272,18 @@ export class CalendarMain extends React.Component {
   closeAddEventModal = () => {
     this.setState({
       isAddEventModalOpen: false,
+    });
+  };
+
+  openAddColorModal = () => {
+    this.setState({
+      isAddColorModalOpen: true,
+    });
+  };
+
+  closeAddColorModal = () => {
+    this.setState({
+      isAddColorModalOpen: false,
     });
   };
 
@@ -268,6 +314,12 @@ export class CalendarMain extends React.Component {
         } else if (data.category === 'Personal') {
           eventColor = 'green'; // Personal events are green
         }
+
+        // this.getColorCode(data.category);
+        // let eventColor = this.state.eventColor;
+        // console.log(eventColor)
+
+
 
         const start = new Date(data.start);
         const end = new Date(data.end);
@@ -326,6 +378,42 @@ export class CalendarMain extends React.Component {
       });
   };
 
+  // getColorCode = async (categoryName) => {
+  //   try {
+  //     const response = await fetch('/api/colors');
+  //     const data = await response.json();
+
+  //     const colorObject = data.find((color) => color.colorName === categoryName);
+
+  //     if (colorObject) {
+  //       // If color object is found, update the eventColor state
+  //       this.setState({ eventColor: colorObject.colorCode });
+  //     } else {
+  //       // If color object is not found, set a default color code
+  //       this.setState({ eventColor: 'blue' }); // or any default color code you prefer
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching color code:', error);
+  //     // Set a default color code in case of an error
+  //     this.setState({ eventColor: 'blue' }); // or any default color code you prefer
+  //   }
+  // };
+  
+
+  addColor = ({ colorName, colorCode}) => {
+    // Make a POST request to your API endpoint to save the event to MongoDB
+    fetch('/api/colors', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({colorName, colorCode}),
+    })
+      .then((response) => response.json())
+      .catch((error) => {
+        console.error('Error adding event:', error);
+      });
+  };
 
   handleDelete = () => {
     const { selectedEvent } = this.state;
