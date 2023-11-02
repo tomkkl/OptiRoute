@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
+import 'moment-timezone';
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './AddEventModal.css'; // Import your CSS file for modal styling
+import moment from 'moment';
 
 
 Modal.setAppElement('#root');
@@ -104,20 +105,25 @@ class EditEventModal extends Component {
         <label>Start Date and Time:</label>
         <Datetime
             value={start}
+            
             onChange={(date) => this.setState({ start: date })}
-            inputProps={{ placeholder: 'Select Start Date and Time' }}
+            inputProps={{ placeholder: 'Select Start Date and Time',
+                          value: moment(start).format('MM/DD/YYYY h:mm A'),
+          }}
         />
         <label>End Date and Time:</label>
         <Datetime
             value={end}
             onChange={(date) => this.setState({ end: date })}
-            inputProps={{ placeholder: 'Select End Date and Time' }}
+            inputProps={{ placeholder: 'Select End Date and Time',
+                          value: moment(end).format('MM/DD/YYYY h:mm A') }}
         />
         <label>Notification Date and Time:</label>
         <Datetime
             value={notification_time}
             onChange={(date) => this.setState({ notification_time: date })}
-            inputProps={{ placeholder: 'Select Notification Date and Time' }}
+            inputProps={{ placeholder: 'Select Notification Date and Time',
+                           value: moment(notification_time).format('MM/DD/YYYY h:mm A') }}
         />
         <label>Location:</label>
         <input type="text" value={location} onChange={(e) => this.setState({ location: e.target.value })} />
@@ -138,7 +144,8 @@ class EditEventModal extends Component {
                     <Datetime
                         value={startRecur}
                         onChange={(date) => this.setState({ startRecur: date })}
-                        inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence' }}
+                        inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence',
+                        value: moment(startRecur).format('MM/DD/YYYY') }}
                     />
                 </div>
                 <div>
@@ -147,7 +154,8 @@ class EditEventModal extends Component {
                     <Datetime
                         value={endRecur}
                         onChange={(date) => this.setState({ endRecur: date })}
-                        inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence' }}
+                        inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence',
+                        value: moment(endRecur).format('MM/DD/YYYY') }}
                     />
                 </div>
         <div>

@@ -67,7 +67,12 @@ export class CalendarMain extends React.Component {
 
 
           if (event.recurrence !== "No recurrence") {
-            daysOfWeek = [1];
+            if (event.recurrence === "Daily") {
+              daysOfWeek = null;
+            } else {
+              const dayOfWeek = start.getDay() === 0 ? 7 : start.getDay(); // Adjusting Sunday to 7
+              daysOfWeek = [dayOfWeek];
+            }
             startTime = start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes();
             endTime = end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
             startRecur = new Date(event.startRecur).toISOString(); 
@@ -281,7 +286,12 @@ export class CalendarMain extends React.Component {
 
 
         if (data.recurrence !== "No recurrence") {
-          daysOfWeek = [1];
+          if (data.recurrence === "Daily") {
+            daysOfWeek = null;
+          } else {
+            const dayOfWeek = start.getDay() === 0 ? 7 : start.getDay(); // Adjusting Sunday to 7
+            daysOfWeek = [dayOfWeek];
+          }
           startTime = start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes();
           endTime = end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
           startRecur = new Date(data.startRecur).toISOString(); 
@@ -289,7 +299,7 @@ export class CalendarMain extends React.Component {
         
         // Update the events state to include the newly added event
         const newEvent = {
-          allDay: false,
+            allDay: false,
             id: data._id,
             title: data.title,
             start: start,
@@ -389,22 +399,73 @@ updateEvent = ({ id, title, start, end, location, description, recurrence, categ
     body: JSON.stringify({ title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur}),
   })
     .then((response) => response.json())
-    .then((updatedEvent) => {
-      // Handle the updated event data as needed
-      console.log('Event updated successfully:', updatedEvent);
-
+    .then((data) => {
       // Find the index of the updated event in the state
       const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
+      console.log(updatedEventIndex)
 
       // Update the events state to reflect the changes
       if (updatedEventIndex !== -1) {
+        let eventColor = "blue"; // Default color
+        if (data.category === 'Work') {
+          eventColor = 'red'; // Work events are red
+        } else if (data.category === 'Personal') {
+          eventColor = 'green'; // Personal events are green
+        }
+
+        const start = new Date(data.start);
+        const end = new Date(data.end);
+        let daysOfWeek = null;
+        let startTime = null;
+        let endTime = null;
+        let startRecur = null;
+        let endRecur = null;
+
+
+        if (data.endRecur) {
+          endRecur = new Date(data.endRecur).toISOString();
+        } 
+
+
+        if (data.recurrence !== "No recurrence") {
+          if (data.recurrence === "Daily") {
+            daysOfWeek = null;
+          } else {
+            const dayOfWeek = start.getDay() === 0 ? 7 : start.getDay(); // Adjusting Sunday to 7
+            daysOfWeek = [dayOfWeek];
+          }
+          startTime = start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes();
+          endTime = end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
+          startRecur = new Date(data.startRecur).toISOString(); 
+        } else {endRecur = null;}
+        
+        // Update the events state to include the newly added event
+        const newEvent = {
+            allDay: false,
+            id: data._id,
+            title: data.title,
+            start: start,
+            end: end,
+            notification_time: new Date(data.notification_time),
+            recurrence: data.recurrence,
+            category: data.category,
+            location: data.location,
+            description: data.description,
+            color: eventColor, // Set event color based on category
+            daysOfWeek: daysOfWeek,//[1,3],
+            startTime: startTime,
+            endTime: endTime,
+            startRecur: startRecur, 
+            endRecur: endRecur,
+        };
+
+
         this.setState((prevState) => {
           const updatedEvents = [...prevState.events];
-          updatedEvents[updatedEventIndex] = updatedEvent;
+          updatedEvents[updatedEventIndex] = newEvent;
           return {
             events: updatedEvents,
             isModalOpen: false,
-            selectedEvent: null,
           };
         });
       }
