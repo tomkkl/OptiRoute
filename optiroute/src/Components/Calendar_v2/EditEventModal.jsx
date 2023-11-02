@@ -25,10 +25,18 @@ class EditEventModal extends Component {
       startRecur: '',
       endRecur: ''
     };
+    this.autocomplete = null;
+    this.inputRef = React.createRef();
   }
 
   componentDidMount() {
     const { event } = this.props;
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    script.onload = this.initAutocomplete;
+    document.head.appendChild(script);
     if (event) {
       this.setState({
         title: event.title,
@@ -44,6 +52,24 @@ class EditEventModal extends Component {
       });
     }
   }
+
+  initAutocomplete = () => {
+    this.autocomplete = new window.google.maps.places.Autocomplete(this.inputRef.current);
+    this.autocomplete.addListener('place_changed', this.handlePlaceChanged);
+  };
+
+  handlePlaceChanged = () => {
+    const place = this.autocomplete.getPlace();
+    if (place.geometry) {
+      // Extract the latitude and longitude from the chosen place.
+      const latitude = place.geometry.location.lat();
+      const longitude = place.geometry.location.lng();
+
+      console.log('Selected address:', place.formatted_address);
+      console.log('Latitude:', latitude);
+      console.log('Longitude:', longitude);
+    }
+  };
 
   handleEditEvent = () => {
     const {title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
@@ -111,6 +137,7 @@ class EditEventModal extends Component {
                           value: moment(start).format('MM/DD/YYYY h:mm A'),
           }}
         />
+        
         <label>End Date and Time:</label>
         <Datetime
             value={end}
@@ -127,6 +154,13 @@ class EditEventModal extends Component {
         />
         <label>Location:</label>
         <input type="text" value={location} onChange={(e) => this.setState({ location: e.target.value })} />
+        <div>
+        <input
+          type="text"
+          placeholder="Enter an address"
+          ref={this.inputRef}
+        />
+      </div>
         <div>
         <label>Recurrence:</label>
           <select className="select-field" value={recurrence} onChange={(e) => this.setState({ recurrence: e.target.value })}>

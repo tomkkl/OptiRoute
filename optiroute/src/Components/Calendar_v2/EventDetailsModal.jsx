@@ -7,6 +7,7 @@ import EditEventModal from './EditEventModal'; // Import the EditEventModal comp
 Modal.setAppElement('#root');
 
 const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) => {
+  
   console.log("EventDetailsModal id: " + event_id)
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [event, setEvent] = useState(null);

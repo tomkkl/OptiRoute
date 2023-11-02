@@ -8,6 +8,8 @@ import CalendarMain from './Components/Calendar_v2/CalendarMain.jsx';
 import UserProfile from './Components/UserProfile/UserProfile';
 import Search from './Components/Search/Search';
 import Recurrence from './Components/Recurrence/Recurrence';
+import Map from './Components/Map/Map';
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
 import "react-datetime/css/react-datetime.css";
@@ -26,6 +28,7 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/search" element={<Search />} />
         <Route path="/recurring-events" element={<Recurrence />} />
+        <Route path="/map" element={<Map />} />
       </Routes>
     </>
   );
