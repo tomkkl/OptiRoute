@@ -19,7 +19,7 @@ var description = true; // controls whether description should be included in no
 // Figure out how to get data from John
 // Figure out how to send real time notis
 // Need new field "notification time"
-const NotificationSettings = () => {
+const NotificationSettings = ({ onNotificationHistoryAdd }) => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
   const [startDateTimeEnabled, setStartDateTimeEnabled] = useState(false);
@@ -28,20 +28,28 @@ const NotificationSettings = () => {
   const [descriptionEnabled, setDescriptionEnabled] = useState(false);
   const [notifications, setNotifications] = useState(null); // read in notification objects
 
+
+
     useEffect(() => {
-      const fetchNotifications = async () => {
-        const response = await fetch('/api/notifications')
-        const json = await response.json()
 
-        if (response.ok) {
-          setNotifications(json)
-        }
+      // Specify the date and time you want to schedule the notification
+    const scheduledTime = new Date('2023-12-01T09:00:00'); // Change this to your desired date and time
+    // Calculate the time difference in milliseconds
+    const timeUntilScheduledTime = scheduledTime - new Date();
+    
+    // Check if the scheduled time is in the future
+    if (timeUntilScheduledTime > 0) {
+      const notificationTimer = setTimeout(() => {
+        toast.info(message);
+      }, timeUntilScheduledTime);
+  
+      // Clear the timer if the component unmounts
+      return () => {
+        clearTimeout(notificationTimer);
+      };
+    }
 
-      }
-
-      fetchNotifications()
-
-    }, [])
+    }, [onNotificationHistoryAdd])
     
     /* Toggle Notifications On/Off start */
     const toggleNotifications = () => {
@@ -182,6 +190,8 @@ const NotificationSettings = () => {
             toast.info(message)
         }
     };
+
+
     /* Toggle Description End */
 
     return(
