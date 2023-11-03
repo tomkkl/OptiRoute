@@ -1,13 +1,16 @@
-import React, {useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from 'react-modal';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import Datetime from "react-datetime";
 import interactionPlugin from '@fullcalendar/interaction';
 import EventDetailsModal from './EventDetailsModal'; // Import the EventDetailsModal component
 import AddEventModal from './AddEventModal';
 import AddColorModal from './AddColorModal';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
+
 import './CalendarMain.css';
 
 Modal.setAppElement('#root');
@@ -35,8 +38,11 @@ export class CalendarMain extends React.Component {
     selectedEvent: null,
     searchTerm: "",
     categoryTerm: "",
+    startSearchDate: new Date(),
+    endSearchDate: new Date(),
+    validInputSearching: true
   }
-
+  
   componentDidMount() {
     // fetch events from the API endpoint
     fetch('/api/events') 
@@ -130,6 +136,34 @@ export class CalendarMain extends React.Component {
     this.setState({ categoryTerm: e.target.value});
   };
 
+  handleStartSearchDateChange = (e) => {
+    this.setState({ startSearchDate: e._d});
+    console.log(e._d)
+  };
+
+  handleEndSearchDateChange = (e) => {
+    this.setState({ endSearchDate: e._d});
+    console.log(e._d)
+    console.log(this.state.endSearchDate)
+  };
+
+  handleSearchDates = () => {
+    console.log(this.state.endSearchDate);
+    console.log(this.state.startSearchDate);
+    if(moment(this.state.endSearchDate).format('MM/DD/YYYY') === moment(this.state.startSearchDate).format('MM/DD/YYYY')){
+      console.log("Same");
+      this.props.navigate(`/SBD?query=${moment(this.state.startSearchDate).format('MM/DD/YYYY')}&query2=${moment(this.state.endSearchDate).format('MM/DD/YYYY')}`);   
+    } else if(moment(this.state.endSearchDate).format('MM/DD/YYYY') > moment(this.state.startSearchDate).format('MM/DD/YYYY')){
+      console.log("ENDER LARGER");
+      this.props.navigate(`/SBD?query=${moment(this.state.startSearchDate).format('MM/DD/YYYY')}&query2=${moment(this.state.endSearchDate).format('MM/DD/YYYY')}`);   
+    } else {
+      alert("Bad Date range")
+      console.log("Bad Date range");
+    }
+    console.log("Searching dates");
+  }
+
+
   handleCategoryhSubmit = (e) => {
     e.preventDefault();
     const { categoryTerm } = this.state;
@@ -160,7 +194,10 @@ export class CalendarMain extends React.Component {
 
 
   render() {
+
+
     return (
+      
       <div>
         <AddEventModal
           isOpen={this.state.isAddEventModalOpen}
@@ -235,11 +272,30 @@ export class CalendarMain extends React.Component {
           className="common-dimensions"
         />
       </form >
+      <div>
+          <label className="label">Start Search Date:</label>
+          <Datetime 
+          value={this.startSearchDate}
+          onChange={this.handleStartSearchDateChange} />
       </div>
+      <div>
+          <label className="label">End Search Date:</label>
+          <Datetime 
+          value={this.endSearchDate}
+          onChange={this.handleEndSearchDateChange} 
+           />
+      </div>
+      
+      <div className='flex-container-center'>
+          <button onClick={this.handleSearchDates} className='common-dimensions'>Search Dates</button>
+        </div>
+
 
       </div>
+
     )
   }
+  
 
   handleWeekendsToggle = () => {
     this.setState({

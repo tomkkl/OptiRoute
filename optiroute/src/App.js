@@ -10,6 +10,7 @@ import Search from './Components/Search/Search';
 import Category from './Components/Category/Category.jsx';
 import Recurrence from './Components/Recurrence/Recurrence';
 import Map from './Components/Map/Map';
+import SearchByDates from './Components/SearchByDates/SearchByDates';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
@@ -28,6 +29,7 @@ function App() {
          {/* <Route path="/calendar" element={<CalendarComponent />} /> */}
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/SBD" element={<SearchByDates />} />
         <Route path="/category" element={<Category />} />
         <Route path="/recurring-events" element={<Recurrence />} />
         <Route path="/map" element={<Map />} />

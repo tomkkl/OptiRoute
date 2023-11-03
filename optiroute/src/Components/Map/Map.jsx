@@ -27,6 +27,7 @@ const Map = () => {
 
     const handleClick = () => {
         fetch(`/api/events`)
+
             .then(response => response.json())
             .then(data => {
                 // Filter out any events that have a recurrence value of "No recurrence"
