@@ -15,248 +15,258 @@ var location = true; // controls whether location should be included in notifica
 var description = true; // controls whether description should be included in notification
 // dont forget notification time
 
+const NotificationSettings = () => {
+  return(
+    <div>
+    <h2>Settings Page</h2>
+    <p>{sendTitle}</p>
+    <h2> Hello Worlld</h2>
+    </div>
+  );
+}
+
 
 
 // Figure out fetch and all that stuff
 // Figure out how to get data from John
 // Figure out how to send real time notis
 // Need new field "notification time"
-const NotificationSettings = ({ onNotificationHistoryAdd }) => {
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const [darkModeEnabled, setDarkModeEnabled] = useState(false);
-  const [startDateTimeEnabled, setStartDateTimeEnabled] = useState(false);
-  const [endDateTimeEnabled, setEndDateTimeEnabled] = useState(false);
-  const [locationEnabled, setLocationEnabled] = useState(false);
-  const [descriptionEnabled, setDescriptionEnabled] = useState(false);
-  const [notifications, setNotifications] = useState(null); // read in notification objects
+// const NotificationSettings = ({ onNotificationHistoryAdd }) => {
+//   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+//   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
+//   const [startDateTimeEnabled, setStartDateTimeEnabled] = useState(false);
+//   const [endDateTimeEnabled, setEndDateTimeEnabled] = useState(false);
+//   const [locationEnabled, setLocationEnabled] = useState(false);
+//   const [descriptionEnabled, setDescriptionEnabled] = useState(false);
+//   const [notifications, setNotifications] = useState(null); // read in notification objects
 
-  const [events, setEvents] = useState(null)
-    useEffect(() => {
-      // const fetchEvents = async () => {
-      //   const response = await fetch('/api/event')
-      //   const json = await response.json()
-      //   if (response.ok) {
-      //     setEvents(json)
-      //     console.log(json)
-      //   }
-      // }
-      // fetchEvents()
-      // Specify the date and time you want to schedule the notification
-    // const scheduledTime = new Date('2023-12-01T09:00:00'); // Change this to your desired date and time
-    const scheduledTime = sendNotificationTime;
-    // Calculate the time difference in milliseconds
-    const timeUntilScheduledTime = scheduledTime - new Date();
+//   const [events, setEvents] = useState(null)
+//     useEffect(() => {
+//       // const fetchEvents = async () => {
+//       //   const response = await fetch('/api/event')
+//       //   const json = await response.json()
+//       //   if (response.ok) {
+//       //     setEvents(json)
+//       //     console.log(json)
+//       //   }
+//       // }
+//       // fetchEvents()
+//       // Specify the date and time you want to schedule the notification
+//     // const scheduledTime = new Date('2023-12-01T09:00:00'); // Change this to your desired date and time
+//     const scheduledTime = sendNotificationTime;
+//     // Calculate the time difference in milliseconds
+//     const timeUntilScheduledTime = scheduledTime - new Date();
     
-    // Check if the scheduled time is in the future
-    if (timeUntilScheduledTime > 0) {
-      const notificationTimer = setTimeout(() => {
-        toast.info(message);
-      }, timeUntilScheduledTime);
+//     // Check if the scheduled time is in the future
+//     if (timeUntilScheduledTime > 0) {
+//       const notificationTimer = setTimeout(() => {
+//         toast.info(message);
+//       }, timeUntilScheduledTime);
   
-      // Clear the timer if the component unmounts
-      return () => { // cleanup function 
-        clearTimeout(notificationTimer);
-      };
-    }
+//       // Clear the timer if the component unmounts
+//       return () => { // cleanup function 
+//         clearTimeout(notificationTimer);
+//       };
+//     }
 
-    }, [onNotificationHistoryAdd]) // specifies when the effect should run
+//     }, [onNotificationHistoryAdd]) // specifies when the effect should run
     
-    /* Toggle Notifications On/Off start */
-    const toggleNotifications = () => {
-        setNotificationsEnabled(!notificationsEnabled);
-        /* off = true, on = false */
-        const notificationMessage = notificationsEnabled
-          ? 'Notifications are now OFF'
-          : 'Notifications are now ON';
+//     /* Toggle Notifications On/Off start */
+//     const toggleNotifications = () => {
+//         setNotificationsEnabled(!notificationsEnabled);
+//         /* off = true, on = false */
+//         const notificationMessage = notificationsEnabled
+//           ? 'Notifications are now OFF'
+//           : 'Notifications are now ON';
 
         
-        onOff = notificationsEnabled;
+//         onOff = notificationsEnabled;
     
-        toast.info(notificationMessage);
-      };
+//         toast.info(notificationMessage);
+//       };
 
-    /* Toggle Notifications On/Off end*/
+//     /* Toggle Notifications On/Off end*/
 
 
-    /* Toggle Dark Mode On/Off Start */
+//     /* Toggle Dark Mode On/Off Start */
     
 
-    const toggleDarkMode = () => {
-        setDarkModeEnabled(!darkModeEnabled);
-        // off = true, on = false
-        const darkModeMessage = darkModeEnabled
-          ? 'Dark Mode is now OFF'
-          : 'Dark Mode is now ON';
+//     const toggleDarkMode = () => {
+//         setDarkModeEnabled(!darkModeEnabled);
+//         // off = true, on = false
+//         const darkModeMessage = darkModeEnabled
+//           ? 'Dark Mode is now OFF'
+//           : 'Dark Mode is now ON';
           
-          if (!darkModeEnabled) {
-              darkMode = 'dark'
-          } else {
-              darkMode = 'light'
-          } 
+//           if (!darkModeEnabled) {
+//               darkMode = 'dark'
+//           } else {
+//               darkMode = 'light'
+//           } 
         
-        toast.info(darkModeMessage)        
+//         toast.info(darkModeMessage)        
         
-      };
-    /* Toggle Dark Mode On/Off End */ 
+//       };
+//     /* Toggle Dark Mode On/Off End */ 
 
 
-    /* Toggle Start Date/Time Start*/
+//     /* Toggle Start Date/Time Start*/
     
 
-    const toggleStartDateTime = () => {
-        setStartDateTimeEnabled(!startDateTimeEnabled);
-        const startDateTimeMessage = startDateTimeEnabled
-          ? 'Start date/time will no longer be displayed'
-          : 'Start date/time will now be displayed';
+//     const toggleStartDateTime = () => {
+//         setStartDateTimeEnabled(!startDateTimeEnabled);
+//         const startDateTimeMessage = startDateTimeEnabled
+//           ? 'Start date/time will no longer be displayed'
+//           : 'Start date/time will now be displayed';
 
-        start = startDateTimeEnabled;
+//         start = startDateTimeEnabled;
 
-        toast.info(startDateTimeMessage)
+//         toast.info(startDateTimeMessage)
 
-        const toAdd = sendStart; // String that we will be appending
-        if(!start) { // include start message only if start is false
-            message = message + toAdd
-        } else { // remove start message
-            const newString = message.replace(toAdd, "");
-            message = newString;
-        }
+//         const toAdd = sendStart; // String that we will be appending
+//         if(!start) { // include start message only if start is false
+//             message = message + toAdd
+//         } else { // remove start message
+//             const newString = message.replace(toAdd, "");
+//             message = newString;
+//         }
         
-    };
-    /* Toggle Start Date/Time End */
+//     };
+//     /* Toggle Start Date/Time End */
 
 
-    /* Toggle End Date/Time Start */
+//     /* Toggle End Date/Time Start */
     
 
-    const toggleEndDateTime = () => {
-        setEndDateTimeEnabled(!endDateTimeEnabled);
-        const endDateTimeMessage = endDateTimeEnabled
-          ? 'End date/time will no longer be displayed'
-          : 'End date/time will now be displayed';
+//     const toggleEndDateTime = () => {
+//         setEndDateTimeEnabled(!endDateTimeEnabled);
+//         const endDateTimeMessage = endDateTimeEnabled
+//           ? 'End date/time will no longer be displayed'
+//           : 'End date/time will now be displayed';
 
-        end = endDateTimeEnabled
+//         end = endDateTimeEnabled
 
-        toast.info(endDateTimeMessage);
-        const toAdd = sendEnd;
-        if (!end) { // include end message only if end is false
-            message = message + toAdd
-        } else { // remove end message
-            const newString = message.replace(toAdd, '');
-            message = newString;
-        }
+//         toast.info(endDateTimeMessage);
+//         const toAdd = sendEnd;
+//         if (!end) { // include end message only if end is false
+//             message = message + toAdd
+//         } else { // remove end message
+//             const newString = message.replace(toAdd, '');
+//             message = newString;
+//         }
         
-    };
-    /* Toggle End Date/Time End */
+//     };
+//     /* Toggle End Date/Time End */
 
 
-    /* Toggle Location Start */
+//     /* Toggle Location Start */
     
 
-    const toggleLocation = () => {
-        setLocationEnabled(!locationEnabled);
-        const locationMessage = locationEnabled
-          ? 'Location will no longer be displayed'
-          : 'Location will now be displayed';
+//     const toggleLocation = () => {
+//         setLocationEnabled(!locationEnabled);
+//         const locationMessage = locationEnabled
+//           ? 'Location will no longer be displayed'
+//           : 'Location will now be displayed';
 
-        location = locationEnabled
+//         location = locationEnabled
 
-        toast.info(locationMessage);
-        const toAdd = sendLocation;
-        if(!location) { // include location only if location variable is false
-            message = message + toAdd;
-        } else { // remove location message
-            const newString = message.replace(toAdd, "");
-            message = newString;
-        }
+//         toast.info(locationMessage);
+//         const toAdd = sendLocation;
+//         if(!location) { // include location only if location variable is false
+//             message = message + toAdd;
+//         } else { // remove location message
+//             const newString = message.replace(toAdd, "");
+//             message = newString;
+//         }
 
-    };
-    /* Toggle Location End */
+//     };
+//     /* Toggle Location End */
 
-    /* Toggle Description Start */
+//     /* Toggle Description Start */
     
 
-    const toggleDescription = () => {
-        setDescriptionEnabled(!descriptionEnabled);
-        const descriptionMessage = descriptionEnabled
-          ? 'Description will no longer be displayed'
-          : 'Description will now be displayed';
+//     const toggleDescription = () => {
+//         setDescriptionEnabled(!descriptionEnabled);
+//         const descriptionMessage = descriptionEnabled
+//           ? 'Description will no longer be displayed'
+//           : 'Description will now be displayed';
         
-        description = descriptionEnabled
-        toast.info(descriptionMessage);
+//         description = descriptionEnabled
+//         toast.info(descriptionMessage);
         
-        const toAdd = sendDescription;
+//         const toAdd = sendDescription;
 
-        if (!description) { // include description only if description is false
-            message = message + toAdd
-        } else { // remove description message
-            const newString = message.replace(toAdd, "");
-            message = newString
-        }
+//         if (!description) { // include description only if description is false
+//             message = message + toAdd
+//         } else { // remove description message
+//             const newString = message.replace(toAdd, "");
+//             message = newString
+//         }
         
-    };
+//     };
 
-    const printMessage = () => {
-        if(!onOff) {
-            toast.info(message)
-        }
-    };
+//     const printMessage = () => {
+//         if(!onOff) {
+//             toast.info(message)
+//         }
+//     };
 
 
-    /* Toggle Description End */
+//     /* Toggle Description End */
 
-    return(
-        <div className='two-labels-container'>
-            <h1>Notification Settings</h1>
-            <div>
-                <label>Toggle Notifications: </label>
-                <input type="checkbox" checked={notificationsEnabled} onChange={toggleNotifications} />
-            </div>
+//     return(
+//         <div className='two-labels-container'>
+//             <h1>Notification Settings</h1>
+//             <div>
+//                 <label>Toggle Notifications: </label>
+//                 <input type="checkbox" checked={notificationsEnabled} onChange={toggleNotifications} />
+//             </div>
 
-            <div>
-                <label>Toggle Dark Mode: </label>
-                <input type="checkbox" checked={darkModeEnabled} onChange={toggleDarkMode} />   
-            </div>
+//             <div>
+//                 <label>Toggle Dark Mode: </label>
+//                 <input type="checkbox" checked={darkModeEnabled} onChange={toggleDarkMode} />   
+//             </div>
 
-            <div>
-                <label>Show Start Date and Time: </label>
-                <input type="checkbox" checked={startDateTimeEnabled} onChange={toggleStartDateTime} /> 
-            </div>
+//             <div>
+//                 <label>Show Start Date and Time: </label>
+//                 <input type="checkbox" checked={startDateTimeEnabled} onChange={toggleStartDateTime} /> 
+//             </div>
 
-            <div>
-                <label>Show End Date and Time: </label>
-                <input type="checkbox" checked={endDateTimeEnabled} onChange={toggleEndDateTime} /> 
-            </div>
+//             <div>
+//                 <label>Show End Date and Time: </label>
+//                 <input type="checkbox" checked={endDateTimeEnabled} onChange={toggleEndDateTime} /> 
+//             </div>
 
-            <div>
-            <label>Show Location: </label>
-                <input type="checkbox" checked={locationEnabled} onChange={toggleLocation} /> 
-            </div>            
+//             <div>
+//             <label>Show Location: </label>
+//                 <input type="checkbox" checked={locationEnabled} onChange={toggleLocation} /> 
+//             </div>            
 
-            <div>
-                <label>Show Description: </label>
-                <input type="checkbox" checked={descriptionEnabled} onChange={toggleDescription} /> 
-            </div>
+//             <div>
+//                 <label>Show Description: </label>
+//                 <input type="checkbox" checked={descriptionEnabled} onChange={toggleDescription} /> 
+//             </div>
 
-            <div>
-                <button onClick={printMessage}>Print Notification</button>
-            </div>
+//             <div>
+//                 <button onClick={printMessage}>Print Notification</button>
+//             </div>
 
-            <ToastContainer
-                position="top-right"
-                autoClose = {5000}
-                hideProgressBar={false}
-                newestOnTop
-                closeOnClick = {true}
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme={darkMode}
+//             <ToastContainer
+//                 position="top-right"
+//                 autoClose = {5000}
+//                 hideProgressBar={false}
+//                 newestOnTop
+//                 closeOnClick = {true}
+//                 rtl={false}
+//                 pauseOnFocusLoss
+//                 draggable
+//                 pauseOnHover
+//                 theme={darkMode}
             
-            />
-        </div>
+//             />
+//         </div>
   
-    );
-}
+//     );
+// }
 
 export default NotificationSettings;

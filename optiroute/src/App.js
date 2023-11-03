@@ -15,7 +15,7 @@ import Modal from 'react-modal';
 import "react-datetime/css/react-datetime.css";
 import NotificationSettings from './Components/Notifications/NotificationSettings';
 import NotificationHistory from './Components/Notifications/NotificationHistory';
-
+import TestingPage from './Components/Notifications/TestingPage';
 
 function App() {
   return (
@@ -30,6 +30,7 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/notification-settings" element={<NotificationSettings />}/>
         <Route path="/notification-history" element={<NotificationHistory />} />
+        <Route path="/testing-page" element={<TestingPage />} />
       </Routes>
     </>
   );

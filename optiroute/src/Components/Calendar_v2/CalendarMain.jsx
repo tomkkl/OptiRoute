@@ -177,11 +177,8 @@ export class CalendarMain extends React.Component {
           </Link>
         </div>
 
-        <div>
-          <Link to="/notification-history">
-          <button>Notification History Log</button>
-          </Link>
-        </div>
+        <div onClick={() => {useNavigateWrapper("/notification-settings")}}>NotificationSettings</div>
+
 
         <AddEventModal
           isOpen={this.state.isAddEventModalOpen}
