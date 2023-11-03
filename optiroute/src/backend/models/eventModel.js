@@ -34,6 +34,21 @@ const eventSchema = new Schema({
         required: true
         // You can specify additional validation or constraints if needed
     },
+    address: {
+        type: String,
+        required: true
+        // You can specify additional validation or constraints if needed
+    },
+    longitude: {
+        type: int,
+        required: true
+        // You can specify additional validation or constraints if needed
+    },
+    latitude: {
+        type: int,
+        required: true
+        // You can specify additional validation or constraints if needed
+    },
     description: {
         type: String,
         required: true

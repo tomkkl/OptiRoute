@@ -18,6 +18,9 @@ class EditEventModal extends Component {
       start: '',
       end: '',
       location: '',
+      address: '',
+      longitude: 0,
+      latitude: 0,
       description: '',
       recurrence: '',
       category: '',
@@ -43,6 +46,9 @@ class EditEventModal extends Component {
         start: event.start,
         end: event.end,
         location: event.location,
+        address: place.formatted_address,
+        longitude: longitude,
+        latitude: latitude,
         description: event.description,
         recurrence: event.recurrence,
         category: event.category,
@@ -72,18 +78,21 @@ class EditEventModal extends Component {
   };
 
   handleEditEvent = () => {
-    const {title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
+    const {title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
     const {event, event_id, onEdit, closeModal } = this.props;
     console.log("hhhhh")
     console.log(event_id)
     let id = event_id;
-    if (title && start && end && location && description && recurrence && category && notification_time) {
+    if (title && start && end && location && address && longitude && latitude && description && recurrence && category && notification_time) {
       const updatedEvent = {
         id,
         title,
         start,
         end,
         location,
+        address,
+        longitude,
+        latitude,
         description,
         recurrence,
         category,
@@ -100,7 +109,7 @@ class EditEventModal extends Component {
 
   render() {
     const { isOpen, closeModal } = this.props;
-    const { title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
+    const { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
 
     const recurrenceOptions = ['No recurrence', 'Daily', 'Weekly'];
     const categoryOptions = ['Personal', 'Work'];

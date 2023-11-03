@@ -44,7 +44,7 @@ export class GMap extends Component {
         <Marker
           onClick={this.onMarkerClick}
           position={{ lat: 40, lng: -80 }}
-          name={'Indiana University'}
+          name={'Purdue University'}
         />
         <InfoWindow
           marker={this.state.activeMarker}
