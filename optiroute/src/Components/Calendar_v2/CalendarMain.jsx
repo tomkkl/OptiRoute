@@ -190,8 +190,8 @@ export class CalendarMain extends React.Component {
         <div className='flex-container-center'>
           <button onClick={() => this.props.navigate(`/recurring-events`)} className='common-dimensions'>Show Recurring Events</button>
         </div>
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-          <button onClick={() => {this.props.navigate("/map")}}>Create Map</button>
+        <div className='flex-container-center'>
+          <button onClick={() => this.props.navigate("/map")} className='common-dimensions'>Create Route</button>
         </div>
       
         <form onSubmit={this.handleSearchSubmit} style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>

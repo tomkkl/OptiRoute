@@ -73,9 +73,9 @@ class EditEventModal extends Component {
       this.longitude = longitude;
       this.latitude = latitude;
       this.address = place.formatted_address;
-      this.setState({ address: place.formatted_address})
-      this.setState({ latitude: place.geometry.location.lat()})
-      this.setState({ longitude: place.geometry.location.lng()})
+      this.setState({ address: place.formatted_address })
+      this.setState({ latitude: place.geometry.location.lat() })
+      this.setState({ longitude: place.geometry.location.lng() })
       console.log('Selected address:', place.formatted_address);
       console.log('Latitude:', latitude);
       console.log('Longitude:', longitude);
@@ -83,8 +83,8 @@ class EditEventModal extends Component {
   };
 
   handleEditEvent = () => {
-    const {title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
-    const {event, event_id, onEdit, closeModal } = this.props;
+    const { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
+    const { event, event_id, onEdit, closeModal } = this.props;
     console.log("hhhhh")
     console.log(event_id)
     let id = event_id;
@@ -139,88 +139,97 @@ class EditEventModal extends Component {
 
 
         <div className="modal-content">
-        <h2>Edit Event</h2>
-        <label>Title:</label>
-        <input type="text" value={title} onChange={(e) => this.setState({ title: e.target.value })} />
-        <label>Start Date and Time:</label>
-        <Datetime
+          <h2>Edit Event</h2>
+          <label>Title:</label>
+          <input type="text" value={title} onChange={(e) => this.setState({ title: e.target.value })} />
+          <label>Start Date and Time:</label>
+          <Datetime
             value={start}
-            
+
             onChange={(date) => this.setState({ start: date })}
-            inputProps={{ placeholder: 'Select Start Date and Time',
-                          value: moment(start).format('MM/DD/YYYY h:mm A'),
-          }}
-        />
-        
-        <label>End Date and Time:</label>
-        <Datetime
+            inputProps={{
+              placeholder: 'Select Start Date and Time',
+              value: moment(start).format('MM/DD/YYYY h:mm A'),
+            }}
+          />
+
+          <label>End Date and Time:</label>
+          <Datetime
             value={end}
             onChange={(date) => this.setState({ end: date })}
-            inputProps={{ placeholder: 'Select End Date and Time',
-                          value: moment(end).format('MM/DD/YYYY h:mm A') }}
-        />
-        <label>Notification Date and Time:</label>
-        <Datetime
+            inputProps={{
+              placeholder: 'Select End Date and Time',
+              value: moment(end).format('MM/DD/YYYY h:mm A')
+            }}
+          />
+          <label>Notification Date and Time:</label>
+          <Datetime
             value={notification_time}
             onChange={(date) => this.setState({ notification_time: date })}
-            inputProps={{ placeholder: 'Select Notification Date and Time',
-                           value: moment(notification_time).format('MM/DD/YYYY h:mm A') }}
-        />
-        <label>Location:</label>
-        <input type="text" value={location} onChange={(e) => this.setState({ location: e.target.value })} />
-        <label>Address:</label>
-        <div>
-        <input
-          type="text"
-          placeholder="Enter an address"
-          ref={this.inputRef}
-        />
-      </div>
-        <div>
-        <label>Recurrence:</label>
-          <select className="select-field" value={recurrence} onChange={(e) => this.setState({ recurrence: e.target.value })}>
+            inputProps={{
+              placeholder: 'Select Notification Date and Time',
+              value: moment(notification_time).format('MM/DD/YYYY h:mm A')
+            }}
+          />
+          <label>Location:</label>
+          <input type="text" value={location} onChange={(e) => this.setState({ location: e.target.value })} />
+          <label>Address:</label>
+          <div>
+            <input
+              type="text"
+              placeholder="Enter an address"
+              ref={this.inputRef}
+            />
+          </div>
+          <div>
+            <label>Recurrence:</label>
+            <select className="select-field" value={recurrence} onChange={(e) => this.setState({ recurrence: e.target.value })}>
               <option value="">Select Recurrence</option>
               {recurrenceOptions.map(option => (
-                  <option key={option} value={option}>
-                      {option}
-                  </option>
+                <option key={option} value={option}>
+                  {option}
+                </option>
               ))}
-          </select>
-        </div>
-        <div>
-                    <label>Start Recurring Date:</label>
-                    {/* Disable the input field when "No recurrence" is selected */}
-                    <Datetime
-                        value={startRecur}
-                        onChange={(date) => this.setState({ startRecur: date })}
-                        inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence',
-                        value: moment(startRecur).format('MM/DD/YYYY') }}
-                    />
-                </div>
-                <div>
-                    <label>End Recurring Date:</label>
-                    {/* Disable the input field when "No recurrence" is selected */}
-                    <Datetime
-                        value={endRecur}
-                        onChange={(date) => this.setState({ endRecur: date })}
-                        inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence',
-                        value: moment(endRecur).format('MM/DD/YYYY') }}
-                    />
-                </div>
-        <div>
-          <label>Category:</label>
-          <select className="select-field" value={category} onChange={(e) => this.setState({ category: e.target.value })}>
+            </select>
+          </div>
+          <div>
+            <label>Start Recurring Date:</label>
+            {/* Disable the input field when "No recurrence" is selected */}
+            <Datetime
+              value={startRecur}
+              onChange={(date) => this.setState({ startRecur: date })}
+              inputProps={{
+                placeholder: 'Select Date', disabled: recurrence === 'No recurrence',
+                value: moment(startRecur).format('MM/DD/YYYY')
+              }}
+            />
+          </div>
+          <div>
+            <label>End Recurring Date:</label>
+            {/* Disable the input field when "No recurrence" is selected */}
+            <Datetime
+              value={endRecur}
+              onChange={(date) => this.setState({ endRecur: date })}
+              inputProps={{
+                placeholder: 'Select Date', disabled: recurrence === 'No recurrence',
+                value: moment(endRecur).format('MM/DD/YYYY')
+              }}
+            />
+          </div>
+          <div>
+            <label>Category:</label>
+            <select className="select-field" value={category} onChange={(e) => this.setState({ category: e.target.value })}>
               <option value="">Select Category</option>
               {categoryOptions.map(option => (
-                  <option key={option} value={option}>
-                      {option}
-                  </option>
+                <option key={option} value={option}>
+                  {option}
+                </option>
               ))}
-          </select>
-        </div>
-        <label>Description:</label>
-        <textarea value={description} onChange={(e) => this.setState({ description: e.target.value })} />
-        <button onClick={this.handleEditEvent}>Save Changes</button>
+            </select>
+          </div>
+          <label>Description:</label>
+          <textarea value={description} onChange={(e) => this.setState({ description: e.target.value })} />
+          <button onClick={this.handleEditEvent}>Save Changes</button>
           <button onClick={closeModal}>Cancel</button>
         </div>
       </Modal>

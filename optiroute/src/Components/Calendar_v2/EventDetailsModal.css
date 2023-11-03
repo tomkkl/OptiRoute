@@ -10,7 +10,9 @@
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
   z-index: 2; /* Set z-index higher than the calendar */
   width: 400px; /* Set the fixed width */
-  height: 400px; /* Set the fixed height */
+  height: auto; /* Make height auto-adjustable */
+  max-height: 90%; /* Prevent it from being too tall */
+  overflow-y: auto; /* Allow scrolling if content is too long */
 }
 
 .overlay {
@@ -24,6 +26,16 @@
   justify-content: center;
   align-items: center;
   z-index: 1; /* Set z-index lower than the modal */
+}
+.button-container {
+  display: flex;
+  justify-content: space-evenly; /* This will space out your buttons evenly */
+  padding-top: 20px; /* Add some space between the content and the buttons */
+}
+
+button {
+  padding: 8px 16px; /* Example padding, adjust as needed */
+  margin: 0 4px; /* Spacing between buttons */
 }
 
 .modal-content {

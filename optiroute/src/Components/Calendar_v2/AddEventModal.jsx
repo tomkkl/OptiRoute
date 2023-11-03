@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Modal from 'react-modal';
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
@@ -15,7 +15,6 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
     const [longitude, setLongitude] = useState(-86);
     const [latitude, setLatitude] = useState(40);
     const [autocomplete, setAutocomplete] = useState(null);
-    const [inputRef, setInputRef] = useState(React.createRef());
     const [description, setDescription] = useState('');
     const [recurrence, setRecurrence] = useState(''); // State for recurrence field
     const [category, setCategory] = useState(''); // State for category field
@@ -23,38 +22,78 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
     const [startRecur, setStartRecur] = useState('');
     const [endRecur, setEndRecur] = useState('');
 
+    const inputRef = React.createRef();
+//
+    const handlePlaceChanged = (autocomplete) => {
+        const place = autocomplete.getPlace();
+        if (place.geometry) {
+            const latitude = place.geometry.location.lat();
+            const longitude = place.geometry.location.lng();
+            setLongitude(longitude);
+            setLatitude(latitude);
+            setAddress(place.formatted_address);
+        }
+    };
 
-    // const componentDidMount = () => {
-    //     const { event } = props;
-    //     const script = document.createElement('script');
-    //     script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY&libraries=places`;
-    //     script.async = true;
-    //     script.defer = true;
-    //     script.onload = initAutocomplete;
-    //     document.head.appendChild(script);
-    //   }
-    // const initAutocomplete = () => {
-    //     setAutocomplete (window.google.maps.places.Autocomplete(inputRef.current));
-    //     autocomplete.addListener('place_changed', handlePlaceChanged);
-    // };
+    //https://maps.googleapis.com/maps/api/js?key=AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY&libraries=places
 
-    // const handlePlaceChanged = () => {
-    //     componentDidMount;
-    //     initAutocomplete;
-    //     const place = autocomplete.getPlace();
-    //     if (place.geometry) {
-    //       // Extract the latitude and longitude from the chosen place.
-    //       const latitude = place.geometry.location.lat();
-    //       const longitude = place.geometry.location.lng();
-    //       setLongitude(longitude);
-    //       setLatitude(latitude)
-    //       setAddress(place.formatted_address);
-    
-    //       console.log('Selected address:', place.formatted_address);
-    //       console.log('Latitude:', latitude);
-    //       console.log('Longitude:', longitude);
-    //     }
-    //   };
+    useEffect(() => {
+        // Function to load the Google Maps script
+        const loadGoogleMapsScript = () => {
+            if (!window.google || !window.google.maps) {
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY&libraries=places`;
+                script.async = true;
+                script.defer = true;
+                script.onerror = (error) => {
+                    console.error('Google Maps API script failed to load:', error);
+                };
+                document.head.appendChild(script);
+                return script; // Return the script element for cleanup
+            }
+            return null; // If the script is already loaded, return null
+        };
+
+        // Load the script and keep a reference for cleanup
+        const script = loadGoogleMapsScript();
+
+        return () => {
+            // Remove the script if it was added
+            if (script) {
+                document.head.removeChild(script);
+            }
+        };
+    }, []); // Empty dependency array means this effect only runs on mount and unmount
+
+    useEffect(() => {
+        // Function to initialize the Autocomplete
+        const initAutocomplete = () => {
+            if (window.google && window.google.maps && inputRef.current) {
+                const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current);
+                autocomplete.addListener('place_changed', () => handlePlaceChanged(autocomplete));
+                setAutocomplete(autocomplete);
+            }
+        };
+
+        if (isOpen) {
+            // Only initialize Autocomplete when the modal is open and the script is loaded
+            const timerId = setInterval(() => {
+                if (window.google && window.google.maps) {
+                    clearInterval(timerId);
+                    initAutocomplete();
+                }
+            }, 100); // Check every 100ms if Google Maps is loaded
+
+            return () => {
+                clearInterval(timerId);
+                if (autocomplete) {
+                    // Remove event listener if the autocomplete is initialized
+                    window.google.maps.event.clearInstanceListeners(autocomplete);
+                }
+            };
+        }
+    }, [isOpen]); // This effect runs when `isOpen` changes
+
 
     const handleAddEvent = () => {
         if (title && start && end && location && address && description && recurrence && category && notification_time) {
@@ -62,10 +101,10 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
                 ? { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time }
                 : { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur };
 
-          addEvent(eventDetails);
-          closeModal();
+            addEvent(eventDetails);
+            closeModal();
         } else {
-          alert('Please fill out all fields.');
+            alert('Please fill out all fields.');
         }
     };
 
@@ -73,56 +112,56 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
     const categoryOptions = ['Personal', 'Work'];
 
     return (
-    <Modal
-        isOpen={isOpen}
-        onRequestClose={closeModal}
-        contentLabel="Add Event"
-        className="modal"
-        overlayClassName="overlay"
-    >
-        <div className="modal-content">
-        <h2>Add Event</h2>
-        <label>Title:</label>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <label>Start Date and Time:</label>
-        <Datetime
-            value={start}
-            onChange={(date) => setStart(date)}
-            inputProps={{ placeholder: 'Select Start Date and Time' }}
-        />
-        <label>End Date and Time:</label>
-        <Datetime
-            value={end}
-            onChange={(date) => setEnd(date)}
-            inputProps={{ placeholder: 'Select End Date and Time' }}
-        />
-        <label>Notification Date and Time:</label>
-        <Datetime
-            value={notification_time}
-            onChange={(date) => setNotification_time(date)}
-            inputProps={{ placeholder: 'Select Notification Date and Time' }}
-        />
-        <label>Location:</label>
-        <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
-        <label>Address:</label>
-        <div>
-        <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
+        <Modal
+            isOpen={isOpen}
+            onRequestClose={closeModal}
+            contentLabel="Add Event"
+            className="modal"
+            overlayClassName="overlay"
+        >
+            <div className="modal-content">
+                <h2>Add Event</h2>
+                <label>Title:</label>
+                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <label>Start Date and Time:</label>
+                <Datetime
+                    value={start}
+                    onChange={(date) => setStart(date)}
+                    inputProps={{ placeholder: 'Select Start Date and Time' }}
+                />
+                <label>End Date and Time:</label>
+                <Datetime
+                    value={end}
+                    onChange={(date) => setEnd(date)}
+                    inputProps={{ placeholder: 'Select End Date and Time' }}
+                />
+                <label>Notification Date and Time:</label>
+                <Datetime
+                    value={notification_time}
+                    onChange={(date) => setNotification_time(date)}
+                    inputProps={{ placeholder: 'Select Notification Date and Time' }}
+                />
+                <label>Location:</label>
+                <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
+                <label>Address:</label>
+                <div>
+                    <input type="text" ref={inputRef} onChange={(e) => setAddress(e.target.value)} />
 
-      </div>
+                </div>
 
 
-        <div>
-        <label>Recurrence:</label>
-          <select className="select-field" value={recurrence} onChange={(e) => setRecurrence(e.target.value)}>
-              <option value="">Select Recurrence</option>
-              {recurrenceOptions.map(option => (
-                  <option key={option} value={option}>
-                      {option}
-                  </option>
-              ))}
-          </select>
-        </div>
-        <div>
+                <div>
+                    <label>Recurrence:</label>
+                    <select className="select-field" value={recurrence} onChange={(e) => setRecurrence(e.target.value)}>
+                        <option value="">Select Recurrence</option>
+                        {recurrenceOptions.map(option => (
+                            <option key={option} value={option}>
+                                {option}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div>
                     <label>Start Recurring Date:</label>
                     {/* Disable the input field when "No recurrence" is selected */}
                     <Datetime
@@ -140,23 +179,23 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
                         inputProps={{ placeholder: 'Select Date', disabled: recurrence === 'No recurrence' }}
                     />
                 </div>
-        <div>
-          <label>Category:</label>
-          <select className="select-field" value={category} onChange={(e) => setCategory(e.target.value)}>
-              <option value="">Select Category</option>
-              {categoryOptions.map(option => (
-                  <option key={option} value={option}>
-                      {option}
-                  </option>
-              ))}
-          </select>
-        </div>
-        <label>Description:</label>
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
-        <button onClick={handleAddEvent}>Add Event</button>
-        <button onClick={closeModal}>Cancel</button>
-        </div>
-    </Modal>
+                <div>
+                    <label>Category:</label>
+                    <select className="select-field" value={category} onChange={(e) => setCategory(e.target.value)}>
+                        <option value="">Select Category</option>
+                        {categoryOptions.map(option => (
+                            <option key={option} value={option}>
+                                {option}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <label>Description:</label>
+                <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+                <button onClick={handleAddEvent}>Add Event</button>
+                <button onClick={closeModal}>Cancel</button>
+            </div>
+        </Modal>
     );
 };
 

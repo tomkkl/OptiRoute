@@ -88,10 +88,11 @@ const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) =
           <p>
             <strong>Description:</strong> {event.description}
           </p>
-          <button onClick={handleEdit}>Edit</button>
-          <button onClick={onDelete}>Delete</button>
-          <button onClick={closeModal}>Close</button>
-
+          <div className='button-container'>
+            <button onClick={handleEdit}>Edit</button>
+            <button onClick={onDelete}>Delete</button>
+            <button onClick={closeModal}>Close</button>
+          </div>
           {/* Render EditEventModal when isEditModalOpen is true */}
           {isEditModalOpen && (
             <EditEventModal
