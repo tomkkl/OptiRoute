@@ -89,6 +89,9 @@ export class CalendarMain extends React.Component {
             recurrence: event.recurrence,
             category: event.category,
             location: event.location,
+            address: event.address,
+            longitude: event.longitude,
+            latitude: event.latitude,
             description: event.description,
             color: eventColor, // Set event color based on category
             daysOfWeek: daysOfWeek,//[1,3],
@@ -250,14 +253,14 @@ export class CalendarMain extends React.Component {
     })
   };
 
-  addEvent = ({ title, start, end, location, category, description, recurrence, notification_time, startRecur, endRecur}) => {
+  addEvent = ({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur}) => {
     // Make a POST request to your API endpoint to save the event to MongoDB
     fetch('/api/events', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, start, end, location, category, description, recurrence, notification_time, startRecur, endRecur}),
+      body: JSON.stringify({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur}),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -311,6 +314,9 @@ export class CalendarMain extends React.Component {
             recurrence: data.recurrence,
             category: data.category,
             location: data.location,
+            address: data.address,
+            longitude: data.longitude,
+            latitude: data.latitude,
             description: data.description,
             color: eventColor, // Set event color based on category
             daysOfWeek: daysOfWeek,//[1,3],
@@ -392,14 +398,14 @@ export class CalendarMain extends React.Component {
 //     });
 // };
 
-updateEvent = ({ id, title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur }) => {
+updateEvent = ({ id, title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur }) => {
   // Make a PUT request to update the event in the database
   fetch(`/api/events/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur}),
+    body: JSON.stringify({ title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur}),
   })
     .then((response) => response.json())
     .then((data) => {
@@ -453,6 +459,9 @@ updateEvent = ({ id, title, start, end, location, description, recurrence, categ
             recurrence: data.recurrence,
             category: data.category,
             location: data.location,
+            address: data.address,
+            longitude: data.longitude,
+            latitude: data.latitude,
             description: data.description,
             color: eventColor, // Set event color based on category
             daysOfWeek: daysOfWeek,//[1,3],

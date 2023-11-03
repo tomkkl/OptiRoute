@@ -73,7 +73,9 @@ class EditEventModal extends Component {
       this.longitude = longitude;
       this.latitude = latitude;
       this.address = place.formatted_address;
-
+      this.setState({ address: place.formatted_address})
+      this.setState({ latitude: place.geometry.location.lat()})
+      this.setState({ longitude: place.geometry.location.lng()})
       console.log('Selected address:', place.formatted_address);
       console.log('Latitude:', latitude);
       console.log('Longitude:', longitude);
@@ -81,7 +83,7 @@ class EditEventModal extends Component {
   };
 
   handleEditEvent = () => {
-    const {title, start, end, location, address, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
+    const {title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
     const {event, event_id, onEdit, closeModal } = this.props;
     console.log("hhhhh")
     console.log(event_id)
@@ -94,6 +96,8 @@ class EditEventModal extends Component {
         end,
         location,
         address,
+        longitude,
+        latitude,
         description,
         recurrence,
         category,

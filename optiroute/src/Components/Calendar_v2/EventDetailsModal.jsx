@@ -17,6 +17,17 @@ const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) =
     setEditModalOpen(true);
   };
 
+  const componentDidMount = () => {
+    const { event } = this.props;
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    script.onload = this.initAutocomplete;
+    document.head.appendChild(script);
+
+  }
+
   useEffect(() => {
     // Fetch event details based on event_id from your API
     const fetchEventDetails = async () => {
@@ -57,6 +68,16 @@ const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) =
           </p>
           <p>
             <strong>Location:   </strong> {event.location}
+          </p>
+          <p>
+            <strong>Address:   </strong> {event.address}
+          </p>
+          <p>
+            <strong>Longitude:   </strong> {event.longitude}
+          </p>
+
+          <p>
+            <strong>Latitude:   </strong> {event.latitude}
           </p>
           <p>
             <strong>Recurrence:   </strong> {event.recurrence}

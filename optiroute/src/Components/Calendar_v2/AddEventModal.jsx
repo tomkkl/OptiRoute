@@ -11,6 +11,11 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
     const [location, setLocation] = useState('');
+    const [address, setAddress] = useState('');
+    const [longitude, setLongitude] = useState(-86);
+    const [latitude, setLatitude] = useState(40);
+    const [autocomplete, setAutocomplete] = useState(null);
+    const [inputRef, setInputRef] = useState(React.createRef());
     const [description, setDescription] = useState('');
     const [recurrence, setRecurrence] = useState(''); // State for recurrence field
     const [category, setCategory] = useState(''); // State for category field
@@ -19,11 +24,43 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
     const [endRecur, setEndRecur] = useState('');
 
 
+    // const componentDidMount = () => {
+    //     const { event } = props;
+    //     const script = document.createElement('script');
+    //     script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY&libraries=places`;
+    //     script.async = true;
+    //     script.defer = true;
+    //     script.onload = initAutocomplete;
+    //     document.head.appendChild(script);
+    //   }
+    // const initAutocomplete = () => {
+    //     setAutocomplete (window.google.maps.places.Autocomplete(inputRef.current));
+    //     autocomplete.addListener('place_changed', handlePlaceChanged);
+    // };
+
+    // const handlePlaceChanged = () => {
+    //     componentDidMount;
+    //     initAutocomplete;
+    //     const place = autocomplete.getPlace();
+    //     if (place.geometry) {
+    //       // Extract the latitude and longitude from the chosen place.
+    //       const latitude = place.geometry.location.lat();
+    //       const longitude = place.geometry.location.lng();
+    //       setLongitude(longitude);
+    //       setLatitude(latitude)
+    //       setAddress(place.formatted_address);
+    
+    //       console.log('Selected address:', place.formatted_address);
+    //       console.log('Latitude:', latitude);
+    //       console.log('Longitude:', longitude);
+    //     }
+    //   };
+
     const handleAddEvent = () => {
-        if (title && start && end && location && description && recurrence && category && notification_time) {
+        if (title && start && end && location && address && description && recurrence && category && notification_time) {
             const eventDetails = recurrence === 'No recurrence'
-                ? { title, start, end, location, description, recurrence, category, notification_time }
-                : { title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur };
+                ? { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time }
+                : { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur };
 
           addEvent(eventDetails);
           closeModal();
@@ -67,6 +104,13 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
         />
         <label>Location:</label>
         <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
+        <label>Address:</label>
+        <div>
+        <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
+
+      </div>
+
+
         <div>
         <label>Recurrence:</label>
           <select className="select-field" value={recurrence} onChange={(e) => setRecurrence(e.target.value)}>
