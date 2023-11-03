@@ -28,12 +28,22 @@ const NotificationSettings = ({ onNotificationHistoryAdd }) => {
   const [descriptionEnabled, setDescriptionEnabled] = useState(false);
   const [notifications, setNotifications] = useState(null); // read in notification objects
 
-
-
+  const [events, setEvents] = useState(null)
     useEffect(() => {
-
+      const fetchEvents = async () => {
+        const response = await fetch('/api/event')
+        const json = await response.json()
+  
+        if (response.ok) {
+          setEvents(json)
+          console.log(json)
+        }
+      }
+  
+      fetchEvents()
       // Specify the date and time you want to schedule the notification
     const scheduledTime = new Date('2023-12-01T09:00:00'); // Change this to your desired date and time
+    //const scheduledTime = events. 
     // Calculate the time difference in milliseconds
     const timeUntilScheduledTime = scheduledTime - new Date();
     
