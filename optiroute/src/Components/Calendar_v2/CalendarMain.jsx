@@ -234,9 +234,9 @@ export class CalendarMain extends React.Component {
           onDelete={this.handleDelete}
         />
         <div className='flex-container-center'>
-          <button onClick={() => this.props.navigate("/map")} className='common-dimensions'>Route Your Day!</button>
-          <button onClick={() => this.props.navigate(`/recurring-events`)} className='common-dimensions'>Show Recurring Events</button>
           <button onClick={this.openAddEventModal} className='common-dimensions'>Add Event</button>
+          <button onClick={() => this.props.navigate(`/recurring-events`)} className='common-dimensions'>Show Recurring Events</button>
+          <button onClick={() => this.props.navigate("/map")} className='common-dimensions'>Route Your Day!</button>
           <button onClick={this.openAddColorModal} className='common-dimensions'>Add Category</button>
           <button onClick={() => this.props.navigate("/multi_filter")} className='common-dimensions'>Multi Filter</button>
         </div>
@@ -587,7 +587,7 @@ updateEvent = ({ id, title, start, end, location, address, longitude, latitude, 
             longitude: data.longitude,
             latitude: data.latitude,
             description: data.description,
-            color: data.colorID, // Set event color based on category
+            color: eventColor, // Set event color based on category
             daysOfWeek: daysOfWeek,//[1,3],
             startTime: startTime,
             endTime: endTime,
