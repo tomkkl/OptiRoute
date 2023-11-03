@@ -68,6 +68,9 @@ function SearchByDates() {
               category: event.category,
             }));
             console.log('Events matched:', eventsWithId);
+            if(eventsWithId == ''){
+                alert("No Valid Events in Range")
+            }
             setMatchedEvents(eventsWithId);
           })
           .catch(error => {

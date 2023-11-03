@@ -39,7 +39,8 @@ export class CalendarMain extends React.Component {
     searchTerm: "",
     categoryTerm: "",
     startSearchDate: new Date(),
-    endSearchDate: new Date()
+    endSearchDate: new Date(),
+    validInputSearching: true
   }
   
   componentDidMount() {
@@ -156,6 +157,7 @@ export class CalendarMain extends React.Component {
       console.log("ENDER LARGER");
       this.props.navigate(`/SBD?query=${moment(this.state.startSearchDate).format('MM/DD/YYYY')}&query2=${moment(this.state.endSearchDate).format('MM/DD/YYYY')}`);   
     } else {
+      alert("Bad Date range")
       console.log("Bad Date range");
     }
     console.log("Searching dates");
@@ -285,12 +287,13 @@ export class CalendarMain extends React.Component {
           onChange={this.handleEndSearchDateChange} 
            />
       </div>
+      
       <div className='flex-container-center'>
           <button onClick={this.handleSearchDates} className='common-dimensions'>Search Dates</button>
         </div>
 
-
       </div>
+
     )
   }
   
