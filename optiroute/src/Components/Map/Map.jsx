@@ -8,8 +8,8 @@ import moment from 'moment';
 import GMap from './GMap'
 import Home from '../Home/Home'
 
-// // useEffect(() => {
-//     // fetch(`/api/events`)
+// useEffect(() => {
+    // fetch(`/api/events`)
     //   .then(response => response.json())
     //   .then(data => {
     //     // Filter out any events that have a recurrence value of "No recurrence"
@@ -34,29 +34,29 @@ const Map = () => {
       };
     const handleClick = () => {
         fetch(`/api/events`)
-//         .then(response => response.json())
-//         .then(data => {
-//           // Filter out any events that have a recurrence value of "No recurrence"
-//           const filteredEvents = data.filter(event => moment(event.start).format('MM/DD/YYYY') == moment(chosenDate).format('MM/DD/YYYY')).map(event => ({
-//             ...event,
-//             longitude: event.longitude,
+        .then(response => response.json())
+        .then(data => {
+          // Filter out any events that have a recurrence value of "No recurrence"
+          const filteredEvents = data.filter(event => moment(event.start).format('MM/DD/YYYY') == moment(chosenDate).format('MM/DD/YYYY')).map(event => ({
+            ...event,
+            longitude: event.longitude,
             latitude: event.latitude,
-//             title: event.title,
-//           }));
-//           console.log('Events on current day:', filteredEvents.title);
+            title: event.title,
+          }));
+          console.log('Events on current day:', filteredEvents.title);
           if(filteredEvents[0] == null){
             console.log("NULL")
             setShowMap(false);
           } else {
             setFilteredEvents(filteredEvents);
             setShowMap(true);
-//           }
+          }
           //setMatchedEvents(filteredEvents);
-//         })
-//         .catch(error => {
-//           console.error('Error fetching events with recurrence:', error);
-//         });
-//       };
+        })
+        .catch(error => {
+          console.error('Error fetching events with recurrence:', error);
+        });
+      };
     const [name, setName] = useState('');
     const handleChangeName = event => {
         setName(event.target.value);
