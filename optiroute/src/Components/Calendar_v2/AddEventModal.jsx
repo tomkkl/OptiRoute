@@ -6,6 +6,9 @@ import './AddEventModal.css'; // Import your CSS file for modal styling
 
 Modal.setAppElement('#root');
 
+
+
+
 const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
     const [title, setTitle] = useState('');
     const [start, setStart] = useState('');

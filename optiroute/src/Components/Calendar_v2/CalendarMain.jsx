@@ -9,6 +9,14 @@ import AddEventModal from './AddEventModal';
 import AddColorModal from './AddColorModal';
 import { useNavigate } from 'react-router-dom';
 import './CalendarMain.css';
+import NotificationSettings from '../Notifications/NotificationSettings';
+
+export var sendTitle;
+export var sendStart;
+export var sendEnd;
+export var sendLocation;
+export var sendDescription;
+export var sendNotificationTime;
 
 Modal.setAppElement('#root');
 
@@ -295,6 +303,15 @@ export class CalendarMain extends React.Component {
 
   addEvent = ({ title, start, end, location, category, description, recurrence, notification_time, startRecur, endRecur}) => {
     // Make a POST request to your API endpoint to save the event to MongoDB
+  sendTitle = title;
+  sendStart = start;
+  sendEnd = end;
+  sendLocation = location;
+  sendDescription = category;
+  sendNotificationTime = notification_time;
+    // Start 
+    
+    // End
     fetch('/api/events', {
       method: 'POST',
       headers: {
