@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import { SketchPicker } from 'react-color';
-// import './AddColorModal.css'; // Import your CSS file for modal styling
+import './AddColorModal.css'; // Import your CSS file for modal styling
 
 Modal.setAppElement('#root');
 
@@ -13,11 +13,14 @@ const AddColorModal = ({ isOpen, closeModal, addColor }) => {
 
     const handleAddColor = () => {
         if (colorName && colorCode) {
+            const confirmation = window.confirm(`Add color "${colorName}" with code "${colorCode}"?`);
             const colorDetails = 
                  { colorName, colorCode};
 
           addColor(colorDetails);
           closeModal();
+          window.alert(`Color "${colorName}" added successfully!`);
+          window.location.reload(); // Reload the page
         } else {
           alert('Please fill out all fields.');
         }

@@ -61,8 +61,11 @@ const eventSchema = new Schema({
     endRecur: {
         type: Date,
         // You can specify additional validation or constraints if needed
-    }
-    
+    }, 
+    colorID: {
+        type: String,
+        // You can specify additional validation or constraints if needed
+    }, 
 }, { timestamps: true });
 
 module.exports = mongoose.model('Event', eventSchema);
