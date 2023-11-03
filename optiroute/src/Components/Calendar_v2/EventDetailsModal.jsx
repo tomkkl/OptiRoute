@@ -7,6 +7,7 @@ import EditEventModal from './EditEventModal'; // Import the EditEventModal comp
 Modal.setAppElement('#root');
 
 const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) => {
+  
   console.log("EventDetailsModal id: " + event_id)
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [event, setEvent] = useState(null);
@@ -15,6 +16,17 @@ const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) =
   const handleEdit = () => {
     setEditModalOpen(true);
   };
+
+  const componentDidMount = () => {
+    const { event } = this.props;
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    script.onload = this.initAutocomplete;
+    document.head.appendChild(script);
+
+  }
 
   useEffect(() => {
     // Fetch event details based on event_id from your API
@@ -58,6 +70,16 @@ const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) =
             <strong>Location:   </strong> {event.location}
           </p>
           <p>
+            <strong>Address:   </strong> {event.address}
+          </p>
+          <p>
+            <strong>Longitude:   </strong> {event.longitude}
+          </p>
+
+          <p>
+            <strong>Latitude:   </strong> {event.latitude}
+          </p>
+          <p>
             <strong>Recurrence:   </strong> {event.recurrence}
           </p>
           <p>
@@ -66,10 +88,11 @@ const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) =
           <p>
             <strong>Description:</strong> {event.description}
           </p>
-          <button onClick={handleEdit}>Edit</button>
-          <button onClick={onDelete}>Delete</button>
-          <button onClick={closeModal}>Close</button>
-
+          <div className='button-container'>
+            <button onClick={handleEdit}>Edit</button>
+            <button onClick={onDelete}>Delete</button>
+            <button onClick={closeModal}>Close</button>
+          </div>
           {/* Render EditEventModal when isEditModalOpen is true */}
           {isEditModalOpen && (
             <EditEventModal

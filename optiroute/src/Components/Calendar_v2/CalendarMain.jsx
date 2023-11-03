@@ -1,13 +1,16 @@
-import React, {useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import Datetime from "react-datetime";
 import interactionPlugin from '@fullcalendar/interaction';
 import EventDetailsModal from './EventDetailsModal'; // Import the EventDetailsModal component
 import AddEventModal from './AddEventModal';
 import AddColorModal from './AddColorModal';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
+
 import './CalendarMain.css';
 import { Link } from 'react-router-dom';
 import NotificationSettings from '../Notifications/NotificationSettings';
@@ -44,11 +47,14 @@ export class CalendarMain extends React.Component {
     selectedEvent: null,
     searchTerm: "",
     categoryTerm: "",
+    startSearchDate: new Date(),
+    endSearchDate: new Date(),
+    validInputSearching: true
   }
 
   componentDidMount() {
     // fetch events from the API endpoint
-    fetch('/api/events') 
+    fetch('/api/events')
       .then((response) => response.json())
       .then((data) => {
         const transformedEvents = data.map((event) => {
@@ -75,7 +81,7 @@ export class CalendarMain extends React.Component {
 
           if (event.endRecur) {
             endRecur = new Date(event.endRecur).toISOString();
-          } 
+          }
           console.log(endRecur);
 
 
@@ -89,9 +95,9 @@ export class CalendarMain extends React.Component {
             }
             startTime = start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes();
             endTime = end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
-            startRecur = new Date(event.startRecur).toISOString(); 
-          } else {endRecur = null;}
-        
+            startRecur = new Date(event.startRecur).toISOString();
+          } else { endRecur = null; }
+
 
           return {
             allDay: false,
@@ -103,12 +109,15 @@ export class CalendarMain extends React.Component {
             recurrence: event.recurrence,
             category: event.category,
             location: event.location,
+            address: event.address,
+            longitude: event.longitude,
+            latitude: event.latitude,
             description: event.description,
             color: eventColor, // Set event color based on category
             daysOfWeek: daysOfWeek,//[1,3],
             startTime: startTime,
             endTime: endTime,
-            startRecur: startRecur, 
+            startRecur: startRecur,
             endRecur: endRecur,
           };
         });
@@ -122,7 +131,7 @@ export class CalendarMain extends React.Component {
 
   // Ben work
   handleSearchChange = (e) => {
-    this.setState({ searchTerm: e.target.value});
+    this.setState({ searchTerm: e.target.value });
   };
 
   handleSearchSubmit = (e) => {
@@ -133,8 +142,36 @@ export class CalendarMain extends React.Component {
   };
 
   handleCategoryChange = (e) => {
-    this.setState({ categoryTerm: e.target.value});
+    this.setState({ categoryTerm: e.target.value });
   };
+
+  handleStartSearchDateChange = (e) => {
+    this.setState({ startSearchDate: e._d });
+    console.log(e._d)
+  };
+
+  handleEndSearchDateChange = (e) => {
+    this.setState({ endSearchDate: e._d });
+    console.log(e._d)
+    console.log(this.state.endSearchDate)
+  };
+
+  handleSearchDates = () => {
+    console.log(this.state.endSearchDate);
+    console.log(this.state.startSearchDate);
+    if (moment(this.state.endSearchDate).format('MM/DD/YYYY') === moment(this.state.startSearchDate).format('MM/DD/YYYY')) {
+      console.log("Same");
+      this.props.navigate(`/SBD?query=${moment(this.state.startSearchDate).format('MM/DD/YYYY')}&query2=${moment(this.state.endSearchDate).format('MM/DD/YYYY')}`);
+    } else if (moment(this.state.endSearchDate).format('MM/DD/YYYY') > moment(this.state.startSearchDate).format('MM/DD/YYYY')) {
+      console.log("ENDER LARGER");
+      this.props.navigate(`/SBD?query=${moment(this.state.startSearchDate).format('MM/DD/YYYY')}&query2=${moment(this.state.endSearchDate).format('MM/DD/YYYY')}`);
+    } else {
+      alert("Bad Date range")
+      console.log("Bad Date range");
+    }
+    console.log("Searching dates");
+  }
+
 
   handleCategoryhSubmit = (e) => {
     e.preventDefault();
@@ -152,7 +189,7 @@ export class CalendarMain extends React.Component {
     marginRight: '10px',
     width: '200px'
   };
-  
+
   searchButtonStyle = {
     padding: '8px 12px',
     borderRadius: '4px',
@@ -166,10 +203,11 @@ export class CalendarMain extends React.Component {
 
 
   render() {
+
+
     return (
+
       <div>
-        <button onClick={this.openAddEventModal}>Add Event</button>
-        <button onClick={this.openAddColorModal}>Add Category</button>
     
         <div>
           <Link to="/notification-settings">
@@ -194,9 +232,9 @@ export class CalendarMain extends React.Component {
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{
-              start: "today prev,next", 
+              start: "today prev,next",
               center: "title",
-              end: "timeGridDay,timeGridWeek,dayGridMonth", 
+              end: "timeGridDay,timeGridWeek,dayGridMonth",
             }}
             initialView='dayGridMonth'
             editable={true}
@@ -209,13 +247,13 @@ export class CalendarMain extends React.Component {
             allDaySlot={false}
             stickyHeaderDates={true}
             height={'auto'}
-            // options={{
-            //   allDaySlot: false, // Set the allDaySlot option to false
-            //   aspectRatio:  3, 
-            //   height: "auto",
-            //   stickyHeaderDates: true,
-            // }}
- 
+          // options={{
+          //   allDaySlot: false, // Set the allDaySlot option to false
+          //   aspectRatio:  3, 
+          //   height: "auto",
+          //   stickyHeaderDates: true,
+          // }}
+
           />
         </div>
         <EventDetailsModal
@@ -226,35 +264,59 @@ export class CalendarMain extends React.Component {
           onDelete={this.handleDelete}
         />
         <div className='flex-container-center'>
+          <button onClick={() => this.props.navigate("/map")} className='common-dimensions'>Route Your Day!</button>
           <button onClick={() => this.props.navigate(`/recurring-events`)} className='common-dimensions'>Show Recurring Events</button>
+          <button onClick={this.openAddEventModal} className='common-dimensions'>Add Event</button>
+          <button onClick={this.openAddColorModal} className='common-dimensions'>Add Category</button>
         </div>
-      
-        <form onSubmit={this.handleSearchSubmit} style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-        <input // <form onSubmit... - START OF BEN WORK
-          type="text" 
-          placeholder="Search All Events"
-          value={this.searchTerm}
-          onChange={this.handleSearchChange}
-          style={this.searchInputStyle}
-          className="common-dimensions"
-        />
-      </form >
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <form onSubmit={this.handleSearchSubmit}>
+            <input // <form onSubmit... - START OF BEN WORK
+              type="text"
+              placeholder="Search All Events"
+              value={this.searchTerm}
+              onChange={this.handleSearchChange}
+              style={this.searchInputStyle}
+              className="common-dimensions"
+            />
+          </form >
 
-      <form onSubmit={this.handleCategoryhSubmit} style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-        <input // <form onSubmit... - START OF BEN WORK
-          type="text" 
-          placeholder="Search All Category"
-          value={this.categoryTerm}
-          onChange={this.handleCategoryChange}
-          style={this.searchInputStyle}
-          className="common-dimensions"
-        />
-      </form >
-
-
+          <form onSubmit={this.handleCategoryhSubmit}>
+            <input // <form onSubmit... - START OF BEN WORK
+              type="text"
+              placeholder="Search All Categories"
+              value={this.categoryTerm}
+              onChange={this.handleCategoryChange}
+              style={this.searchInputStyle}
+              className="common-dimensions"
+            />
+          </form >
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "10px" }}>
+            <div style={{ marginRight: "10px" }}>
+              <label className="common-dimensions">Start Search Date:</label>
+              <Datetime
+                value={this.state.startSearchDate}
+                onChange={this.handleStartSearchDateChange} />
+            </div>
+            <div>
+              <label className="common-dimensions">End Search Date:</label>
+              <Datetime
+                value={this.state.endSearchDate}
+                onChange={this.handleEndSearchDateChange}
+              />
+            </div>
+          </div>
+          <div className='flex-container-center'>
+            <button onClick={this.handleSearchDates} className='common-dimensions'>Search Dates</button>
+          </div>
+        </div>
       </div>
+
     )
   }
+
 
   handleWeekendsToggle = () => {
     this.setState({
@@ -271,7 +333,7 @@ export class CalendarMain extends React.Component {
       isModalOpen: true,
     });
 
-    
+
   };
 
 
@@ -312,7 +374,7 @@ export class CalendarMain extends React.Component {
     })
   };
 
-  addEvent = ({ title, start, end, location, category, description, recurrence, notification_time, startRecur, endRecur}) => {
+  addEvent = ({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur }) => {
     // Make a POST request to your API endpoint to save the event to MongoDB
   sendTitle = title;
   sendStart = start;
@@ -328,7 +390,7 @@ export class CalendarMain extends React.Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, start, end, location, category, description, recurrence, notification_time, startRecur, endRecur}),
+      body: JSON.stringify({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -360,7 +422,7 @@ export class CalendarMain extends React.Component {
 
         if (data.endRecur) {
           endRecur = new Date(data.endRecur).toISOString();
-        } 
+        }
         console.log(endRecur);
 
 
@@ -374,29 +436,32 @@ export class CalendarMain extends React.Component {
           }
           startTime = start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes();
           endTime = end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
-          startRecur = new Date(data.startRecur).toISOString(); 
-        } else {endRecur = null;}
-        
+          startRecur = new Date(data.startRecur).toISOString();
+        } else { endRecur = null; }
+
         // Update the events state to include the newly added event
         const newEvent = {
-            allDay: false,
-            id: data._id,
-            title: data.title,
-            start: start,
-            end: end,
-            notification_time: new Date(data.notification_time),
-            recurrence: data.recurrence,
-            category: data.category,
-            location: data.location,
-            description: data.description,
-            color: eventColor, // Set event color based on category
-            daysOfWeek: daysOfWeek,//[1,3],
-            startTime: startTime,
-            endTime: endTime,
-            startRecur: startRecur, 
-            endRecur: endRecur,
+          allDay: false,
+          id: data._id,
+          title: data.title,
+          start: start,
+          end: end,
+          notification_time: new Date(data.notification_time),
+          recurrence: data.recurrence,
+          category: data.category,
+          location: data.location,
+          address: data.address,
+          longitude: data.longitude,
+          latitude: data.latitude,
+          description: data.description,
+          color: eventColor, // Set event color based on category
+          daysOfWeek: daysOfWeek,//[1,3],
+          startTime: startTime,
+          endTime: endTime,
+          startRecur: startRecur,
+          endRecur: endRecur,
         };
-        
+
         this.setState(prevState => ({
           events: [...prevState.events, newEvent]
         }));
@@ -426,16 +491,16 @@ export class CalendarMain extends React.Component {
   //     this.setState({ eventColor: 'blue' }); // or any default color code you prefer
   //   }
   // };
-  
 
-  addColor = ({ colorName, colorCode}) => {
+
+  addColor = ({ colorName, colorCode }) => {
     // Make a POST request to your API endpoint to save the event to MongoDB
     fetch('/api/colors', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({colorName, colorCode}),
+      body: JSON.stringify({ colorName, colorCode }),
     })
       .then((response) => response.json())
       .catch((error) => {
@@ -470,93 +535,93 @@ export class CalendarMain extends React.Component {
   };
 
 
-//   updateEvent = ({ id, title, start, end, location, description, recurrence, category }) => {
-//   // Make a PUT request to update the event in the database
-//   fetch(`/api/events/${id}`, {
-//     method: 'PATCH',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({ title, start, end, location, description, recurrence, category }),
-//   })
-//     .then((response) => response.json())
-//     .then((updatedEvent) => {
-//       // Handle the updated event data as needed
-//       console.log('Event updated successfully:', updatedEvent);
+  //   updateEvent = ({ id, title, start, end, location, description, recurrence, category }) => {
+  //   // Make a PUT request to update the event in the database
+  //   fetch(`/api/events/${id}`, {
+  //     method: 'PATCH',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ title, start, end, location, description, recurrence, category }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((updatedEvent) => {
+  //       // Handle the updated event data as needed
+  //       console.log('Event updated successfully:', updatedEvent);
 
-//       // Find the index of the updated event in the state
-//       const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
+  //       // Find the index of the updated event in the state
+  //       const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
 
-//       // Update the events state to reflect the changes
-//       if (updatedEventIndex !== -1) {
-//         this.setState((prevState) => {
-//           const updatedEvents = [...prevState.events];
-//           updatedEvents[updatedEventIndex] = updatedEvent;
-//           return {
-//             events: updatedEvents,
-//             isModalOpen: false,
-//             selectedEvent: null,
-//           };
-//         });
-//       }
-//     })
-//     .catch((error) => {
-//       console.error('Error updating event:', error);
-//     });
-// };
+  //       // Update the events state to reflect the changes
+  //       if (updatedEventIndex !== -1) {
+  //         this.setState((prevState) => {
+  //           const updatedEvents = [...prevState.events];
+  //           updatedEvents[updatedEventIndex] = updatedEvent;
+  //           return {
+  //             events: updatedEvents,
+  //             isModalOpen: false,
+  //             selectedEvent: null,
+  //           };
+  //         });
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error updating event:', error);
+  //     });
+  // };
 
-updateEvent = ({ id, title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur }) => {
-  // Make a PUT request to update the event in the database
-  fetch(`/api/events/${id}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur}),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // Find the index of the updated event in the state
-      const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
-      console.log(updatedEventIndex)
+  updateEvent = ({ id, title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur }) => {
+    // Make a PUT request to update the event in the database
+    fetch(`/api/events/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Find the index of the updated event in the state
+        const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
+        console.log(updatedEventIndex)
 
-      // Update the events state to reflect the changes
-      if (updatedEventIndex !== -1) {
-        let eventColor = "blue"; // Default color
-        if (data.category === 'Work') {
-          eventColor = 'red'; // Work events are red
-        } else if (data.category === 'Personal') {
-          eventColor = 'green'; // Personal events are green
-        }
-
-        const start = new Date(data.start);
-        const end = new Date(data.end);
-        let daysOfWeek = null;
-        let startTime = null;
-        let endTime = null;
-        let startRecur = null;
-        let endRecur = null;
-
-
-        if (data.endRecur) {
-          endRecur = new Date(data.endRecur).toISOString();
-        } 
-
-
-        if (data.recurrence !== "No recurrence") {
-          if (data.recurrence === "Daily") {
-            daysOfWeek = null;
-          } else {
-            const dayOfWeek = start.getDay() === 0 ? 7 : start.getDay(); // Adjusting Sunday to 7
-            daysOfWeek = [dayOfWeek];
+        // Update the events state to reflect the changes
+        if (updatedEventIndex !== -1) {
+          let eventColor = "blue"; // Default color
+          if (data.category === 'Work') {
+            eventColor = 'red'; // Work events are red
+          } else if (data.category === 'Personal') {
+            eventColor = 'green'; // Personal events are green
           }
-          startTime = start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes();
-          endTime = end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
-          startRecur = new Date(data.startRecur).toISOString(); 
-        } else {endRecur = null;}
-        
-        // Update the events state to include the newly added event
-        const newEvent = {
+
+          const start = new Date(data.start);
+          const end = new Date(data.end);
+          let daysOfWeek = null;
+          let startTime = null;
+          let endTime = null;
+          let startRecur = null;
+          let endRecur = null;
+
+
+          if (data.endRecur) {
+            endRecur = new Date(data.endRecur).toISOString();
+          }
+
+
+          if (data.recurrence !== "No recurrence") {
+            if (data.recurrence === "Daily") {
+              daysOfWeek = null;
+            } else {
+              const dayOfWeek = start.getDay() === 0 ? 7 : start.getDay(); // Adjusting Sunday to 7
+              daysOfWeek = [dayOfWeek];
+            }
+            startTime = start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes();
+            endTime = end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
+            startRecur = new Date(data.startRecur).toISOString();
+          } else { endRecur = null; }
+
+          // Update the events state to include the newly added event
+          const newEvent = {
             allDay: false,
             id: data._id,
             title: data.title,
@@ -566,30 +631,33 @@ updateEvent = ({ id, title, start, end, location, description, recurrence, categ
             recurrence: data.recurrence,
             category: data.category,
             location: data.location,
+            address: data.address,
+            longitude: data.longitude,
+            latitude: data.latitude,
             description: data.description,
             color: eventColor, // Set event color based on category
             daysOfWeek: daysOfWeek,//[1,3],
             startTime: startTime,
             endTime: endTime,
-            startRecur: startRecur, 
+            startRecur: startRecur,
             endRecur: endRecur,
-        };
-
-
-        this.setState((prevState) => {
-          const updatedEvents = [...prevState.events];
-          updatedEvents[updatedEventIndex] = newEvent;
-          return {
-            events: updatedEvents,
-            isModalOpen: false,
           };
-        });
-      }
-    })
-    .catch((error) => {
-      console.error('Error updating event:', error);
-    });
-};
+
+
+          this.setState((prevState) => {
+            const updatedEvents = [...prevState.events];
+            updatedEvents[updatedEventIndex] = newEvent;
+            return {
+              events: updatedEvents,
+              isModalOpen: false,
+            };
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating event:', error);
+      });
+  };
 
 
 
