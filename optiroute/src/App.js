@@ -9,6 +9,8 @@ import UserProfile from './Components/UserProfile/UserProfile';
 import Search from './Components/Search/Search';
 import Category from './Components/Category/Category.jsx';
 import Recurrence from './Components/Recurrence/Recurrence';
+import Map from './Components/Map/Map';
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
 import "react-datetime/css/react-datetime.css";
@@ -28,6 +30,7 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/category" element={<Category />} />
         <Route path="/recurring-events" element={<Recurrence />} />
+        <Route path="/map" element={<Map />} />
       </Routes>
     </>
   );
