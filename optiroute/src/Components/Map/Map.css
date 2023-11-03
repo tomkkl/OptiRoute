@@ -1,69 +1,105 @@
-/* General styling */
-body, html {
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f4f4f4;
+/* MapStyles.css */
+
+.map-page-container {
+  display: flex;
 }
 
-/* Container and layout */
-div {
-  box-sizing: border-box;
-}
-
-/* Date chooser section */
-.label {
-  font-size: 1rem;
-  color: #333;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-/* React datetime component styling */
-.rdt {
-  position: relative;
-}
-
-.rdt input {
+.event-list-sidebar {
+  width: 25%;
+  background-color: #c1ffd5;
+  display: flex;
+  flex-direction: column;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
-/* Button styling */
-button {
+.date-picker-container {
+  margin-bottom: 10px;
+}
+
+.create-map-button-container {
+  margin-bottom: 20px;
+}
+
+.create-map-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
   background-color: #007bff;
   color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
   cursor: pointer;
-  font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
-button:hover {
+.create-map-button:hover {
   background-color: #0056b3;
 }
 
-/* Map and modal styling */
-.GMap, .Modal {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-top: 1rem;
+.no-events-text {
+  text-align: center;
+  color: #666;
 }
 
-/* Text styling when no events are available */
-text {
-  color: #999;
-  font-size: 1rem;
+.map-container {
+  width: 75%;
+  height: 100vh;
 }
 
-/* Responsive design for smaller screens */
-@media (max-width: 768px) {
-  .label,
-  button,
-  .rdt input {
+.control-panel {
+  padding: 10px;
+  background-color: #f9f9f9; /* Use a color that matches your design */
+}
+
+.travel-mode-container {
+  margin-bottom: 10px; /* Space above the button */
+  padding: 10px; /* Padding inside the container */
+  background-color: #f9f9f9; /* Background color of the container */
+  border: 1px solid #ddd; /* Border color */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow for depth */
+}
+
+.travel-mode-container label {
+  margin-bottom: 5px;
+  display: block; /* Makes the label go on top of the dropdown */
+  /* Add other label styles if needed */
+}
+
+.travel-mode-container select {
+  width: 100%; /* Makes the select box full width */
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px; /* Rounded corners for the select element */
+  /* Add other select styles if needed */
+}
+
+.create-map-button-container {
+  margin-top: 10px; /* Space below the dropdown */
+  /* Add other button container styles if needed */
+}
+
+.create-map-button {
+  width: 100%; /* Optional: Makes the button full width */
+  /* Add other button styles if needed */
+}
+
+/* If you want to style the dropdown options */
+.travel-mode-container select option {
+  padding: 5px;
+}
+
+/* Add responsive design if needed */
+@media (max-width: 600px) {
+  .travel-mode-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .travel-mode-container label {
+    margin-bottom: 5px;
+  }
+
+  .travel-mode-container select {
     width: 100%;
   }
 }
