@@ -9,6 +9,7 @@ import AddEventModal from './AddEventModal';
 import AddColorModal from './AddColorModal';
 import { useNavigate } from 'react-router-dom';
 import './CalendarMain.css';
+import { Link } from 'react-router-dom';
 import NotificationSettings from '../Notifications/NotificationSettings';
 
 export var sendTitle;
@@ -16,7 +17,7 @@ export var sendStart;
 export var sendEnd;
 export var sendLocation;
 export var sendDescription;
-export var sendNotificationTime;
+export var sendNotificationTime; 
 
 Modal.setAppElement('#root');
 
@@ -169,6 +170,19 @@ export class CalendarMain extends React.Component {
       <div>
         <button onClick={this.openAddEventModal}>Add Event</button>
         <button onClick={this.openAddColorModal}>Add Category</button>
+    
+        <div>
+          <Link to="/notification-settings">
+          <button>Notification Settings</button>
+          </Link>
+        </div>
+
+        <div>
+          <Link to="/notification-history">
+          <button>Notification History Log</button>
+          </Link>
+        </div>
+
         <AddEventModal
           isOpen={this.state.isAddEventModalOpen}
           closeModal={this.closeAddEventModal}
