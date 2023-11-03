@@ -4,10 +4,11 @@ import LoginSignup from './Components/LoginSignup/LoginSignup';
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import About from './Components/About/About';
 import Home from './Components/Home/Home'; 
-import CalendarComponent from './Components/Calendar/CalendarComponent';
 import CalendarMain from './Components/Calendar_v2/CalendarMain.jsx';
 import UserProfile from './Components/UserProfile/UserProfile';
-import Notification from './Components/Notifications/Notifications';
+import Search from './Components/Search/Search';
+import Category from './Components/Category/Category.jsx';
+import Recurrence from './Components/Recurrence/Recurrence';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
 import "react-datetime/css/react-datetime.css";
@@ -22,9 +23,8 @@ function App() {
         <Route path="/login" element={<LoginSignup />} />
         <Route path="/about" element={<About />} />
         <Route path="/calendar" element={<CalendarMain />} />
-//         <Route path="/calendar" element={<CalendarComponent />} />
+         {/* <Route path="/calendar" element={<CalendarComponent />} /> */}
         <Route path="/profile" element={<UserProfile />} />
-        <Route path="/Notification" element={<Notification />} />
       </Routes>
     </>
   );

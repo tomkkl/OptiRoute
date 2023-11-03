@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const scheduleUsers = require('./Schedule/users')
 const scheduleEvents =  require('./Schedule/event')
 const scheduleNotifications = require('./Schedule/notifications')
+const colorEvents =  require('./Schedule/color')
+
 
 // create express app
 const optiroute = express()
@@ -21,9 +23,6 @@ optiroute.use('/api/users',scheduleUsers)
 
 //Events
 optiroute.use('/api/events',scheduleEvents)
-
-// Notifications
-optiroute.use('/api/notifications', scheduleNotifications)
 
 //Connect to DB
 mongoose.connect(process.env.MONGO_URI)

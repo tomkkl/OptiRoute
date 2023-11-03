@@ -15,6 +15,10 @@ const eventSchema = new Schema({
         type: Date,
         required: true
     },
+    notification_time: {
+        type: Date,
+        required: true
+    },
     recurrence  : {
         type: String,
         required: true
@@ -34,7 +38,16 @@ const eventSchema = new Schema({
         type: String,
         required: true
         // You can specify additional validation or constraints if needed
+    },
+    startRecur: {
+        type: Date,
+        // You can specify additional validation or constraints if needed
+    },
+    endRecur: {
+        type: Date,
+        // You can specify additional validation or constraints if needed
     }
+    
 }, { timestamps: true });
 
 module.exports = mongoose.model('Event', eventSchema);
