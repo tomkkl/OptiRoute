@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import { DirectionsRenderer } from '@react-google-maps/api';
 
 //https://www.digitalocean.com/community/tutorials/how-to-integrate-the-google-maps-api-into-react-applications
 const mapStyles = {
@@ -15,15 +16,54 @@ export class GMap extends Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
-      events: this.props.events, // Now using the events passed from the parent component
+      events: this.props.events,
+      travelMode: props.travelMode
     };
   }
 
-  state = {
-    showingInfoWindow: false,  // Hides or shows the InfoWindow
-    activeMarker: {},          // Shows the active marker upon click
-    selectedPlace: {}          // Shows the InfoWindow to the selected place upon a marker
-  };
+  componentDidMount() {
+    this.calculateAndDisplayRoute();
+  }
+
+  componentDidUpdate(prevProps) {
+    // If the events or travelMode props have changed, update the route
+    if (this.props.events !== prevProps.events || this.props.travelMode !== prevProps.travelMode) {
+      this.setState({ travelMode: this.props.travelMode }, this.calculateAndDisplayRoute); // Update travelMode state before calculating route
+    }
+  }
+
+  calculateAndDisplayRoute() {
+    const { events } = this.props;
+    const waypoints = events.slice(1, -1).map(event => ({
+      location: { lat: event.latitude, lng: event.longitude },
+      stopover: true,
+    }));
+
+    if (events.length > 1) {
+      const origin = events[0];
+      const destination = events[events.length - 1];
+
+      const directionsService = new this.props.google.maps.DirectionsService();
+      directionsService.route(
+        {
+          origin: new this.props.google.maps.LatLng(origin.latitude, origin.longitude),
+          destination: new this.props.google.maps.LatLng(destination.latitude, destination.longitude),
+          waypoints: waypoints,
+          travelMode: this.state.travelMode,
+        },
+        (result, status) => {
+          if (status === this.props.google.maps.DirectionsStatus.OK) {
+            this.setState({
+              directions: result,
+            });
+          } else {
+            console.error(`error fetching directions ${result}`);
+          }
+        }
+      );
+    }
+  }
+
   onMarkerClick = (props, marker, e) =>
     this.setState({
       selectedPlace: props,
@@ -41,8 +81,7 @@ export class GMap extends Component {
   };
   render() {
     const { events } = this.state;
-    console.log(events);
-
+  
     return (
       <>
         <Map
@@ -57,13 +96,15 @@ export class GMap extends Component {
           }
         >
           {events.map((event, index) => (
-          <Marker
-            key={index} // Assuming each event is unique, you could use a unique property of event as a key
-            onClick={this.onMarkerClick}
-            position={{ lat: event.latitude, lng: event.longitude }} // Replace with actual event latitude and longitude
-            name={event.title} // Replace with actual event name or any other property
-          />
-        ))}
+            <Marker
+              key={index} // It's better if you have a unique id from `event`
+              onClick={this.onMarkerClick}
+              position={{ lat: event.latitude, lng: event.longitude }}
+              name={event.title}
+              label={`${index + 1}`} // The label is now a string representing the order of the marker
+            />
+          ))}
+  
           <InfoWindow
             marker={this.state.activeMarker}
             visible={this.state.showingInfoWindow}
@@ -73,12 +114,17 @@ export class GMap extends Component {
               <h4>{this.state.selectedPlace.name}</h4>
             </div>
           </InfoWindow>
+          {this.state.directions && (
+            <DirectionsRenderer
+              directions={this.state.directions}
+              options={{ suppressMarkers: true }} // This will prevent the DirectionsRenderer from adding its own markers
+            />
+          )}
         </Map>
       </>
     );
   }
 }
-
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY'
 })(GMap);
