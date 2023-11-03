@@ -10,6 +10,7 @@ import Search from './Components/Search/Search';
 import Category from './Components/Category/Category.jsx';
 import Recurrence from './Components/Recurrence/Recurrence';
 import Map from './Components/Map/Map';
+import All_search from './Components/All_search/All_search.jsx';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
@@ -31,6 +32,7 @@ function App() {
         <Route path="/category" element={<Category />} />
         <Route path="/recurring-events" element={<Recurrence />} />
         <Route path="/map" element={<Map />} />
+        <Route path="/multi_filter" element={<All_search />} />
       </Routes>
     </>
   );

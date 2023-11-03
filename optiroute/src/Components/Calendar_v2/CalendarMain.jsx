@@ -226,6 +226,9 @@ export class CalendarMain extends React.Component {
           className="common-dimensions"
         />
       </form >
+      <div className='flex-container-center'>
+          <button onClick={() => this.props.navigate("/multi_filter")} className='common-dimensions'>Multi Filter</button>
+      </div>
 
 
       </div>
