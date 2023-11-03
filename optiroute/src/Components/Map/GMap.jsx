@@ -8,6 +8,17 @@ const mapStyles = {
 };
 
 export class GMap extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {},
+      events: this.props.events, // Now using the events passed from the parent component
+    };
+  }
+
   state = {
     showingInfoWindow: false,  // Hides or shows the InfoWindow
     activeMarker: {},          // Shows the active marker upon click
@@ -29,33 +40,41 @@ export class GMap extends Component {
     }
   };
   render() {
+    const { events } = this.state;
+    console.log(events);
+
     return (
-      <Map
-        google={this.props.google}
-        zoom={14}
-        style={mapStyles}
-        initialCenter={
-          {
-            lat: 40.4237,
-            lng: -86.9212
+      <>
+        <Map
+          google={this.props.google}
+          zoom={14}
+          style={mapStyles}
+          initialCenter={
+            {
+              lat: 40.4237,
+              lng: -86.9212
+            }
           }
-        }
-      >
-        <Marker
-          onClick={this.onMarkerClick}
-          position={{ lat: 40, lng: -80 }}
-          name={'Purdue University'}
-        />
-        <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}
-          onClose={this.onClose}
         >
-          <div>
-            <h4>{this.state.selectedPlace.name}</h4>
-          </div>
-        </InfoWindow>
-      </Map>
+          {events.map((event, index) => (
+          <Marker
+            key={index} // Assuming each event is unique, you could use a unique property of event as a key
+            onClick={this.onMarkerClick}
+            position={{ lat: event.latitude, lng: event.longitude }} // Replace with actual event latitude and longitude
+            name={event.title} // Replace with actual event name or any other property
+          />
+        ))}
+          <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}
+            onClose={this.onClose}
+          >
+            <div>
+              <h4>{this.state.selectedPlace.name}</h4>
+            </div>
+          </InfoWindow>
+        </Map>
+      </>
     );
   }
 }
