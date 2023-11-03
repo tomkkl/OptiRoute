@@ -96,39 +96,19 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
   }, [isOpen]); // This effect runs when `isOpen` changes
 
 
-const handleAddEvent = () => {
-    if (title && start && end && location && description && recurrence && category && notification_time) {
-        console.log("color")
-        console.log(category)
-        // Fetch colorCode based on the selected category from the colors data
-        fetch('/api/colors')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                const selectedColor = data.find(color => color.colorName === category);
+  const handleAddEvent = () => {
+    if (title && start && end && location && address && description && recurrence && category && notification_time) {
+      console.log("WE HERE");
+      const eventDetails = recurrence === 'No recurrence'
+        ? { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time }
+        : { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur };
 
-                if (selectedColor) {
-                    console.log("exist")
-                    const colorID = selectedColor.colorCode
-                    console.log(colorID)
-                    const eventDetails = recurrence === 'No recurrence'
-                    ? { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, colorID }
-                    : { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID };
-                    // Call addEvent with eventDetails including colorCode
-                    addEvent(eventDetails);
-                    closeModal();
-                } else {
-                    alert('Invalid category selected.'); // Handle the case when category does not have a corresponding colorCode
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching color data:', error);
-            });
+      addEvent(eventDetails);
+      closeModal();
     } else {
-        alert('Please fill out all fields.');
+      alert('Please fill out all fields.');
     }
-};
-
+  };
 
   const recurrenceOptions = ['No recurrence', 'Daily', 'Weekly'];
   useEffect(() => {

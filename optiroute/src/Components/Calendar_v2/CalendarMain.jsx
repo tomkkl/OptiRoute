@@ -50,6 +50,17 @@ export class CalendarMain extends React.Component {
       .then((data) => {
         const transformedEvents = data.map((event) => {
 
+          let eventColor = 'blue';
+          //assign color on category 
+          if (event.category === 'Work') {
+            eventColor = 'red'; // Work events are red
+          } else if (event.category === 'Personal') {
+            eventColor = 'green'; // Personal events are green
+          }
+          // this.getColorCode(event.category);
+          // let eventColor = this.state.eventColor;
+          // console.log(eventColor)
+
           const start = new Date(event.start);
           const end = new Date(event.end);
           let daysOfWeek = null;
@@ -93,7 +104,7 @@ export class CalendarMain extends React.Component {
             longitude: event.longitude,
             latitude: event.latitude,
             description: event.description,
-            color: event.colorID, // Set event color based on category
+            color: eventColor, // Set event color based on category
             daysOfWeek: daysOfWeek,//[1,3],
             startTime: startTime,
             endTime: endTime,
@@ -282,32 +293,6 @@ export class CalendarMain extends React.Component {
             <button onClick={this.handleSearchDates} className='common-dimensions'>Search Dates</button>
           </div>
         </div>
-      
-        <form onSubmit={this.handleSearchSubmit} style={{ display: "flex", justifyContent: "center" }}>
-        <input // <form onSubmit... - START OF BEN WORK
-          type="text" 
-          placeholder="Search All Events"
-          value={this.searchTerm}
-          onChange={this.handleSearchChange}
-          style={this.searchInputStyle}
-          className="common-dimensions"
-        />
-      </form >
-
-      <form onSubmit={this.handleCategoryhSubmit} style={{ display: "flex", justifyContent: "center", marginTop: "-10px" }}>
-        <input // <form onSubmit... - START OF BEN WORK
-          type="text" 
-          placeholder="Search All Categories"
-          value={this.categoryTerm}
-          onChange={this.handleCategoryChange}
-          style={this.searchInputStyle}
-          className="common-dimensions"
-        />
-      </form >
-      <div className='flex-container-center'>
-          <button onClick={() => this.props.navigate("/multi_filter")} className='common-dimensions'>Multi Filter</button>
-      </div>
-
       </div>
 
     )
@@ -370,22 +355,33 @@ export class CalendarMain extends React.Component {
     })
   };
 
-  addEvent = ({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur, colorID}) => {
-
+  addEvent = ({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur }) => {
     // Make a POST request to your API endpoint to save the event to MongoDB
-    console.log(colorID)
     fetch('/api/events', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur, colorID}),
-
+      body: JSON.stringify({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur }),
     })
       .then((response) => response.json())
       .then((data) => {
         // Handle the response if needed
         console.log('Event added successfully:', data);
+
+        //assign color on category 
+        let eventColor = "blue"; // Default color
+        if (data.category === 'Work') {
+          eventColor = 'red'; // Work events are red
+        } else if (data.category === 'Personal') {
+          eventColor = 'green'; // Personal events are green
+        }
+
+        // this.getColorCode(data.category);
+        // let eventColor = this.state.eventColor;
+        // console.log(eventColor)
+
+
 
         const start = new Date(data.start);
         const end = new Date(data.end);
@@ -417,26 +413,25 @@ export class CalendarMain extends React.Component {
 
         // Update the events state to include the newly added event
         const newEvent = {
-            allDay: false,
-            id: data._id,
-            title: data.title,
-            start: start,
-            end: end,
-            notification_time: new Date(data.notification_time),
-            recurrence: data.recurrence,
-            category: data.category,
-            location: data.location,
-            address: data.address,
-            longitude: data.longitude,
-            latitude: data.latitude,
-            description: data.description,
-            color: data.colorID, // Set event color based on category
-            daysOfWeek: daysOfWeek,//[1,3],
-            startTime: startTime,
-            endTime: endTime,
-            startRecur: startRecur, 
-            endRecur: endRecur,
-
+          allDay: false,
+          id: data._id,
+          title: data.title,
+          start: start,
+          end: end,
+          notification_time: new Date(data.notification_time),
+          recurrence: data.recurrence,
+          category: data.category,
+          location: data.location,
+          address: data.address,
+          longitude: data.longitude,
+          latitude: data.latitude,
+          description: data.description,
+          color: eventColor, // Set event color based on category
+          daysOfWeek: daysOfWeek,//[1,3],
+          startTime: startTime,
+          endTime: endTime,
+          startRecur: startRecur,
+          endRecur: endRecur,
         };
 
         this.setState(prevState => ({
@@ -512,72 +507,40 @@ export class CalendarMain extends React.Component {
   };
 
 
-//   updateEvent = ({ id, title, start, end, location, description, recurrence, category }) => {
-//   // Make a PUT request to update the event in the database
-//   fetch(`/api/events/${id}`, {
-//     method: 'PATCH',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({ title, start, end, location, description, recurrence, category }),
-//   })
-//     .then((response) => response.json())
-//     .then((updatedEvent) => {
-//       // Handle the updated event data as needed
-//       console.log('Event updated successfully:', updatedEvent);
+  //   updateEvent = ({ id, title, start, end, location, description, recurrence, category }) => {
+  //   // Make a PUT request to update the event in the database
+  //   fetch(`/api/events/${id}`, {
+  //     method: 'PATCH',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ title, start, end, location, description, recurrence, category }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((updatedEvent) => {
+  //       // Handle the updated event data as needed
+  //       console.log('Event updated successfully:', updatedEvent);
 
-//       // Find the index of the updated event in the state
-//       const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
+  //       // Find the index of the updated event in the state
+  //       const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
 
-//       // Update the events state to reflect the changes
-//       if (updatedEventIndex !== -1) {
-//         this.setState((prevState) => {
-//           const updatedEvents = [...prevState.events];
-//           updatedEvents[updatedEventIndex] = updatedEvent;
-//           return {
-//             events: updatedEvents,
-//             isModalOpen: false,
-//             selectedEvent: null,
-//           };
-//         });
-//       }
-//     })
-//     .catch((error) => {
-//       console.error('Error updating event:', error);
-//     });
-// };
-
-updateEvent = ({ id, title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID }) => {
-  // Make a PUT request to update the event in the database
-  fetch(`/api/events/${id}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID}),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // Find the index of the updated event in the state
-      const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
-      console.log(updatedEventIndex)
-
-      // Update the events state to reflect the changes
-      if (updatedEventIndex !== -1) {
-        let eventColor = "blue"; // Default color
-        if (data.category === 'Work') {
-          eventColor = 'red'; // Work events are red
-        } else if (data.category === 'Personal') {
-          eventColor = 'green'; // Personal events are green
-        }
-
-        const start = new Date(data.start);
-        const end = new Date(data.end);
-        let daysOfWeek = null;
-        let startTime = null;
-        let endTime = null;
-        let startRecur = null;
-        let endRecur = null;
+  //       // Update the events state to reflect the changes
+  //       if (updatedEventIndex !== -1) {
+  //         this.setState((prevState) => {
+  //           const updatedEvents = [...prevState.events];
+  //           updatedEvents[updatedEventIndex] = updatedEvent;
+  //           return {
+  //             events: updatedEvents,
+  //             isModalOpen: false,
+  //             selectedEvent: null,
+  //           };
+  //         });
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error updating event:', error);
+  //     });
+  // };
 
   updateEvent = ({ id, title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur }) => {
     // Make a PUT request to update the event in the database
@@ -644,7 +607,7 @@ updateEvent = ({ id, title, start, end, location, address, longitude, latitude, 
             longitude: data.longitude,
             latitude: data.latitude,
             description: data.description,
-            color: data.colorID, // Set event color based on category
+            color: eventColor, // Set event color based on category
             daysOfWeek: daysOfWeek,//[1,3],
             startTime: startTime,
             endTime: endTime,
