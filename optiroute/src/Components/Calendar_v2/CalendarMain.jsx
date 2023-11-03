@@ -216,7 +216,7 @@ export class CalendarMain extends React.Component {
           <button onClick={() => this.props.navigate("/map")} className='common-dimensions'>Create Route</button>
         </div>
       
-        <form onSubmit={this.handleSearchSubmit} style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+        <form onSubmit={this.handleSearchSubmit} style={{ display: "flex", justifyContent: "center" }}>
         <input // <form onSubmit... - START OF BEN WORK
           type="text" 
           placeholder="Search All Events"
@@ -227,10 +227,10 @@ export class CalendarMain extends React.Component {
         />
       </form >
 
-      <form onSubmit={this.handleCategoryhSubmit} style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+      <form onSubmit={this.handleCategoryhSubmit} style={{ display: "flex", justifyContent: "center", marginTop: "-10px" }}>
         <input // <form onSubmit... - START OF BEN WORK
           type="text" 
-          placeholder="Search All Category"
+          placeholder="Search All Categories"
           value={this.categoryTerm}
           onChange={this.handleCategoryChange}
           style={this.searchInputStyle}
