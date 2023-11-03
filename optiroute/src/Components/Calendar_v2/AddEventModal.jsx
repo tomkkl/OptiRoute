@@ -97,10 +97,11 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
 
 
   const handleAddEvent = () => {
-    if (title && start && end && location && description && recurrence && category && notification_time) {
+    if (title && start && end && location && address && description && recurrence && category && notification_time) {
+      console.log("WE HERE");
       const eventDetails = recurrence === 'No recurrence'
-        ? { title, start, end, location, description, recurrence, category, notification_time }
-        : { title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur };
+        ? { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time }
+        : { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur };
 
       addEvent(eventDetails);
       closeModal();
