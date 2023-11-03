@@ -238,6 +238,7 @@ export class CalendarMain extends React.Component {
           <button onClick={() => this.props.navigate(`/recurring-events`)} className='common-dimensions'>Show Recurring Events</button>
           <button onClick={this.openAddEventModal} className='common-dimensions'>Add Event</button>
           <button onClick={this.openAddColorModal} className='common-dimensions'>Add Category</button>
+          <button onClick={() => this.props.navigate("/multi_filter")} className='common-dimensions'>Multi Filter</button>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <form onSubmit={this.handleSearchSubmit}>
@@ -282,31 +283,6 @@ export class CalendarMain extends React.Component {
             <button onClick={this.handleSearchDates} className='common-dimensions'>Search Dates</button>
           </div>
         </div>
-      
-        <form onSubmit={this.handleSearchSubmit} style={{ display: "flex", justifyContent: "center" }}>
-        <input // <form onSubmit... - START OF BEN WORK
-          type="text" 
-          placeholder="Search All Events"
-          value={this.searchTerm}
-          onChange={this.handleSearchChange}
-          style={this.searchInputStyle}
-          className="common-dimensions"
-        />
-      </form >
-
-      <form onSubmit={this.handleCategoryhSubmit} style={{ display: "flex", justifyContent: "center", marginTop: "-10px" }}>
-        <input // <form onSubmit... - START OF BEN WORK
-          type="text" 
-          placeholder="Search All Categories"
-          value={this.categoryTerm}
-          onChange={this.handleCategoryChange}
-          style={this.searchInputStyle}
-          className="common-dimensions"
-        />
-      </form >
-      <div className='flex-container-center'>
-          <button onClick={() => this.props.navigate("/multi_filter")} className='common-dimensions'>Multi Filter</button>
-      </div>
 
       </div>
 
