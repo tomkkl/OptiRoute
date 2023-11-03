@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import EventDetailModal from "../Calendar_v2/EventDetailsModal";
-import './Search.css';
+import './Category.css';
 
-/*
 
-  Same issues as Recurrence.jsx
-
-  TODO: REDO EventDetailModal, EDITING AND DELETING AFTER JOHN IS DONE WITH CALENDARV2
-  Broken: Edit event only edits the title, nothing else, hopefully fixed with CalendarV2 implementation
-  Broken: Delete event currently routes to /calendar and I have to manually route to /recurring-events, fix this
-*/
-
-function Search() {
+function Category() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   console.log(searchParams)
-  const query = searchParams.get('query');
+  const category = searchParams.get('category');
+  console.log("hiiii")
+  console.log('Category in useEffect:', category); 
 
   const [matchedEvents, setMatchedEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
 
   useEffect(() => {
-    fetch(`/api/events?query=${query}`)
+    console.log('Category in useEffect:', category); 
+    fetch(`/api/events?category=${category}`)
       .then(response => response.json())
       .then(data => {
-        const eventsWithId = data.map(event => ({
+        console.log(data)
+        const eventsWithId = data.filter(event => event.category === category).map(event => ({
           ...event,
           id: event._id,
           title: event.title,
@@ -43,7 +39,7 @@ function Search() {
       .catch(error => {
         console.error('Error fetching matched events:', error);
       });
-  }, [query, triggerRefresh]);
+  }, [category, triggerRefresh]);
 
   const handleDelete = () => {
     if (selectedEvent.id) {
@@ -104,7 +100,7 @@ function Search() {
 
   return (
     <div className="search-results-container">
-      <h1>Search Results for: <span>{query}</span></h1>
+      <h1>Search Results for: <span>{category}</span></h1>
 
       {/* Display matched events as cards */}
       
@@ -131,4 +127,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default Category;

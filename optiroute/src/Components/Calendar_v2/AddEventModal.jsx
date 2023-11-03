@@ -21,6 +21,7 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
     const [notification_time, setNotification_time] = useState(''); // State for category field
     const [startRecur, setStartRecur] = useState('');
     const [endRecur, setEndRecur] = useState('');
+    const [categoryOptions, setCategoryOptions] = useState([]);
 
     const inputRef = React.createRef();
 //
@@ -109,7 +110,21 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
     };
 
     const recurrenceOptions = ['No recurrence', 'Daily', 'Weekly'];
-    const categoryOptions = ['Personal', 'Work'];
+    useEffect(() => {
+        // Fetch category options from the database
+        fetch('/api/colors')
+            .then(response => response.json())
+            .then(data => {
+                // Update categoryOptions state with the received categories
+                // console.log(data);
+                // console.log(data.colorName);
+                setCategoryOptions(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, []); // Empty dependency array ensures the effect runs once after the initial render
+
 
     return (
         <Modal
