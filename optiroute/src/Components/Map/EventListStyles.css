@@ -1,0 +1,77 @@
+/* EventListStyles.css */
+
+.event-list-container {
+  margin-top: 20px;
+}
+
+.event-list-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 1.5em;
+}
+
+.event-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.event-list-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+  border-radius: 8px; /* Rounded corners for the event boxes */
+  margin-bottom: 5px; /* Add some space between items */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for depth */
+}
+
+/* To maintain the alternate background color with rounded corners,
+   you might want to consider using a wrapper around the list or adjust the design
+   so that the border-radius only applies to the first and last visible item. */
+
+.event-list-item:hover {
+  background-color: #d9d9d9;
+}
+
+.event-title {
+  font-weight: bold;
+}
+
+.event-time {
+  font-weight: normal;
+  color: #555;
+}
+.travel-mode-container {
+  margin-bottom: 20px; /* Adjust as needed */
+  padding: 10px;
+  background-color: #f9f9f9; /* Match with the event list background color */
+  border-bottom: 1px solid #ddd; /* To separate it from the list below */
+}
+
+.travel-mode-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px; /* Match with the event list font size */
+  color: #333; /* Match with the event list color */
+}
+
+.travel-mode-container select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: white;
+  box-sizing: border-box; /* This ensures padding does not add to the width */
+  font-size: 14px; /* Match with the event list font size */
+}
+
+/* Responsive adjustments if necessary */
+@media (max-width: 600px) {
+  .travel-mode-container {
+    /* Responsive styles if necessary */
+  }
+}
