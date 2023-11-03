@@ -40,12 +40,12 @@ const eventSchema = new Schema({
         // You can specify additional validation or constraints if needed
     },
     longitude: {
-        type: int,
+        type: Number,
         required: true
         // You can specify additional validation or constraints if needed
     },
     latitude: {
-        type: int,
+        type: Number,
         required: true
         // You can specify additional validation or constraints if needed
     },

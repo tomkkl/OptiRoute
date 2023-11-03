@@ -46,9 +46,9 @@ class EditEventModal extends Component {
         start: event.start,
         end: event.end,
         location: event.location,
-        address: place.formatted_address,
-        longitude: longitude,
-        latitude: latitude,
+        address: event.address,
+        longitude: event.longitude,
+        latitude: event.latitude,
         description: event.description,
         recurrence: event.recurrence,
         category: event.category,
@@ -70,6 +70,9 @@ class EditEventModal extends Component {
       // Extract the latitude and longitude from the chosen place.
       const latitude = place.geometry.location.lat();
       const longitude = place.geometry.location.lng();
+      this.longitude = longitude;
+      this.latitude = latitude;
+      this.address = place.formatted_address;
 
       console.log('Selected address:', place.formatted_address);
       console.log('Latitude:', latitude);
@@ -78,12 +81,12 @@ class EditEventModal extends Component {
   };
 
   handleEditEvent = () => {
-    const {title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
+    const {title, start, end, location, address, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
     const {event, event_id, onEdit, closeModal } = this.props;
     console.log("hhhhh")
     console.log(event_id)
     let id = event_id;
-    if (title && start && end && location && address && longitude && latitude && description && recurrence && category && notification_time) {
+    if (title && start && end && location && description && recurrence && category && notification_time) {
       const updatedEvent = {
         id,
         title,
@@ -91,8 +94,6 @@ class EditEventModal extends Component {
         end,
         location,
         address,
-        longitude,
-        latitude,
         description,
         recurrence,
         category,
@@ -109,7 +110,7 @@ class EditEventModal extends Component {
 
   render() {
     const { isOpen, closeModal } = this.props;
-    const { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
+    const { title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
 
     const recurrenceOptions = ['No recurrence', 'Daily', 'Weekly'];
     const categoryOptions = ['Personal', 'Work'];
@@ -163,6 +164,7 @@ class EditEventModal extends Component {
         />
         <label>Location:</label>
         <input type="text" value={location} onChange={(e) => this.setState({ location: e.target.value })} />
+        <label>Address:</label>
         <div>
         <input
           type="text"
