@@ -9,7 +9,7 @@ import moment from 'moment';
   Same issues as Recurrence.jsx
 
   TODO: REDO EventDetailModal, EDITING AND DELETING AFTER JOHN IS DONE WITH CALENDARV2
-  Broken: Edit event only edits the title, nothing else, hopefully fixed with CalendarV2 implementation
+  Broken: Edit event only edits the titlenjlkj, nothing else, hopefully fixed with CalendarV2 implementation
   Broken: Delete event currently routes to /calendar and I have to manually route to /recurring-events, fix this
 */
 
