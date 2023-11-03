@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './NotificationSettings.css'
+//import './NotificationSettings.css'
 import AddEventModal from '../Calendar_v2/AddEventModal';
 import {sendTitle, sendStart, sendEnd, sendLocation, sendDescription, sendNotificationTime} from '../Calendar_v2/CalendarMain';
 var message = sendTitle;

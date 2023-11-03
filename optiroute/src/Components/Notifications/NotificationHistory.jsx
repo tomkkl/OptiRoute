@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './NotificationSettings.css'
+// import './NotificationSettings.css'
 
 
 
