@@ -139,7 +139,7 @@ class EditEventModal extends Component {
 
 
         <div className="modal-content">
-        <h2>Add Event</h2>
+        <h2>Edit Event</h2>
         <label>Title:</label>
         <input type="text" value={title} onChange={(e) => this.setState({ title: e.target.value })} />
         <label>Start Date and Time:</label>
