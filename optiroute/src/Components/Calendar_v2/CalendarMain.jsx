@@ -579,43 +579,9 @@ updateEvent = ({ id, title, start, end, location, address, longitude, latitude, 
         let startRecur = null;
         let endRecur = null;
 
-  updateEvent = ({ id, title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur }) => {
-    // Make a PUT request to update the event in the database
-    fetch(`/api/events/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Find the index of the updated event in the state
-        const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
-        console.log(updatedEventIndex)
-
-        // Update the events state to reflect the changes
-        if (updatedEventIndex !== -1) {
-          let eventColor = "blue"; // Default color
-          if (data.category === 'Work') {
-            eventColor = 'red'; // Work events are red
-          } else if (data.category === 'Personal') {
-            eventColor = 'green'; // Personal events are green
-          }
-
-          const start = new Date(data.start);
-          const end = new Date(data.end);
-          let daysOfWeek = null;
-          let startTime = null;
-          let endTime = null;
-          let startRecur = null;
-          let endRecur = null;
-
-
           if (data.endRecur) {
             endRecur = new Date(data.endRecur).toISOString();
           }
-
 
           if (data.recurrence !== "No recurrence") {
             if (data.recurrence === "Daily") {
