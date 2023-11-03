@@ -44,17 +44,6 @@ export class CalendarMain extends React.Component {
       .then((data) => {
         const transformedEvents = data.map((event) => {
 
-          let eventColor = 'blue';
-          //assign color on category 
-          if (event.category === 'Work') {
-            eventColor = 'red'; // Work events are red
-          } else if (event.category === 'Personal') {
-            eventColor = 'green'; // Personal events are green
-          }
-          // this.getColorCode(event.category);
-          // let eventColor = this.state.eventColor;
-          // console.log(eventColor)
-
           const start = new Date(event.start);
           const end = new Date(event.end);
           let daysOfWeek = null;
@@ -98,7 +87,7 @@ export class CalendarMain extends React.Component {
             longitude: event.longitude,
             latitude: event.latitude,
             description: event.description,
-            color: eventColor, // Set event color based on category
+            color: event.colorID, // Set event color based on category
             daysOfWeek: daysOfWeek,//[1,3],
             startTime: startTime,
             endTime: endTime,
@@ -299,33 +288,20 @@ export class CalendarMain extends React.Component {
     })
   };
 
-  addEvent = ({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur}) => {
+  addEvent = ({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur, colorID}) => {
     // Make a POST request to your API endpoint to save the event to MongoDB
+    console.log(colorID)
     fetch('/api/events', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur}),
+      body: JSON.stringify({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur, colorID}),
     })
       .then((response) => response.json())
       .then((data) => {
         // Handle the response if needed
         console.log('Event added successfully:', data);
-
-        //assign color on category 
-        let eventColor = "blue"; // Default color
-        if (data.category === 'Work') {
-          eventColor = 'red'; // Work events are red
-        } else if (data.category === 'Personal') {
-          eventColor = 'green'; // Personal events are green
-        }
-
-        // this.getColorCode(data.category);
-        // let eventColor = this.state.eventColor;
-        // console.log(eventColor)
-
-
 
         const start = new Date(data.start);
         const end = new Date(data.end);
@@ -370,7 +346,7 @@ export class CalendarMain extends React.Component {
             longitude: data.longitude,
             latitude: data.latitude,
             description: data.description,
-            color: eventColor, // Set event color based on category
+            color: data.colorID, // Set event color based on category
             daysOfWeek: daysOfWeek,//[1,3],
             startTime: startTime,
             endTime: endTime,
@@ -486,14 +462,14 @@ export class CalendarMain extends React.Component {
 //     });
 // };
 
-updateEvent = ({ id, title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur }) => {
+updateEvent = ({ id, title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID }) => {
   // Make a PUT request to update the event in the database
   fetch(`/api/events/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur}),
+    body: JSON.stringify({ title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID}),
   })
     .then((response) => response.json())
     .then((data) => {
@@ -551,7 +527,7 @@ updateEvent = ({ id, title, start, end, location, address, longitude, latitude, 
             longitude: data.longitude,
             latitude: data.latitude,
             description: data.description,
-            color: eventColor, // Set event color based on category
+            color: data.colorID, // Set event color based on category
             daysOfWeek: daysOfWeek,//[1,3],
             startTime: startTime,
             endTime: endTime,
