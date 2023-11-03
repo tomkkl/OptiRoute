@@ -24,6 +24,10 @@ optiroute.use('/api/users',scheduleUsers)
 //Events
 optiroute.use('/api/events',scheduleEvents)
 
+
+// Notifications
+optiroute.use('/api/notifications',scheduleNotifications)
+
 //Connect to DB
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
