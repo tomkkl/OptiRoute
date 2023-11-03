@@ -8,24 +8,6 @@ import moment from 'moment';
 import GMap from './GMap'
 import Home from '../Home/Home'
 
-// useEffect(() => {
-    // fetch(`/api/events`)
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     // Filter out any events that have a recurrence value of "No recurrence"
-    //     const filteredEvents = data.filter(event => moment(event.recurrence).format('MM/DD/YYYY') !== "No recurrence").map(event => ({
-    //       ...event,
-    //       id: event._id,
-    //       title: event.title,
-    //     }));
-    //     console.log('Events on current day:', filteredEvents);
-    //     setMatchedEvents(filteredEvents);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error fetching events with recurrence:', error);
-    //   });
-//   });
-
 const Map = () => {
     const [showMap, setShowMap] = useState(false);
     const [filteredEvents, setFilteredEvents] = useState('');
@@ -51,7 +33,6 @@ const Map = () => {
             setFilteredEvents(filteredEvents);
             setShowMap(true);
           }
-          //setMatchedEvents(filteredEvents);
         })
         .catch(error => {
           console.error('Error fetching events with recurrence:', error);
@@ -61,11 +42,6 @@ const Map = () => {
     const handleChangeName = event => {
         setName(event.target.value);
     };
-
-    // const { isLoaded } = useJsApiLoader({
-    //     id: 'google-map-script',
-    //     googleMapsApiKey: "AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY"
-    //   })
     
     const [chosenDate, setChosenDate] = useState(new Date());
     return (
