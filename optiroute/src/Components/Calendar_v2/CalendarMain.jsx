@@ -162,8 +162,6 @@ export class CalendarMain extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.openAddEventModal}>Add Event</button>
-        <button onClick={this.openAddColorModal}>Add Category</button>
         <AddEventModal
           isOpen={this.state.isAddEventModalOpen}
           closeModal={this.closeAddEventModal}
@@ -210,13 +208,13 @@ export class CalendarMain extends React.Component {
           onDelete={this.handleDelete}
         />
         <div className='flex-container-center'>
+          <button onClick={() => this.props.navigate("/map")} className='common-dimensions'>Route Your Day!</button>
           <button onClick={() => this.props.navigate(`/recurring-events`)} className='common-dimensions'>Show Recurring Events</button>
+          <button onClick={this.openAddEventModal} className='common-dimensions'>Add Event</button>
+          <button onClick={this.openAddColorModal} className='common-dimensions'>Add Category</button>
         </div>
-        <div className='flex-container-center'>
-          <button onClick={() => this.props.navigate("/map")} className='common-dimensions'>Create Route</button>
-        </div>
-      
-        <form onSubmit={this.handleSearchSubmit} style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+        <form onSubmit={this.handleSearchSubmit}>
         <input // <form onSubmit... - START OF BEN WORK
           type="text" 
           placeholder="Search All Events"
@@ -227,7 +225,7 @@ export class CalendarMain extends React.Component {
         />
       </form >
 
-      <form onSubmit={this.handleCategoryhSubmit} style={{ display: "flex", justifyContent: "center", marginTop: "-10px" }}>
+      <form onSubmit={this.handleCategoryhSubmit}>
         <input // <form onSubmit... - START OF BEN WORK
           type="text" 
           placeholder="Search All Categories"
@@ -237,7 +235,7 @@ export class CalendarMain extends React.Component {
           className="common-dimensions"
         />
       </form >
-
+      </div>
 
       </div>
     )
