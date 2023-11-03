@@ -57,11 +57,6 @@ const Map = () => {
           console.error('Error fetching events with recurrence:', error);
         });
       };
-    const [name, setName] = useState('');
-    const handleChangeName = event => {
-        setName(event.target.value);
-    };
-
     // const { isLoaded } = useJsApiLoader({
     //     id: 'google-map-script',
     //     googleMapsApiKey: "AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY"
