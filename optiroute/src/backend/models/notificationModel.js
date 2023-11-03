@@ -7,30 +7,30 @@ const notificationSchema = new Schema({
         type: String,
         required: true
     },
-    onOff: {
-        type: Boolean,
-        required: true
-    },
-    darkMode: {
-        type: Boolean,
-        required: true
-    },
-    startDateTime: {
-        type: Boolean,
-        required: true
-    },
-    endDateTime: {
-        type: Boolean,
-        required: true
-    },
-    location: {
-        type: Boolean,
-        required: true
-    },
-    description: {
-        type: Boolean,
-        required: true
-    }
+    // onOff: {
+    //     type: Boolean,
+    //     required: true
+    // },
+    // darkMode: {
+    //     type: Boolean,
+    //     required: true
+    // },
+    // startDateTime: {
+    //     type: Boolean, // not sure about type
+    //     required: true
+    // },
+    // endDateTime: {
+    //     type: Boolean, // not sure about type
+    //     required: true
+    // }, 
+    // location: {
+    //     type: String,
+    //     required: true
+    // },
+    // description: {
+    //     type: String,
+    //     required: true
+    // }
 }, { timestamps: true })
 
 module.exports = mongoose.model('Notification', notificationSchema)

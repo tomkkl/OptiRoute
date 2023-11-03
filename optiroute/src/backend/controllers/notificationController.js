@@ -30,11 +30,12 @@ const getNotification = async (req, res) => {
 
 // create a new notification
 const createNotification = async (req, res) => {
-    const {message, onOff, darkMode, startDateTime, endDateTime, location, description} = req.body
-
+    // const {message, onOff, darkMode, startDateTime, endDateTime, location, description} = req.body
+    const {message} = req.body
     // add to the database
     try {
-        const notification = await Notification.create({message, onOff, darkMode, startDateTime, endDateTime, location, description})
+        // const notification = await Notification.create({message, onOff, darkMode, startDateTime, endDateTime, location, description})
+        const notification = await Notification.create({message})
         res.status(200).json(notification)
     } catch (error) {
         res.status(400).json({error: error.message})

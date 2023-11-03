@@ -1,6 +1,6 @@
 // NotificationSettings.jsx
 // Gives the user the ability to edit notification settings
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './NotificationSettings.css'
@@ -18,11 +18,32 @@ var description = true; // controls whether description should be included in no
 // Figure out fetch and all that stuff
 // Figure out how to get data from John
 // Figure out how to send real time notis
+// Need new field "notification time"
 const NotificationSettings = () => {
-    /* Toggle Notifications On/Off start */
-    
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [darkModeEnabled, setDarkModeEnabled] = useState(false);
+  const [startDateTimeEnabled, setStartDateTimeEnabled] = useState(false);
+  const [endDateTimeEnabled, setEndDateTimeEnabled] = useState(false);
+  const [locationEnabled, setLocationEnabled] = useState(false);
+  const [descriptionEnabled, setDescriptionEnabled] = useState(false);
+  const [notifications, setNotifications] = useState(null); // read in notification objects
 
-    const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+    useEffect(() => {
+      const fetchNotifications = async () => {
+        const response = await fetch('/api/notifications')
+        const json = await response.json()
+
+        if (response.ok) {
+          setNotifications(json)
+        }
+
+      }
+
+      fetchNotifications()
+
+    }, [])
+    
+    /* Toggle Notifications On/Off start */
     const toggleNotifications = () => {
         setNotificationsEnabled(!notificationsEnabled);
         /* off = true, on = false */
@@ -40,7 +61,7 @@ const NotificationSettings = () => {
 
 
     /* Toggle Dark Mode On/Off Start */
-    const [darkModeEnabled, setDarkModeEnabled] = useState(false);
+    
 
     const toggleDarkMode = () => {
         setDarkModeEnabled(!darkModeEnabled);
@@ -62,7 +83,7 @@ const NotificationSettings = () => {
 
 
     /* Toggle Start Date/Time Start*/
-    const [startDateTimeEnabled, setStartDateTimeEnabled] = useState(false);
+    
 
     const toggleStartDateTime = () => {
         setStartDateTimeEnabled(!startDateTimeEnabled);
@@ -87,7 +108,7 @@ const NotificationSettings = () => {
 
 
     /* Toggle End Date/Time Start */
-    const [endDateTimeEnabled, setEndDateTimeEnabled] = useState(false);
+    
 
     const toggleEndDateTime = () => {
         setEndDateTimeEnabled(!endDateTimeEnabled);
@@ -111,7 +132,7 @@ const NotificationSettings = () => {
 
 
     /* Toggle Location Start */
-    const [locationEnabled, setLocationEnabled] = useState(false);
+    
 
     const toggleLocation = () => {
         setLocationEnabled(!locationEnabled);
@@ -134,7 +155,7 @@ const NotificationSettings = () => {
     /* Toggle Location End */
 
     /* Toggle Description Start */
-    const [descriptionEnabled, setDescriptionEnabled] = useState(false);
+    
 
     const toggleDescription = () => {
         setDescriptionEnabled(!descriptionEnabled);
@@ -197,6 +218,14 @@ const NotificationSettings = () => {
 
             <div>
                 <button onClick={printMessage}>Print Notification</button>
+            </div>
+
+            <div>
+              {notifications && notifications.map((notification) => (
+                <p key={notification._id}>
+                  {notification.message}
+                </p>
+              ))}
             </div>
 
 
