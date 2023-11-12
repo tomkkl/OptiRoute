@@ -18,34 +18,12 @@ const LoginSignup = () => {
   const [profile, setProfile] = useState(null);
 
   const [user, setUser ] = useState({});
-  const [gEmail, setGEmail] = useState('');
-  const [gPass, setGPass] = useState('');
-  const [gName, setGName] = useState('');
 
-  const updateUser = (userObject) => {
-    // ... your synchronous logic ...
-    console.log("IN UPDATE")
-    console.log(userObject)
-    setUser(userObject); // Set the password with the provided value
-    console.log("UPDATED")
-    console.log(user); // The updated value is available immediately
-    // ... more synchronous logic ...
-  };
 
   const insertUser = async event => {
-    await 
-    console.log("IN insert")
-    console.log(gEmail);
-    // console.log(userObject)
+
     var userinsert;
     console.log(user)
-    // if(user.email == null){
-    //     user.email = "benlin2003@gmail.com"
-    //     user.name = "razz"
-    //     user.sub = "108558676009076436769"
-    // } else {
-    //     userinsert = {name: user.name, email:user.email, password: user.sub}
-    // }
     userinsert = {name: user.name, email:user.email, password: user.sub}
     
 
@@ -77,25 +55,11 @@ const LoginSignup = () => {
     // console.log("\n")
     var userObject = jwt_decode(responce.credential);
     console.log(userObject)
-    updateUser(userObject)
+    setUser(userObject)
 
     console.log("PARTS\n")
     console.log(user)
     
-    // setGEmail(userObject.email)
-    // console.log(gEmail);
-    // setGName(userObject.name)
-    // setGPass(userObject.sub)
-    // setUser(userObject);
-    // console.log(gEmail);
-    // console.log(gName);
-    // console.log(gPass)
-
-    // console.log(userObject);
-    // setUser(userObject);
-    // console.log(user)
-    // console.log("Got here");
-    insertUser();
     document.getElementById("signInGoogleDiv").hidden = true;
   }
   useEffect(() => {
@@ -112,6 +76,15 @@ const LoginSignup = () => {
         )
         }
   }, []);
+
+  useEffect(() => {
+    // This code will run after the state has been updated
+    if(user != null){
+        insertUser();
+    }
+  }, [user]); // useEffect will be triggered whenever the 'user' state changes
+
+
   const [signUpPhone, setSignUpPhone] = useState(false);
   const [loginPhone, setLoginPhone] = useState(false);
   const [loginUsername, setLoginUsername] = useState(false);
@@ -123,6 +96,7 @@ const LoginSignup = () => {
   const [users, setUsers] = useState(null)
 
   useEffect(() => {
+    setError(null)
     const fetchUsers = async () => {
       const responce = await fetch('/api/users')
       const json = await responce.json()
@@ -226,6 +200,7 @@ const LoginSignup = () => {
         const json = await response.json()
 
         if(!response.ok){
+            console.log(json.error)
             setError(json.error)
         }
 
