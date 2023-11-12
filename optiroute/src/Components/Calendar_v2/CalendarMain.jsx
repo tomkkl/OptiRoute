@@ -10,6 +10,8 @@ import AddEventModal from './AddEventModal';
 import AddColorModal from './AddColorModal';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { ReactSession } from "react-client-session"
+
 
 import './CalendarMain.css';
 
@@ -44,11 +46,14 @@ export class CalendarMain extends React.Component {
   }
 
   componentDidMount() {
+    const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
     // fetch events from the API endpoint
-    fetch('/api/events')
+    fetch(`/api/events?user_id=${userId}`)
       .then((response) => response.json())
       .then((data) => {
-        const transformedEvents = data.map((event) => {
+
+        const userEvents = data.filter((event) => event.user_id === userId);
+        const transformedEvents = userEvents.map((event) => {
 
           const start = new Date(event.start);
           const end = new Date(event.end);
@@ -346,8 +351,8 @@ export class CalendarMain extends React.Component {
     })
   };
 
-  addEvent = ({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur, colorID}) => {
-
+  addEvent = ({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur, colorID }) => {
+    const userId = ReactSession.get("user_id");
     // Make a POST request to your API endpoint to save the event to MongoDB
     console.log(colorID)
     fetch('/api/events', {
@@ -355,7 +360,7 @@ export class CalendarMain extends React.Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur, colorID}),
+      body: JSON.stringify({ user_id: userId, title, start, end, location, address, longitude, latitude, category, description, recurrence, notification_time, startRecur, endRecur, colorID }),
 
     })
       .then((response) => response.json())
@@ -393,25 +398,25 @@ export class CalendarMain extends React.Component {
 
         // Update the events state to include the newly added event
         const newEvent = {
-            allDay: false,
-            id: data._id,
-            title: data.title,
-            start: start,
-            end: end,
-            notification_time: new Date(data.notification_time),
-            recurrence: data.recurrence,
-            category: data.category,
-            location: data.location,
-            address: data.address,
-            longitude: data.longitude,
-            latitude: data.latitude,
-            description: data.description,
-            color: data.colorID, // Set event color based on category
-            daysOfWeek: daysOfWeek,//[1,3],
-            startTime: startTime,
-            endTime: endTime,
-            startRecur: startRecur, 
-            endRecur: endRecur,
+          allDay: false,
+          id: data._id,
+          title: data.title,
+          start: start,
+          end: end,
+          notification_time: new Date(data.notification_time),
+          recurrence: data.recurrence,
+          category: data.category,
+          location: data.location,
+          address: data.address,
+          longitude: data.longitude,
+          latitude: data.latitude,
+          description: data.description,
+          color: data.colorID, // Set event color based on category
+          daysOfWeek: daysOfWeek,//[1,3],
+          startTime: startTime,
+          endTime: endTime,
+          startRecur: startRecur,
+          endRecur: endRecur,
 
         };
 
@@ -489,72 +494,72 @@ export class CalendarMain extends React.Component {
   };
 
 
-//   updateEvent = ({ id, title, start, end, location, description, recurrence, category }) => {
-//   // Make a PUT request to update the event in the database
-//   fetch(`/api/events/${id}`, {
-//     method: 'PATCH',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({ title, start, end, location, description, recurrence, category }),
-//   })
-//     .then((response) => response.json())
-//     .then((updatedEvent) => {
-//       // Handle the updated event data as needed
-//       console.log('Event updated successfully:', updatedEvent);
+  //   updateEvent = ({ id, title, start, end, location, description, recurrence, category }) => {
+  //   // Make a PUT request to update the event in the database
+  //   fetch(`/api/events/${id}`, {
+  //     method: 'PATCH',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ title, start, end, location, description, recurrence, category }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((updatedEvent) => {
+  //       // Handle the updated event data as needed
+  //       console.log('Event updated successfully:', updatedEvent);
 
-//       // Find the index of the updated event in the state
-//       const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
+  //       // Find the index of the updated event in the state
+  //       const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
 
-//       // Update the events state to reflect the changes
-//       if (updatedEventIndex !== -1) {
-//         this.setState((prevState) => {
-//           const updatedEvents = [...prevState.events];
-//           updatedEvents[updatedEventIndex] = updatedEvent;
-//           return {
-//             events: updatedEvents,
-//             isModalOpen: false,
-//             selectedEvent: null,
-//           };
-//         });
-//       }
-//     })
-//     .catch((error) => {
-//       console.error('Error updating event:', error);
-//     });
-// };
+  //       // Update the events state to reflect the changes
+  //       if (updatedEventIndex !== -1) {
+  //         this.setState((prevState) => {
+  //           const updatedEvents = [...prevState.events];
+  //           updatedEvents[updatedEventIndex] = updatedEvent;
+  //           return {
+  //             events: updatedEvents,
+  //             isModalOpen: false,
+  //             selectedEvent: null,
+  //           };
+  //         });
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error updating event:', error);
+  //     });
+  // };
 
-updateEvent = ({ id, title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID }) => {
-  // Make a PUT request to update the event in the database
-  fetch(`/api/events/${id}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID}),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // Find the index of the updated event in the state
-      const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
-      console.log(updatedEventIndex)
+  updateEvent = ({ id, title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID }) => {
+    // Make a PUT request to update the event in the database
+    fetch(`/api/events/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Find the index of the updated event in the state
+        const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
+        console.log(updatedEventIndex)
 
-      // Update the events state to reflect the changes
-      if (updatedEventIndex !== -1) {
-        let eventColor = "blue"; // Default color
-        if (data.category === 'Work') {
-          eventColor = 'red'; // Work events are red
-        } else if (data.category === 'Personal') {
-          eventColor = 'green'; // Personal events are green
-        }
+        // Update the events state to reflect the changes
+        if (updatedEventIndex !== -1) {
+          let eventColor = "blue"; // Default color
+          if (data.category === 'Work') {
+            eventColor = 'red'; // Work events are red
+          } else if (data.category === 'Personal') {
+            eventColor = 'green'; // Personal events are green
+          }
 
-        const start = new Date(data.start);
-        const end = new Date(data.end);
-        let daysOfWeek = null;
-        let startTime = null;
-        let endTime = null;
-        let startRecur = null;
-        let endRecur = null;
+          const start = new Date(data.start);
+          const end = new Date(data.end);
+          let daysOfWeek = null;
+          let startTime = null;
+          let endTime = null;
+          let startRecur = null;
+          let endRecur = null;
 
           if (data.endRecur) {
             endRecur = new Date(data.endRecur).toISOString();

@@ -10,9 +10,9 @@ const getEvents = async (req, res) => {
 };
 
 const createEvent = async (req, res) => {
-    const { title, start, end, recurrence  , category, location, description, notification_time, startRecur, endRecur } = req.body;
+    const { user_id, title, start, end, recurrence  , category, location, description, notification_time, startRecur, endRecur } = req.body;
     try {
-        const event = await Event.create({ title, start, end, recurrence  , category, location, description, notification_time, startRecur, endRecur });
+        const event = await Event.create({user_id, title, start, end, recurrence  , category, location, description, notification_time, startRecur, endRecur });
         res.status(201).json(event);
     } catch (error) {
         res.status(400).json({ error: error.message });

@@ -52,10 +52,10 @@ router.get('/:id', async (req, res) => {
 
 // Create a new event
 router.post('/', async (req, res) => {
-    const { title, start, end, recurrence , category, location, address, longitude, latitude, description, notification_time, startRecur, endRecur, colorID} = req.body;
+    const {user_id ,title, start, end, recurrence , category, location, address, longitude, latitude, description, notification_time, startRecur, endRecur, colorID} = req.body;
 
     try {
-        const event = await Event.create({ title, start, end, recurrence, category, location, address, longitude, latitude, description, notification_time, startRecur, endRecur, colorID});
+        const event = await Event.create({user_id, title, start, end, recurrence, category, location, address, longitude, latitude, description, notification_time, startRecur, endRecur, colorID});
         res.status(201).json(event);
     } catch (error) {
         res.status(400).json({ error: error.message });

@@ -12,13 +12,14 @@ import Recurrence from './Components/Recurrence/Recurrence';
 import Map from './Components/Map/Map';
 import All_search from './Components/All_search/All_search.jsx';
 import SearchByDates from './Components/SearchByDates/SearchByDates';
-
+import { ReactSession } from 'react-client-session';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
 import "react-datetime/css/react-datetime.css";
 
 
 function App() {
+  ReactSession.setStoreType("localStorage");
   return (
     <>
       <Routes>
