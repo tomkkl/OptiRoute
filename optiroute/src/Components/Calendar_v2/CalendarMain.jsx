@@ -445,6 +445,7 @@ export class CalendarMain extends React.Component {
       })
       .catch((error) => {
         console.error('Error adding event:', error);
+        alert("Error adding event");
       });
   };
 

@@ -18,17 +18,34 @@ const LoginSignup = () => {
   const [profile, setProfile] = useState(null);
 
   const [user, setUser ] = useState({});
+  const [gEmail, setGEmail] = useState('');
+  const [gPass, setGPass] = useState('');
+  const [gName, setGName] = useState('');
+
+  const updateUser = (userObject) => {
+    // ... your synchronous logic ...
+    console.log("IN UPDATE")
+    console.log(userObject)
+    setUser(userObject); // Set the password with the provided value
+    console.log("UPDATED")
+    console.log(user); // The updated value is available immediately
+    // ... more synchronous logic ...
+  };
 
   const insertUser = async event => {
+    await 
+    console.log("IN insert")
+    console.log(gEmail);
+    // console.log(userObject)
     var userinsert;
-    console.log(user.name)
-    if(user.email == null){
-        user.email = "benlin2003@gmail.com"
-        user.name = "razz"
-        user.sub = "108558676009076436769"
-    } else {
-        userinsert = {name: user.name, email:user.email, password: user.sub}
-    }
+    console.log(user)
+    // if(user.email == null){
+    //     user.email = "benlin2003@gmail.com"
+    //     user.name = "razz"
+    //     user.sub = "108558676009076436769"
+    // } else {
+    //     userinsert = {name: user.name, email:user.email, password: user.sub}
+    // }
     userinsert = {name: user.name, email:user.email, password: user.sub}
     
 
@@ -56,17 +73,30 @@ const LoginSignup = () => {
   }
 
   function handleCallBackResponse(responce) {
-    console.log("Encoded JWT ID token" + responce.credential);
-    console.log("\n")
+    // console.log("Encoded JWT ID token" + responce.credential);
+    // console.log("\n")
     var userObject = jwt_decode(responce.credential);
-    console.log(userObject);
-    setUser(userObject);
-    console.log({user})
-    console.log("Got here")
-    setUser(userObject);
-    document.getElementById("signInGoogleDiv").hidden = true;
-    insertUser()
+    console.log(userObject)
+    updateUser(userObject)
 
+    console.log("PARTS\n")
+    console.log(user)
+    
+    // setGEmail(userObject.email)
+    // console.log(gEmail);
+    // setGName(userObject.name)
+    // setGPass(userObject.sub)
+    // setUser(userObject);
+    // console.log(gEmail);
+    // console.log(gName);
+    // console.log(gPass)
+
+    // console.log(userObject);
+    // setUser(userObject);
+    // console.log(user)
+    // console.log("Got here");
+    insertUser();
+    document.getElementById("signInGoogleDiv").hidden = true;
   }
   useEffect(() => {
     /* global google */
@@ -336,21 +366,6 @@ const LoginSignup = () => {
                 </div>
             )}
             {error && <div className='error'>{error}</div>}
-            <div>
-            {!profile ? <LoginSocialFacebook
-            
-                appID="172918275855498"
-                onResolve={(responce) =>{
-                    console.log(responce);
-                    setProfile(responce.data)
-                }}
-                onReject={(error) => {
-                    console.log(error);
-                }}
-            >
-                <FacebookLoginButton/>
-            </LoginSocialFacebook>: ''}
-            </div>
             <div id = "signInGoogleDiv"></div>
 
 
