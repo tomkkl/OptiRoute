@@ -19,6 +19,7 @@ export class GMap extends Component {
       events: this.props.events,
       travelMode: props.travelMode
     };
+
   }
 
   componentDidMount() {
@@ -32,37 +33,42 @@ export class GMap extends Component {
     }
   }
 
-  calculateAndDisplayRoute() {
-    const { events } = this.props;
-    const waypoints = events.slice(1, -1).map(event => ({
+calculateAndDisplayRoute() {
+  const { events } = this.props;
+  const waypoints = events.slice(1, -1).map((event, index) => {
+    const timeToLeave = calculateTimeToLeave(events[0].time, index); 
+    //Work on calculate time to leave
+    return {
       location: { lat: event.latitude, lng: event.longitude },
       stopover: true,
-    }));
+      departure_time: timeToLeave,
+    };
+  });
 
-    if (events.length > 1) {
-      const origin = events[0];
-      const destination = events[events.length - 1];
+  if (events.length > 1) {
+    const origin = events[0];
+    const destination = events[events.length - 1];
 
-      const directionsService = new this.props.google.maps.DirectionsService();
-      directionsService.route(
-        {
-          origin: new this.props.google.maps.LatLng(origin.latitude, origin.longitude),
-          destination: new this.props.google.maps.LatLng(destination.latitude, destination.longitude),
-          waypoints: waypoints,
-          travelMode: this.state.travelMode,
-        },
-        (result, status) => {
-          if (status === this.props.google.maps.DirectionsStatus.OK) {
-            this.setState({
-              directions: result,
-            });
-          } else {
-            console.error(`error fetching directions ${result}`);
-          }
+    const directionsService = new this.props.google.maps.DirectionsService();
+    directionsService.route(
+      {
+        origin: new this.props.google.maps.LatLng(origin.latitude, origin.longitude),
+        destination: new this.props.google.maps.LatLng(destination.latitude, destination.longitude),
+        waypoints: waypoints,
+        travelMode: this.state.travelMode,
+      },
+      (result, status) => {
+        if (status === this.props.google.maps.DirectionsStatus.OK) {
+          this.setState({
+            directions: result,
+          });
+        } else {
+          console.error(`error fetching directions ${result}`);
         }
-      );
-    }
+      }
+    );
   }
+}
 
   onMarkerClick = (props, marker, e) =>
     this.setState({
