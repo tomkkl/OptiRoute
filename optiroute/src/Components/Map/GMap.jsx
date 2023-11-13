@@ -32,6 +32,13 @@ export class GMap extends Component {
       this.setState({ travelMode: this.props.travelMode }, this.calculateAndDisplayRoute); // Update travelMode state before calculating route
     }
   }
+  calculateTimeToLeave(startTime, index) {
+    const travelTimePerEvent = 15; // in minutes (adjust as needed)
+    const startTimeInMinutes = convertTimeToMinutes(startTime); // implement this function
+    const travelTime = index * travelTimePerEvent;
+    const timeToLeaveInMinutes = startTimeInMinutes + travelTime;
+    return convertMinutesToTime(timeToLeaveInMinutes); // implement this function
+  }
 
 calculateAndDisplayRoute() {
   const { events } = this.props;
