@@ -47,7 +47,6 @@ export class CalendarMain extends React.Component {
 
   componentDidMount() {
     const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
-
     // fetch events from the API endpoint
     fetch(`/api/events?user_id=${userId}`)
       .then((response) => response.json())
