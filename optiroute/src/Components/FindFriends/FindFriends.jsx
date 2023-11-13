@@ -16,7 +16,7 @@ const FindFriends = () => {
     event.preventDefault();
     // Perform the action based on the selected search option and input
     console.log(`Searching by ${searchBy}: ${searchInput}`);
-    // You may want to send the search criteria to your backend or perform some other action here
+    // Send the search criteria to your backend or perform some other action here
   };
 
   return (
