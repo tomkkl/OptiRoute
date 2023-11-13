@@ -36,7 +36,7 @@ router.get('/:id', async (req, res) => {
 
 //Post a new user
 router.post('/', async (req, res) => {
-    const {name, email, phoneNumber, password, securityQuestion} = req.body
+    const {name, email, phoneNumber, password, securityQuestion, friendList} = req.body
     console.log("THis is seciry:\n" + securityQuestion);
 
     try {
