@@ -1,5 +1,3 @@
-/* MapStyles.css */
-
 .map-page-container {
   display: flex;
 }
@@ -47,48 +45,42 @@
 
 .control-panel {
   padding: 10px;
-  background-color: #f9f9f9; /* Use a color that matches your design */
+  background-color: #f9f9f9;
 }
 
 .travel-mode-container {
-  margin-bottom: 10px; /* Space above the button */
-  padding: 10px; /* Padding inside the container */
-  background-color: #f9f9f9; /* Background color of the container */
-  border: 1px solid #ddd; /* Border color */
-  border-radius: 15px; /* Rounded corners */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow for depth */
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .travel-mode-container label {
   margin-bottom: 5px;
-  display: block; /* Makes the label go on top of the dropdown */
-  /* Add other label styles if needed */
+  display: block;
 }
 
 .travel-mode-container select {
-  width: 100%; /* Makes the select box full width */
+  width: 100%;
   padding: 5px;
   border: 1px solid #ccc;
-  border-radius: 4px; /* Rounded corners for the select element */
-  /* Add other select styles if needed */
+  border-radius: 4px;
 }
 
 .create-map-button-container {
-  margin-top: 10px; /* Space below the dropdown */
-  /* Add other button container styles if needed */
+  margin-top: 10px;
 }
 
 .create-map-button {
-  width: 100%; /* Optional: Makes the button full width */
-  /* Add other button styles if needed */
+  width: 100%;
 }
 
-/* If you want to style the dropdown options */
 .travel-mode-container select option {
   padding: 5px;
 }
 
-/* Add responsive design if needed */
 @media (max-width: 600px) {
   .travel-mode-container {
     flex-direction: column;

@@ -1,27 +1,19 @@
 import React, { useState, useEffect } from "react";
-import Modal from "react-modal";
 import Datetime from "react-datetime";
-import { useGoogleMap, useLoadScript, } from '@react-google-maps/api'
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import moment from 'moment';
 
 import GMap from './GMapV2'
 import EventList from './EventList';
-import Home from '../Home/Home'
 import './MapV2.css';
 
 const Map = () => {
-    // deprecate this
     const [travelMode, setTravelMode] = useState('DRIVING');
 
     const [showMap, setShowMap] = useState(false);
     const [filteredEvents, setFilteredEvents] = useState('');
-    const [mapKey, setMapKey] = useState(0); // New state for map key
-    const myObject = {
-        events: "filteredEvents",
-    };
+    const [mapKey, setMapKey] = useState(0);
 
-    const handleChangeTravelMode = (event) => { // Add this function
+    const handleChangeTravelMode = (event) => {
         setTravelMode(event.target.value.toUpperCase());
     };
 
@@ -52,10 +44,6 @@ const Map = () => {
             .catch(error => {
                 console.error('Error fetching events with recurrence:', error);
             });
-    };
-    const [name, setName] = useState('');
-    const handleChangeName = event => {
-        setName(event.target.value);
     };
     const [chosenDate, setChosenDate] = useState(new Date());
     return (

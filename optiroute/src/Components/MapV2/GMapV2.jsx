@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import { DirectionsRenderer } from '@react-google-maps/api';
 
-//https://www.digitalocean.com/community/tutorials/how-to-integrate-the-google-maps-api-into-react-applications
 const mapStyles = {
   width: '100%',
   height: '100%'
@@ -26,9 +25,8 @@ export class GMap extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // If the events or travelMode props have changed, update the route
     if (this.props.events !== prevProps.events || this.props.travelMode !== prevProps.travelMode) {
-      this.setState({ travelMode: this.props.travelMode }, this.calculateAndDisplayRoute); // Update travelMode state before calculating route
+      this.setState({ travelMode: this.props.travelMode }, this.calculateAndDisplayRoute);
     }
   }
 
@@ -97,11 +95,11 @@ export class GMap extends Component {
         >
           {events.map((event, index) => (
             <Marker
-              key={index} // It's better if you have a unique id from `event`
+              key={index}
               onClick={this.onMarkerClick}
               position={{ lat: event.latitude, lng: event.longitude }}
               name={event.title}
-              label={`${index + 1}`} // The label is now a string representing the order of the marker
+              label={`${index + 1}`}
             />
           ))}
   
@@ -117,7 +115,7 @@ export class GMap extends Component {
           {this.state.directions && (
             <DirectionsRenderer
               directions={this.state.directions}
-              options={{ suppressMarkers: true }} // This will prevent the DirectionsRenderer from adding its own markers
+              options={{ suppressMarkers: true }}
             />
           )}
         </Map>
