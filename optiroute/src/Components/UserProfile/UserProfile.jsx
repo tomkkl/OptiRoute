@@ -41,7 +41,7 @@ const UserProfile = () => {
         setName(json.name)
         setEmail(json.email)
         setPhone(json.phoneNumber)
-        try{
+        try {
           console.log("try")
           setBio(json.bio)
         } catch {
@@ -58,13 +58,13 @@ const UserProfile = () => {
     const response = await fetch('/api/users/' + userId);
     const json = await response.json();
     if (response.ok) {
-        setUser(json);
-        setName(json.name);
-        setEmail(json.email);
-        setPhone(json.phoneNumber);
-        setBio(json.bio || ""); // Use the OR operator to default to an empty string if bio is undefined
+      setUser(json);
+      setName(json.name);
+      setEmail(json.email);
+      setPhone(json.phoneNumber);
+      setBio(json.bio || ""); // Use the OR operator to default to an empty string if bio is undefined
     }
-};
+  };
 
   ///////////////////////////////// Backend Data Transfer End
 
@@ -76,7 +76,7 @@ const UserProfile = () => {
 
   // Function to handle username updates
   const handleUsernameUpdate = async event => {
-    
+
     console.log("name")
     user.name = newUsername
     const response = await fetch('/api/users/' + userId, {
