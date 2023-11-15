@@ -84,6 +84,7 @@ function App() {
     if (!loggedIn) {
       // Redirect to the login page
       navigate('/login');
+      window.location.reload();
       ReactSession.set('user_id', null)
     }
   }, [loggedIn, navigate]);
