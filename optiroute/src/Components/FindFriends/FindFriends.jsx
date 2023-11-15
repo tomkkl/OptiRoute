@@ -54,6 +54,8 @@ const FindFriends = () => {
     setFriends(filteredUsers);
   };
 
+  // TODO: Loop through users and 
+
   return (
     <div>
       <h2>Find Friends</h2>
