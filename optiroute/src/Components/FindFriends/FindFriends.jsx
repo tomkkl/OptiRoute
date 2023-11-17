@@ -9,7 +9,8 @@ const FindFriends = () => {
   // NOTE: Not the friends that the user currently has, just the ones that matched his search
   const [friends, setFriends] = useState([]); // contains all the friends that the user is looking for 
   
-
+  // the list of friends that the user has chosen to send friend requests to
+  const [selectedFriends, setSelectedFriends] = useState([]); 
   useEffect(() => {
     const fetchUsers = async () => {
         try {
@@ -36,6 +37,25 @@ const FindFriends = () => {
 
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
+  };
+
+  const handleFriendCheckboxChange = (event, friendId) => {
+    const isChecked = event.target.checked;
+  
+    if (isChecked) {
+      setSelectedFriends([...selectedFriends, friendId]);
+    } else {
+      const updatedSelectedFriends = selectedFriends.filter(
+        (id) => id !== friendId
+      );
+      setSelectedFriends(updatedSelectedFriends);
+    }
+  };
+  
+  const handleSendFriendRequest = () => {
+    // Logic to send friend request for selectedFriends array
+    console.log('Sending friend request to:', selectedFriends);
+    // Implement the logic to send friend requests to selected friends
   };
 
   const handleSearchSubmit = (event) => {
@@ -86,13 +106,20 @@ const FindFriends = () => {
         <div>
           <h3>Search Results:</h3>
           <ul>
-            {friends.map((friend) => (
-              <li key={friend._id}>
-                {/* {`Name: ${friend.name}, Email: ${friend.email}, Phone: ${friend.phoneNumber}`} */}
-                {`Name: ${friend.name}`}
-              </li>
-            ))}
+          {friends.map((friend) => (
+            <li key={friend._id}>
+              <label>
+                <input
+                  type="checkbox"
+                  onChange={(e) => handleFriendCheckboxChange(e, friend._id)}
+                  checked={selectedFriends.includes(friend._id)}
+                />
+                {` Name: ${friend.name}`}
+              </label>
+            </li>
+          ))}
           </ul>
+          <button onClick={handleSendFriendRequest}>Send Friend Request</button>
         </div>
       )}
     </div>
