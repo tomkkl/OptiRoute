@@ -54,7 +54,8 @@ const FindFriends = () => {
     setFriends(filteredUsers);
   };
 
-  // TODO: Loop through users and 
+  // TODO: Loop through users and
+  // TODO: Fri req checkbox  
 
   return (
     <div>

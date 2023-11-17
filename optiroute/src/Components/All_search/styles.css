@@ -1,9 +1,0 @@
-input[type="date"] {
-    width: 100%;
-    padding: 10px; /* Adjust padding as needed */
-    font-size: 16px; /* Adjust font size as needed */
-    border: 1px solid #ccc; /* Add border for a polished look */
-    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
-    box-sizing: border-box; /* Ensure padding and border are included in the width */
-    margin-bottom: 15px; /* Optional: Add margin to create space between input fields */
-  }
