@@ -1,0 +1,92 @@
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 40px; /* Increase padding for a larger modal box */
+    border: 1px solid #ccc;
+    border-radius: 10px; /* Increase border radius for rounded corners */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3); /* Increase box shadow for depth effect */
+    z-index: 2;
+    width: 80%; /* Set a specific width for the modal */
+    max-width: 400px; /* Optionally, set a maximum width for the modal */
+    height: 800px;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.modal-content {
+    text-align: left;
+    margin-bottom: 20px; /* Increase bottom margin for spacing */
+}
+
+.label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: calc(100% - 16px);
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    resize: vertical; /* Allow vertical resizing */
+}
+
+
+button {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px 24px; /* Increase padding for larger button */
+    border: none;
+    border-radius: 8px; /* Increase border radius for rounded button */
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Add a smooth transition effect */
+}
+
+button.cancel {
+    background-color: #f44336;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button.cancel:hover {
+    background-color: #d32f2f;
+}
+
+.select-field {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+.modal-content .button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-content button {
+    margin: 0 10px; /* Add some margin between the buttons */
+}

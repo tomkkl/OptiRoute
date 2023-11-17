@@ -56,7 +56,7 @@ const FindFriends = () => {
 
   // TODO: Loop through users and
   // TODO: Fri req checkbox  
-
+  console.log(friends)
   return (
     <div>
       <h2>Find Friends</h2>
