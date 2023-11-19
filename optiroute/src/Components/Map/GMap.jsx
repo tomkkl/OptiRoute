@@ -33,7 +33,7 @@ export class GMap extends Component {
     }
   }
   calculateTimeToLeave(startTime, index) {
-    const travelTimePerEvent = 15; // in minutes (adjust as needed)
+    const travelTimePerEvent = 55; // in minutes (adjust as needed)
     const startTimeInMinutes = convertTimeToMinutes(startTime); // implement this function
     const travelTime = index * travelTimePerEvent;
     const timeToLeaveInMinutes = startTimeInMinutes + travelTime;
