@@ -9,6 +9,7 @@ const Sidebar = () => {
             <Link to="/about">About Team 17</Link>
             <Link to="/login">Login/Signup</Link>
             <Link to="/calendar">Calendar</Link>
+            <Link to="/notification_setting">Notification</Link>
         </div>
     );
 };
