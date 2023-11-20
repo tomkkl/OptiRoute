@@ -28,7 +28,7 @@ const FindFriends = () => {
       }
     }
     fetchUser()
-  })
+  }, [])
   
   // the list of friends that the user has chosen to send friend requests to
   const [selectedFriends, setSelectedFriends] = useState([]); 
@@ -152,18 +152,30 @@ const FindFriends = () => {
     var filteredUsers = users.filter((user) =>
       user[searchBy].toLowerCase().includes(searchInput.toLowerCase())
     );
+    console.log("Friend list before removing self: " + filteredUsers)
+    console.log("Current user is " + currentUser.name)
+    console.log("Current user id is " + currentUser._id)
 
-    console.log("Current user is " + currentUser)
-    // Remove the current user from the search list
-    filteredUsers = filteredUsers.filter(item => item !== currentUser)
+    const currentUserID = currentUser._id
 
+    const newList = filteredUsers.filter(item => item.id !== currentUserID);
+
+
+    console.log("Index of current user: " + newList.indexOf(currentUserID))
+    for (const item of newList) {
+      console.log(item._id);
+
+    }
+
+    
+    console.log('Friend list after removing self: ' + newList)
     // Update the state with the filtered users
-    setFriends(filteredUsers);
+    setFriends(newList);
   };
 
   // TODO: Loop through users and
   // TODO: Fri req checkbox  
-  console.log(friends)
+  // console.log(friends)
   return (
     <div>
       <h2>Find Friends</h2>
