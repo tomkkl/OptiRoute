@@ -1,7 +1,12 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react'
+import { ReactSession } from "react-client-session"
+
 
 const FindFriends = () => {
+  const [user, setUser] = useState(null)
+  const [friendRequestList, setFriendRequestList] = useState([])
+
   const [searchBy, setSearchBy] = useState('name'); // Stores the type of info 
   const [searchInput, setSearchInput] = useState(''); // Stores the value
   const [users, setUsers] = useState(null); // stores all the users
@@ -52,11 +57,74 @@ const FindFriends = () => {
     }
   };
   
-  const handleSendFriendRequest = () => {
+  const handleSendFriendRequest = async () => {
     // Logic to send friend request for selectedFriends array
     console.log('Sending friend request to:', selectedFriends);
     // Implement the logic to send friend requests to selected friends
+    console.log(users)
+    // get every user
+
+    // Loop through selectedFriends using forEach
+    selectedFriends.forEach(async (friendId) => {
+      // Go through users and append current user to the friend's friend request list
+      var response = await fetch('/api/users/' + friendId)
+
+      
+      var json = await response.json()
+      if (response.ok) {
+        setUser(json)
+        setFriendRequestList(json.friendRequestList)
+      }
+
+      // Id of current user
+      const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
+      // make a patch request adding current user to friend request list of that friend
+      friendRequestList.push(userId)
+
+      response = await fetch('/api/users/' + friendId, {
+        method: "PATCH",
+        body: JSON.stringify(user),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      json = await response.json()
+
+      if(response.ok) {
+        console.log('Successfully added user to friend request list')
+        console.log(user.friendRequestList)
+      }
+
+    });
   };
+
+    // Function to handle username updates
+  // const handleUsernameUpdate = async event => {
+
+  //   console.log("name")
+  //   user.name = newUsername
+  //   const response = await fetch('/api/users/' + userId, {
+  //     method: "PATCH",
+  //     body: JSON.stringify(user),
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  //   const json = await response.json()
+
+  //   // if (!response.ok) {
+  //   //     setError(json.error)
+  //   // }
+
+  //   if (response.ok) {
+  //     // setError(null)
+  //     console.log('name changed')
+  //     console.log('new name: ' + user.name)
+  //     fetchUserData()
+  //   }
+  //   setNewUsername(''); // Clear the input field
+  // };
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();

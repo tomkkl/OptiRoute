@@ -36,13 +36,7 @@ const userSchema = new Schema({
         type:[String],
         default: [],
         required: false 
-    },
-    friendList: {
-        type:[String],
-        default: [],
-        required: false 
-    },
-    
+    },   
 
 }, { timestamps: true })
 
