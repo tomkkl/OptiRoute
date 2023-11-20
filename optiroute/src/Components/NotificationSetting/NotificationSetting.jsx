@@ -14,7 +14,7 @@ const NotificationSetting = ({ onSave = () => { } }) => {
         // Fetch current notification settings for the user
         const fetchNotificationSettings = async () => {
             try {
-                const response = await fetch(`/api/users/${userId}`);
+                const response = await fetch(`/api/NotificationSetting/${userId}`);
                 const user = await response.json();
                 console.log(user)
                 setPhoneNotification(user.notificationPhone);
