@@ -4,6 +4,9 @@ import { ReactSession } from "react-client-session"
 
 
 const FindFriends = () => {
+  // Id of current user
+  const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
+  const [currentUser, setCurrentUser] = useState(null)
   const [user, setUser] = useState(null)
   const [friendRequestList, setFriendRequestList] = useState([])
 
@@ -12,7 +15,20 @@ const FindFriends = () => {
   const [users, setUsers] = useState(null); // stores all the users
 
   // NOTE: Not the friends that the user currently has, just the ones that matched his search
-  const [friends, setFriends] = useState([]); // contains all the friends that the user is looking for 
+  const [friends, setFriends] = useState([]); // contains all the friends that the user is looking for
+  
+  // Get and Set Current User
+  useEffect(() => {
+    const fetchUser = async () => {
+      const responce = await fetch('/api/users/' + userId)
+      const json = await responce.json()
+      if (responce.ok) {
+        setCurrentUser(json)
+        console.log("Successfully retrieved current user data")
+      }
+    }
+    fetchUser()
+  })
   
   // the list of friends that the user has chosen to send friend requests to
   const [selectedFriends, setSelectedFriends] = useState([]); 
@@ -76,8 +92,7 @@ const FindFriends = () => {
         setFriendRequestList(json.friendRequestList)
       }
 
-      // Id of current user
-      const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
+
       // make a patch request adding current user to friend request list of that friend
       friendRequestList.push(userId)
 
@@ -134,9 +149,13 @@ const FindFriends = () => {
     // Send the search criteria to the backend or perform some other action here
 
     // Filter users based on the search criteria
-    const filteredUsers = users.filter((user) =>
+    var filteredUsers = users.filter((user) =>
       user[searchBy].toLowerCase().includes(searchInput.toLowerCase())
     );
+
+    console.log("Current user is " + currentUser)
+    // Remove the current user from the search list
+    filteredUsers = filteredUsers.filter(item => item !== currentUser)
 
     // Update the state with the filtered users
     setFriends(filteredUsers);
