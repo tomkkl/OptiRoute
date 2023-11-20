@@ -35,7 +35,6 @@ const FriendProfile = () => {
       if (responce.ok) {
 
         setUser(json)
-        console.log("GOTH TSIEHEISJSLK")
         // set everything
         setName(json.name)
         setEmail(json.email)
