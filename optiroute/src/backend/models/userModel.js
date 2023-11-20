@@ -7,12 +7,12 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    email:{
+    email: {
         type: String,
         required: false
     },
-    phoneNumber :{
-        type:String,
+    phoneNumber: {
+        type: String,
         required: false
     },
     password: {
@@ -20,11 +20,35 @@ const userSchema = new Schema({
         required: true
     },
     securityQuestion: {
-        type:String,
-        required:false
+        type: String,
+        required: false
     },
     bio: {
-        type:String,
+        type: String,
+        required: false
+    },
+    notificationPhone: {
+        type: Boolean,
+        required: false
+    },
+    notificationEmail: {
+        type: Boolean,
+        required: false
+    },
+    notification_phone_number: {
+        type: String,
+        required: false
+    },
+    notification_email_address: {
+        type: String,
+        required: false
+    },
+    notification_phone_content: {
+        type: String,
+        required: false
+    },
+    notification_email_content: {
+        type: String,
         required: false
     }
 }, { timestamps: true })

@@ -12,6 +12,7 @@ import Recurrence from './Components/Recurrence/Recurrence';
 import Map from './Components/Map/Map';
 import All_search from './Components/All_search/All_search.jsx';
 import SearchByDates from './Components/SearchByDates/SearchByDates';
+import NotificationSetting from './Components/NotificationSetting/NotificationSetting';
 import { ReactSession } from 'react-client-session';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
@@ -117,6 +118,7 @@ function App() {
         <Route path="/recurring-events" element={<Recurrence />} />
         <Route path="/map" element={<Map />} />
         <Route path="/multi_filter" element={<All_search />} />
+        <Route path="/notification_setting" element={<NotificationSetting />} />
       </Routes>
       <Modal
         isOpen={showTimeoutModal}
