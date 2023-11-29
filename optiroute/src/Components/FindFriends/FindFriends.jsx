@@ -94,7 +94,11 @@ const FindFriends = () => {
 
 
       // make a patch request adding current user to friend request list of that friend
-      friendRequestList.push(userId)
+      // if the list contains current user already, then don't do anything but otherwise add current user
+      if(!friendRequestList.concat.includes(userId)) {
+        friendRequestList.push(userId)
+      }
+      
 
       response = await fetch('/api/users/' + friendId, {
         method: "PATCH",
@@ -144,33 +148,35 @@ const FindFriends = () => {
   const handleSearchSubmit = (event) => {
     event.preventDefault();
     // Perform the action based on the selected search option and input
-    console.log(`Searching by ${searchBy}: ${searchInput}`);
+    // console.log(`Searching by ${searchBy}: ${searchInput}`);
 
     // Send the search criteria to the backend or perform some other action here
 
     // Filter users based on the search criteria
+    // Will include yourself if you fit the criteria as well
     var filteredUsers = users.filter((user) =>
       user[searchBy].toLowerCase().includes(searchInput.toLowerCase())
     );
-    console.log("Friend list before removing self: " + filteredUsers)
-    console.log("Current user is " + currentUser.name)
-    console.log("Current user id is " + currentUser._id)
 
-    const currentUserID = currentUser._id
-
-    const newList = filteredUsers.filter(item => item.id !== currentUserID);
+    console.log("Current user id: " + currentUser._id)
+    console.log("Current user name: " + currentUser.name)
 
 
-    console.log("Index of current user: " + newList.indexOf(currentUserID))
-    for (const item of newList) {
-      console.log(item._id);
-
+    var indexToRemove = -1;
+    for (let i = 0; i < filteredUsers.length; i++) {
+      console.log('hello: ' + filteredUsers[i]._id)
+      if (filteredUsers[i]._id === currentUser._id) {
+        indexToRemove = i;
+      }
+    }
+    if (indexToRemove >= 0 && indexToRemove < filteredUsers.length) {
+      filteredUsers.splice(indexToRemove, 1); // Removes 1 element at the specified index
     }
 
     
-    console.log('Friend list after removing self: ' + newList)
+ 
     // Update the state with the filtered users
-    setFriends(newList);
+    setFriends(filteredUsers);
   };
 
   // TODO: Loop through users and
