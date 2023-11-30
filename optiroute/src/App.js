@@ -9,7 +9,7 @@ import UserProfile from './Components/UserProfile/UserProfile';
 import Search from './Components/Search/Search';
 import Category from './Components/Category/Category.jsx';
 import Recurrence from './Components/Recurrence/Recurrence';
-import Map from './Components/Map/Map';
+import Map from './Components/MapV2/MapV2';
 import All_search from './Components/All_search/All_search.jsx';
 import SearchByDates from './Components/SearchByDates/SearchByDates';
 import { ReactSession } from 'react-client-session';
