@@ -4,6 +4,7 @@ import Datetime from "react-datetime";
 import { useGoogleMap, useLoadScript, } from '@react-google-maps/api'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import moment from 'moment';
+import Weather from './Weather'
 
 import GMap from './GMap'
 import EventList from './EventList';
@@ -17,9 +18,6 @@ const Map = () => {
     const [showMap, setShowMap] = useState(false);
     const [filteredEvents, setFilteredEvents] = useState('');
     const [mapKey, setMapKey] = useState(0); // New state for map key
-    const myObject = {
-        events: "filteredEvents",
-    };
 
     const handleChangeTravelMode = (event) => { // Add this function
         setTravelMode(event.target.value.toUpperCase());
@@ -53,11 +51,11 @@ const Map = () => {
                 console.error('Error fetching events with recurrence:', error);
             });
     };
-    const [name, setName] = useState('');
-    const handleChangeName = event => {
-        setName(event.target.value);
-    };
+
     const [chosenDate, setChosenDate] = useState(new Date());
+    const firstEventLocation = filteredEvents && filteredEvents.length > 0 ? filteredEvents[0] : null;
+
+
     return (
         <div className="map-page-container">
             <div className="event-list-sidebar">
@@ -86,6 +84,13 @@ const Map = () => {
                         Create Map
                     </button>
                 </div>
+
+                {firstEventLocation &&
+                    <Weather
+                        latitude={firstEventLocation.latitude}
+                        longitude={firstEventLocation.longitude}
+                    />
+                }
     
                 {!showMap && <div className="no-events-text">No Events For This Day</div>}
                 {showMap && <EventList events={filteredEvents} />}
