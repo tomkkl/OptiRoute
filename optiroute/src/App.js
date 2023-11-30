@@ -19,7 +19,7 @@ import "react-datetime/css/react-datetime.css";
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import FindFriends from './Components/FindFriends/FindFriends.jsx';
-
+import FriendRequests from './Components/FriendRequests/FriendRequests.jsx';
 
 function App() {
   ReactSession.setStoreType("localStorage");
@@ -120,6 +120,7 @@ function App() {
         <Route path="/multi_filter" element={<All_search />} />
 
         <Route path="/find-friends" element={<FindFriends />} />
+        <Route path="/friend-requests" element={<FriendRequests />} />
 
       </Routes>
       <Modal
