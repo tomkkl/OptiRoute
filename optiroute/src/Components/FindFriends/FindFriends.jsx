@@ -9,6 +9,7 @@ const FindFriends = () => {
   const [currentUser, setCurrentUser] = useState(null)
   const [user, setUser] = useState(null)
   const [friendRequestList, setFriendRequestList] = useState([])
+  const [popup, setPopup] = useState(false)
 
   const [searchBy, setSearchBy] = useState('name'); // Stores the type of info 
   const [searchInput, setSearchInput] = useState(''); // Stores the value
@@ -50,8 +51,9 @@ const FindFriends = () => {
     fetchUsers()
   }, [])
 
-  
-
+  const closePopup = () => {
+    setPopup(false); // close the popup
+  }
   const handleSearchByChange = (event) => {
     setSearchBy(event.target.value);
   };
@@ -74,6 +76,8 @@ const FindFriends = () => {
   };
   
   const handleSendFriendRequest = async () => {
+
+    setPopup(true);
     // Logic to send friend request for selectedFriends array
     console.log('Sending friend request to:', selectedFriends);
     // Implement the logic to send friend requests to selected friends
@@ -95,7 +99,7 @@ const FindFriends = () => {
 
       // make a patch request adding current user to friend request list of that friend
       // if the list contains current user already, then don't do anything but otherwise add current user
-      if(!friendRequestList.concat.includes(userId)) {
+      if(!friendRequestList.includes(userId)) {
         friendRequestList.push(userId)
       }
       
@@ -225,6 +229,17 @@ const FindFriends = () => {
           ))}
           </ul>
           <button onClick={handleSendFriendRequest}>Send Friend Request</button>
+          {popup && (
+            <div className="popup">
+              <div className="popup-content">
+              <span onClick={closePopup} className="close-btn">
+                &times;
+              </span>
+              <h2>Friend Request Sent!</h2>
+              
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
