@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { ReactSession } from "react-client-session"
+import './FindExistingFriends.css';
 
 var friendId;
 const FindExistingFriends = () => {
@@ -109,14 +110,19 @@ const FindExistingFriends = () => {
       </div>
       <h2>Find Friends</h2>
       <form onSubmit={handleSearchSubmit}>
-        <label>
-          Search By:
-          <select value={searchBy} onChange={handleSearchByChange}>
-            <option value="name">Name</option>
-            <option value="email">Email</option>
-            <option value="phoneNumber">Phone number</option>
-          </select>
-        </label>
+      <label htmlFor="searchBy" className="search-label">
+      Search By:
+      <select
+        id="searchBy"
+        className="search-select"
+        value={searchBy}
+        onChange={handleSearchByChange}
+      >
+        <option value="name">Name</option>
+        <option value="email">Email</option>
+        <option value="phoneNumber">Phone number</option>
+      </select>
+    </label>
         <br />
         <label>
           {`Enter ${searchBy}: `}

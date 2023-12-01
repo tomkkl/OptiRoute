@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import { DirectionsRenderer } from '@react-google-maps/api';
 import EventList from './EventList';
+import moment from 'moment';
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import 'react-datepicker/dist/react-datepicker.css';
@@ -103,7 +104,8 @@ export class GMap extends Component {
             });
             //Last event has not travel time
             events[index].travelTime = 0
-
+            events[index].leaveTime = events[index].end
+            
             // Convert total duration from seconds to a more readable format (hours and minutes)
             const totalDurationInMinutes = totalDurationInSeconds / 60;
             const hours = Math.floor(totalDurationInMinutes / 60);
@@ -163,7 +165,7 @@ export class GMap extends Component {
                 key={index}
                 onClick={this.onMarkerClick}
                 position={{ lat: event.latitude, lng: event.longitude }}
-                name={event.title}
+                name={event.title + ", Start time: " + moment(event.start).format('HH:mm') + ", Leave time: " + moment(event.leaveTime).subtract(moment(event.travelTime), "seconds").format('HH:mm')}
                 label={`${index + 1}`}
               />
             ))}

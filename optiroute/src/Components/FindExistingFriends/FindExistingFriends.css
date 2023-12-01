@@ -1,25 +1,49 @@
 /* FindExistingFriends.css */
 
-.FEF-page-container {
+/* .FEF-page-container {
     display: flex;
-  }
+  } */
 .friend-list-sidebar {
-    width: 25%;
+    width: 50%;
     background-color: #c1ffd5;
     display: flex;
     flex-direction: column;
     padding: 10px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    /* box-shadow: 2px 0 5px rgba(0,0,0,0.1); */
 }
   
   .curr-friend-list {
     list-style: none;
+    width: 50%;
     padding: 10px;
     border: 1px solid #ccc;
     margin-bottom: 15px;
   }
   
   .curr-friend-list span {
+    width: 50%;
     display: block;
     margin-bottom: 5px;
+  }
+  .search-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  .search-select {
+    width: calc(100% - 10px); /* Adjust width as needed */
+    padding: 6px; /* Adjust padding */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Styling for select dropdown arrow */
+  .search-select::-ms-expand {
+    display: none;
+  }
+  
+  .search-select option {
+    font-size: 16px;
   }

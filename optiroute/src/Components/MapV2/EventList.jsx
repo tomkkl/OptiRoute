@@ -15,7 +15,7 @@ const EventList = ({ events }) => {
             <li key={index} className="event-list-item">
               <span className="event-title">{event.title}</span>
               <span className="event-time">{"Event Start: " + moment(event.start).format('HH:mm')}</span>
-              <span className="event-leave-time">{"Leave By: " + moment(event.start).subtract(moment(event.travelTime), "seconds").format('HH:mm')}</span>
+              <span className="event-leave-time">{"Leave By: " + moment(event.leaveTime).subtract(moment(event.travelTime), "seconds").format('HH:mm')}</span>
               {moment(event.leaveTime).subtract(moment(event.travelTime), "seconds").isBefore(moment(event.start)) ? 
                 (<span className="event-time">{" - Warning: Leave time is earlier than the start time!"}</span>) : 
                 <span className="event-time">{""}</span>}

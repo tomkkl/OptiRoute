@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { ReactSession } from "react-client-session"
+import { useNavigate } from 'react-router-dom';
 
 var friendId;
 const FindFriends = () => {
@@ -8,13 +9,11 @@ const FindFriends = () => {
   const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
   const [currentUser, setCurrentUser] = useState(null)
   const [user, setUser] = useState(null)
+  const navigate = useNavigate();
+
 
   const [popup, setPopup] = useState(false)
 
-  // const [name, setName] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [phone, setPhone] = useState('');
-  // const [bio, setBio] = useState('');
   const [friendRequestList, setFriendRequestList] = useState([]) // the fri req list of that user
 
 
@@ -262,6 +261,7 @@ const FindFriends = () => {
               </div>
             </div>
           )}
+          <div className="submit" onClick={() => { navigate("/friend-list") }}>Friend List</div>
         </div>
       )}
     </div>
