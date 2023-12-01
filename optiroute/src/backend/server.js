@@ -5,6 +5,8 @@ const scheduleUsers = require('./Schedule/users')
 const scheduleEvents = require('./Schedule/event')
 const colorEvents = require('./Schedule/color')
 const notificationEvents = require('./Schedule/userNotification')
+const routes = require('./Schedule/route')
+
 
 
 // create express app
@@ -29,6 +31,9 @@ optiroute.use('/api/colors', colorEvents)
 
 //Colors
 optiroute.use('/api/NotificationSetting', notificationEvents)
+
+//Route
+optiroute.use('/api/routes', routes)
 
 
 //Connect to DB

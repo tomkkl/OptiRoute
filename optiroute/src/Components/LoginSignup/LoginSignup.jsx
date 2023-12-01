@@ -25,8 +25,7 @@ const LoginSignup = () => {
 
         var userinsert;
         console.log(user)
-
-        userinsert = { name: user.name, email: user.email, password: user.sub }
+        userinsert = { name: user.name, email: user.email, phone: "", password: user.sub }
 
 
 
@@ -186,9 +185,9 @@ const LoginSignup = () => {
             event.preventDefault();
             var userinsert = null;
             if (!signUpPhone) {
-                userinsert = { name, email: telEmail, password, securityQuestion }
+                userinsert = { name, email: telEmail, phoneNumber: "", password, securityQuestion }
             } else {
-                userinsert = { name, phoneNumber: telEmail, password, securityQuestion }
+                userinsert = { name, email: "", phoneNumber: telEmail, password, securityQuestion }
             }
 
 
