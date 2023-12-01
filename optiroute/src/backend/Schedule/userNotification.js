@@ -1,99 +1,93 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const UserNotification = require('../models/userNotificationModel');
+const Notification = require('../models/userNotificationModel');
 const {
-    createUserNotification,
-    getUserNotifications,
-    getUserNotification,
-    deleteUserNotification,
-    updateUserNotification
+    createNotification,
+    getNotifications,
+    deleteNotification,
+    updateNotification
 } = require('../controllers/userNotificationController');
 
 const router = express.Router();
 
-// Get all userNotifications
+// Get all notifications
 router.get('/', async (req, res) => {
     // BEN WORK 
     const { query } = req.query;
 
     if (query) {
-        // If there's a query parameter, search for userNotifications by title
-        const matchedUserNotifications = await UserNotification.find({ title: new RegExp(query, 'i') }).sort({ createdAt: -1 });
-        return res.status(200).json(matchedUserNotifications);
+        // If there's a query parameter, search for notifications by title
+        const matchedNotifications = await Notification.find({ title: new RegExp(query, 'i') }).sort({ createdAt: -1 });
+        return res.status(200).json(matchedNotifications);
     } else {
-        // If no query parameter, return all userNotifications
-        const userNotifications = await UserNotification.find({}).sort({ createdAt: -1 });
-        return res.status(200).json(userNotifications);
+        // If no query parameter, return all notifications
+        const notifications = await Notification.find({}).sort({ createdAt: -1 });
+        return res.status(200).json(notifications);
     }
 
-    // BEN WORK
-
-    /* this below here is the previous work that was here. keeping this incase my shit breaks everything */
-    //const userNotifications = await UserNotification.find({}).sort({ createdAt: -1 });
-    //res.status(200).json(userNotifications);
 });
 
 
-// Get a single userNotification
+// Get a single notification
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'No such userNotification' });
+        return res.status(404).json({ error: 'No such notification' });
     }
 
-    const userNotification = await UserNotification.findById(id);
+    const notification = await Notification.findById(id);
 
-    if (!userNotification) {
-        return res.status(404).json({ error: 'No such userNotification' });
+    if (!notification) {
+        return res.status(404).json({ error: 'No such notification' });
     }
 
-    res.status(200).json(userNotification);
+    res.status(200).json(notification);
 });
 
-// Create a new userNotification
+// Create a new notification
 router.post('/', async (req, res) => {
-    const { notificationPhone, notificationEmail } = req.body;
+    const { user_id, phone, email, title, date_time, location, address, description, email_address } = req.body;
 
     try {
-        const userNotification = await UserNotification.create({ notificationPhone, notificationEmail });
-        res.status(201).json(userNotification);
+        const notification = await Notification.create({ user_id, phone, email, title, date_time, location, address, description, email_address });
+        res.status(201).json(notification);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
-// Delete an userNotification
+// Delete an notification
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'No such userNotification' });
+        return res.status(404).json({ error: 'No such notification' });
     }
 
-    const userNotification = await UserNotification.findOneAndDelete({ _id: id });
+    const notification = await Notification.findOneAndDelete({ _id: id });
 
-    if (!userNotification) {
-        return res.status(404).json({ error: 'No such userNotification' });
+    if (!notification) {
+        return res.status(404).json({ error: 'No such notification' });
     }
 
-    res.status(200).json(userNotification);
+    res.status(200).json(notification);
 });
 
-// Update an userNotification
+// Update an notification
 router.patch('/:id', async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'No such userNotification' });
+        return res.status(404).json({ error: 'No such notification' });
     }
 
-    const userNotification = await UserNotification.findOneAndUpdate({ _id: id }, req.body, { new: true });
+    const notification = await Notification.findOneAndUpdate({ _id: id }, req.body, { new: true });
 
-    if (!userNotification) {
-        return res.status(404).json({ error: 'No such userNotification' });
+    if (!notification) {
+        return res.status(404).json({ error: 'No such notification' });
     }
 
-    res.status(200).json(userNotification);
+    res.status(200).json(notification);
 });
 
 module.exports = router;

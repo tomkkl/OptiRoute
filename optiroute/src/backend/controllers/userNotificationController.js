@@ -1,47 +1,47 @@
-const Setting = require('../models/userNotificationModel'); r
+const Notification = require('../models/userNotificationModel');
 
-const getSettings = async (req, res) => {
+const getNotifications = async (req, res) => {
     try {
-        const Settings = await Setting.find({}).sort({ createdAt: -1 });
-        res.status(200).json(Settings);
+        const notifications = await Notification.find({}).sort({ createdAt: -1 });
+        res.status(200).json(notifications);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
-const creatSetting = async (req, res) => {
-    const { emailSetting, phoneSetting } = req.body;
+const createNotification = async (req, res) => {
+    const { user_id, phone, email, title, date_time, location, address, description, email_address } = req.body;
     try {
-        const setting = await Setting.create({ emailSetting, phoneSetting });
-        res.status(201).json(setting);
+        const notification = await Notification.create({ user_id, phone, email, title, date_time, location, address, description, email_address });
+        res.status(201).json(notification);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
 
-const updateSetting = async (req, res) => {
+const updateNotification = async (req, res) => {
     const { id } = req.params;
     try {
-        const updatedSetting = await Setting.findByIdAndUpdate(id, req.body, { new: true });
-        res.status(200).json(updatedSetting);
+        const updatedNotification = await Notification.findByIdAndUpdate(id, req.body, { new: true });
+        res.status(200).json(updatedNotification);
     } catch (error) {
-        res.status(404).json({ error: ' not found' });
+        res.status(404).json({ error: 'Notification not found' });
     }
 };
 
-const deleteSetting = async (req, res) => {
+const deleteNotification = async (req, res) => {
     const { id } = req.params;
     try {
-        const deletedSetting = await Setting.findByIdAndDelete(id);
-        res.status(200).json(deletedSetting);
+        const deletedNotification = await Notification.findByIdAndDelete(id);
+        res.status(200).json(deletedNotification);
     } catch (error) {
-        res.status(404).json({ error: ' not found' });
+        res.status(404).json({ error: 'Notification not found' });
     }
 };
 
 module.exports = {
-    getSettings,
-    creatSetting,
-    updateSetting,
-    deleteSetting
+    getNotifications,
+    createNotification,
+    updateNotification,
+    deleteNotification
 };

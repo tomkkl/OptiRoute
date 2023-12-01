@@ -26,30 +26,6 @@ const userSchema = new Schema({
     bio: {
         type: String,
         required: false
-    },
-    notificationPhone: {
-        type: Boolean,
-        required: false
-    },
-    notificationEmail: {
-        type: Boolean,
-        required: false
-    },
-    notification_phone_number: {
-        type: String,
-        required: false
-    },
-    notification_email_address: {
-        type: String,
-        required: false
-    },
-    notification_phone_content: {
-        type: String,
-        required: false
-    },
-    notification_email_content: {
-        type: String,
-        required: false
     }
 }, { timestamps: true })
 

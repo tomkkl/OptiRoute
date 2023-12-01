@@ -2,8 +2,9 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const scheduleUsers = require('./Schedule/users')
-const scheduleEvents =  require('./Schedule/event')
-const colorEvents =  require('./Schedule/color')
+const scheduleEvents = require('./Schedule/event')
+const colorEvents = require('./Schedule/color')
+const notificationEvents = require('./Schedule/userNotification')
 
 
 // create express app
@@ -18,13 +19,16 @@ optiroute.use((req, res, next) => {
 })
 
 //Users
-optiroute.use('/api/users',scheduleUsers)
+optiroute.use('/api/users', scheduleUsers)
 
 //Events
-optiroute.use('/api/events',scheduleEvents)
+optiroute.use('/api/events', scheduleEvents)
 
 //Colors
-optiroute.use('/api/colors',colorEvents)
+optiroute.use('/api/colors', colorEvents)
+
+//Colors
+optiroute.use('/api/NotificationSetting', notificationEvents)
 
 
 //Connect to DB
@@ -32,7 +36,7 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         // listen for port
         optiroute.listen(process.env.PORT, () => {
-        console.log('connected to db and listening on port 4000!!')
+            console.log('connected to db and listening on port 4000!!')
         })
     })
     .catch((error) => {
