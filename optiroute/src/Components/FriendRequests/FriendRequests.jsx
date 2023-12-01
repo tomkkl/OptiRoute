@@ -13,7 +13,7 @@ const FriendRequests = () => {
     const [userNames, setUserNames] = useState([]);
 
     const [handledRequests, setHandledRequests] = useState([]);
-    
+
 
     // Id of current user
     const userId = ReactSession.get("user_id");
@@ -93,6 +93,9 @@ const FriendRequests = () => {
             console.error('Failed to update friend request list in the backend');
             // Handle error scenarios or show error messages to the user
           }
+          // Remove the user name from the userNames array
+          const updatedUserNames = userNames.filter((_, index) => index !== friendRequestList.indexOf(user_id));
+          setUserNames(updatedUserNames);
         } catch (error) {
           console.error('Error rejecting friend request:', error);
           // Handle errors such as network issues, etc.
@@ -140,31 +143,33 @@ const FriendRequests = () => {
           } else {
             console.log(`User with ID: ${user_id} is already in the friend list`);
           }
+          // Remove the user name from the userNames array
+          const updatedUserNames = userNames.filter((_, index) => index !== friendRequestList.indexOf(user_id));
+          setUserNames(updatedUserNames);
         } catch (error) {
           console.error('Error accepting friend request:', error);
           // Handle errors such as network issues, etc.
         }
       };
 
-    return (
+      return (
         <div>
             <h1>Incoming Friend Requests</h1>
             <ul>
                 {userNames.map((userName, index) => (
                     <li key={index}>
                         {userName}
-                        <button onClick={() => acceptRequest(friendRequestList[index])}>Accept</button>
-                        <button onClick={() => rejectRequest(friendRequestList[index])}>Reject</button>
+                        <button onClick={() => acceptRequest(friendRequestList[index])}>
+                            Accept
+                        </button>
+                        <button onClick={() => rejectRequest(friendRequestList[index])}>
+                            Reject
+                        </button>
                     </li>
                 ))}
             </ul>
         </div>
     );
 };
-
-
-
-
-
 
 export default FriendRequests;

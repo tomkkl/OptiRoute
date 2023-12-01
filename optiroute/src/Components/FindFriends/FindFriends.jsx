@@ -105,67 +105,45 @@ const FindFriends = () => {
     };
   //   fetchUserData(friendId)
   // }, [user, friendId])
-  const handleSendFriendRequest = () => {
-
+  const handleSendFriendRequest = async () => {
     setPopup(true);
-    // Logic to send friend request for selectedFriends array
-    console.log('Sending friend request to:', selectedFriends);
-    // Implement the logic to send friend requests to selected friends
-    // console.lo g(users)
-    // get every user
 
-    // Loop through selectedFriends using forEach
-    selectedFriends.forEach((friendId) => {
-      // Go through users and append current user to the friend's friend request list
-      // var response = await fetch('/api/users/' + friendId)
-      // var json = await response.json()
-      // if (response.ok) {
-      //   console.log("Successfully retrieved the info of: " + json.name)
-      //   // console.log(json.email)
-      //   // console.log(json._id)
-      //   // // set everything
-      //   setUser(json)  
-      //   setFriendRequestList(json.friendRequestList)
-      // console.log("Req List: " + friendRequestList)
+    selectedFriends.forEach(async (friendId) => {
+      try {
+        // Fetch the user data of the friend
+        const response = await fetch('/api/users/' + friendId);
+        const json = await response.json();
 
-      // }
-      
-      fetchUserData(friendId);
-      
-      // make a patch request adding current user to friend request list of that friend
-      // if the list contains current user already, then don't do anything but otherwise add current user
-      console.log("Before the push: " + friendRequestList)
-      if (!friendRequestList.includes(userId)) {
-        friendRequestList.push(userId)
-      }
-      console.log("After the push: " + friendRequestList)
+        if (response.ok && json) {
+          // Get the current friendRequestList of the friend
+          const currentFriendRequestList = json.friendRequestList || [];
 
+          // Check if the current user's ID is not already in the friend's friendRequestList
+          if (!currentFriendRequestList.includes(userId)) {
+            // Append the current user's ID to the friend's friendRequestList
+            currentFriendRequestList.push(userId);
 
-      console.log("Fri req list after: " + friendRequestList)
+            // Make a PATCH request to update the friend's friendRequestList
+            const patchResponse = await fetch(`/api/users/${friendId}`, {
+              method: 'PATCH',
+              body: JSON.stringify({ friendRequestList: currentFriendRequestList }),
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
 
-      // console.log("user: " + user) // user is null
-      // console.log("user fr req list " + user.friendRequestList)
-      // user.friendRequestList = friendRequestList; // this is null
-      // console.log("User " + user)
-      const response = fetch('/api/users/' + friendId, { //
-        method: "PATCH",
-        body: JSON.stringify({ friendRequestList: friendRequestList }), // Update only the 'friendRequestList' field
-        headers: {
-          'Content-Type': 'application/json'
+            if (patchResponse.ok) {
+              console.log('Successfully added user to friend request list for friend ID:', friendId);
+            } else {
+              console.error('Failed to update friend request list for friend ID:', friendId);
+            }
+          } else {
+            console.log(`User with ID ${userId} is already in the friend request list of friend ID ${friendId}`);
+          }
         }
-      })
-
-
-  
-
-      if (response.ok) {
-        console.log('Successfully added user to friend request list')
-        // console.log(user.friendRequestList)
-      } else {
-        // throw new Error('Bad request');
-        console.log("Bad Request")
+      } catch (error) {
+        console.error('Error sending friend request:', error);
       }
-
     });
   };
 
