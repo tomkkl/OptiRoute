@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { ReactSession } from "react-client-session"
-import { useNavigate } from 'react-router-dom';
 
 var friendId;
 const FindFriends = () => {
@@ -9,10 +8,15 @@ const FindFriends = () => {
   const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
   const [currentUser, setCurrentUser] = useState(null)
   const [user, setUser] = useState(null)
-  const navigate = useNavigate();
+
   const [popup, setPopup] = useState(false)
 
+  // const [name, setName] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [phone, setPhone] = useState('');
+  // const [bio, setBio] = useState('');
   const [friendRequestList, setFriendRequestList] = useState([]) // the fri req list of that user
+
 
   const [searchBy, setSearchBy] = useState('name'); // Stores the type of info 
   const [searchInput, setSearchInput] = useState(''); // Stores the value
@@ -82,21 +86,22 @@ const FindFriends = () => {
 
       const response = await fetch('/api/users/' + friendId);
       const json = await response.json();
+      
 
-      setUser(json);// problem is here probably
+      // setUser(json);// problem is here probably
      
       if (response.ok && json) {
-        
+        console.log("This line has been ")
+        setFriendRequestList(json.friendRequestList)
+        console.log("executed")
         // user = json
 
-        console.log("Successfully retrieved the info of json: " + json.name)
-        console.log("Successfully retrieved the info of local: " + user.name)
-        setFriendRequestList(json.friendRequestList)
+        console.log("Successfully retrieved the info of: " + json.name)
+        // console.log("Successfully retrieved the info of:2 " + user.name)
+        
         console.log("fri req list before adding current user: " + json.friendRequestList)
+
       }
-
-     
-
     };
   //   fetchUserData(friendId)
   // }, [user, friendId])
@@ -124,36 +129,41 @@ const FindFriends = () => {
       // console.log("Req List: " + friendRequestList)
 
       // }
-
+      
       fetchUserData(friendId);
+      
       // make a patch request adding current user to friend request list of that friend
       // if the list contains current user already, then don't do anything but otherwise add current user
+      console.log("Before the push: " + friendRequestList)
       if (!friendRequestList.includes(userId)) {
         friendRequestList.push(userId)
       }
+      console.log("After the push: " + friendRequestList)
 
 
       console.log("Fri req list after: " + friendRequestList)
 
-      console.log("user: " + user) // user is null
-      console.log("user fr req list " + user.friendRequestList)
-      user.friendRequestList = friendRequestList; // this is null
+      // console.log("user: " + user) // user is null
+      // console.log("user fr req list " + user.friendRequestList)
+      // user.friendRequestList = friendRequestList; // this is null
       // console.log("User " + user)
-      
       const response = fetch('/api/users/' + friendId, { //
         method: "PATCH",
-        body: JSON.stringify(user),
+        body: JSON.stringify({ friendRequestList: friendRequestList }), // Update only the 'friendRequestList' field
         headers: {
           'Content-Type': 'application/json'
         }
       })
 
 
+  
+
       if (response.ok) {
         console.log('Successfully added user to friend request list')
-        console.log(user.friendRequestList)
+        // console.log(user.friendRequestList)
       } else {
-        throw new Error('Bad request');
+        // throw new Error('Bad request');
+        console.log("Bad Request")
       }
 
     });
@@ -170,7 +180,6 @@ const FindFriends = () => {
 
     // Filter users based on the search criteria
     // Will include yourself if you fit the criteria as well
-    
     var filteredUsers = users.filter((user) =>
       user[searchBy].toLowerCase().includes(searchInput.toLowerCase())
     );
@@ -253,11 +262,11 @@ const FindFriends = () => {
               </div>
             </div>
           )}
-          <div className="button" onClick={() => { navigate("/friend-list") }}>See Friends</div>
         </div>
       )}
     </div>
   );
+  // random comment
 };
 
 export default FindFriends;
