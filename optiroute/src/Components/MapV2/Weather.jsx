@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const Weather = ({ latitude, longitude }) => {
     const [weatherData, setWeatherData] = useState(null);
@@ -7,21 +7,28 @@ const Weather = ({ latitude, longitude }) => {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
 
-    useEffect(() => {
-        if (latitude && longitude) {
-            const fetchWeather = async () => {
-                try {
-                    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=d7921e982601cc3dc903100205c91854&units=imperial`);
-                    const data = await response.json();
-                    setWeatherData(data);
-                } catch (error) {
-                    console.error("Error fetching weather data:", error);
-                }
-            };
+    function getWindDirection(degrees) {
+        const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+        const index = Math.round(degrees / 45) % 8;
+        return directions[index];
+    }
 
-            fetchWeather();
+    const fetchWeather = useCallback(async () => {
+        if (latitude && longitude) {
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=d7921e982601cc3dc903100205c91854&units=imperial`);
+                const data = await response.json();
+                setWeatherData(data);
+                console.log("fetched" + data);
+            } catch (error) {
+                console.error("Error fetching weather data:", error);
+            }
         }
     }, [latitude, longitude]);
+
+    useEffect(() => {
+        fetchWeather();
+    }, [fetchWeather]);
 
     if (!weatherData) return <div className="weather-info-container">Loading weather...</div>;
 
@@ -50,7 +57,9 @@ const Weather = ({ latitude, longitude }) => {
                         <p>Feels like {weatherData.main.feels_like.toFixed(0)}°F, {capitalizeFirstWord(weatherData.weather[0].description)}</p>
                         <p>Humidity: {weatherData.main.humidity}%</p>
                         <p>Pressure: {weatherData.main.pressure} hPa</p>
+                        <p>Wind: {weatherData.wind.speed.toFixed(0)} mph {getWindDirection(weatherData.wind.deg)}</p>
                     </div>
+                    <button className="refresh-weather-button" onClick={fetchWeather}>Refresh Weather</button>
                 </>
             ) : (
                 <p>Weather information not available.</p>

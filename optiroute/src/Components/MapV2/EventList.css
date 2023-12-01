@@ -1,13 +1,33 @@
 .event-list-container {
   margin-top: 20px;
+  width: 100%;
 }
 
-.event-list-title {
+/* .event-list-title {
   text-align: center;
   color: #333;
   margin-bottom: 10px;
   font-size: 1.5em;
+} */
+
+.event-list-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5em;
+  color: #0056b3;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  text-align: center;
+  /* Ensure the title doesn't scroll */
 }
+
+.event-list-scrollable {
+  overflow-y: auto; /* Enable scrolling */
+  max-height: 60vh; /* Adjust the height as needed */
+  /* Styling for the scrollable container */
+}
+
 
 .event-list {
   list-style: none;

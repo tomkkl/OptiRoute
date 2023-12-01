@@ -5,10 +5,11 @@ import EventList from './EventList';
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import 'react-datepicker/dist/react-datepicker.css';
+import './GMap.css'; // Import your CSS file here
 
 const mapStyles = {
-  width: '100%',
-  height: '100%'
+  width: '132%',
+  height: '90%'
 };
 
 export class GMap extends Component {
@@ -141,50 +142,54 @@ export class GMap extends Component {
     const { events } = this.state;
   
     return (
-      <>
-        {!true && <div className="no-events-text">No Events For This Day</div>} 
-        {true && <EventList events={events} />}
-        <Map
-          google={this.props.google}
-          zoom={14}
-          style={mapStyles}
-          initialCenter={
-            {
-              lat: 40.4237,
-              lng: -86.9212
-            }
-          }
-        >
-          {events.map((event, index) => (
-            <Marker
-              key={index}
-              onClick={this.onMarkerClick}
-              position={{ lat: event.latitude, lng: event.longitude }}
-              name={event.title}
-              label={`${index + 1}`}
-            />
-          ))}
-  
-          <InfoWindow
-            marker={this.state.activeMarker}
-            visible={this.state.showingInfoWindow}
-            onClose={this.onClose}
+      <div className="gmap-container"> {/* Applied gmap-container class */}
+        {events && events.length > 0 ? (
+          <div className="event-list-container"> {/* Applied event-list-container class */}
+            <EventList events={events} />
+          </div>
+        ) : (
+          <div className="no-events-text">No Events For This Day</div>
+        )}
+        <div className="map-container"> {/* Applied map-container class */}
+          <Map
+            google={this.props.google}
+            zoom={14}
+            style={mapStyles}
+            className="google-map"
+            initialCenter={{ lat: 40.4237, lng: -86.9212 }}
           >
-            <div>
-              <h4>{this.state.selectedPlace.name}</h4>
-            </div>
-          </InfoWindow>
-          {this.state.directions && (
-            <DirectionsRenderer
-              directions={this.state.directions}
-              options={{ suppressMarkers: true }}
-            />
-          )}
-        </Map>
-      </>
+            {events.map((event, index) => (
+              <Marker
+                key={index}
+                onClick={this.onMarkerClick}
+                position={{ lat: event.latitude, lng: event.longitude }}
+                name={event.title}
+                label={`${index + 1}`}
+              />
+            ))}
+
+            <InfoWindow
+              marker={this.state.activeMarker}
+              visible={this.state.showingInfoWindow}
+              onClose={this.onClose}
+            >
+              <div>
+                <h4>{this.state.selectedPlace.name}</h4>
+              </div>
+            </InfoWindow>
+            {this.state.directions && (
+              <DirectionsRenderer
+                directions={this.state.directions}
+                options={{ suppressMarkers: true }}
+              />
+            )}
+          </Map>
+        </div>
+      </div>
     );
   }
 }
+
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY'
 })(GMap);
