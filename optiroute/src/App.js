@@ -9,7 +9,7 @@ import UserProfile from './Components/UserProfile/UserProfile';
 import Search from './Components/Search/Search';
 import Category from './Components/Category/Category.jsx';
 import Recurrence from './Components/Recurrence/Recurrence';
-import Map from './Components/Map/Map';
+import Map from './Components/MapV2/MapV2';
 import All_search from './Components/All_search/All_search.jsx';
 import SearchByDates from './Components/SearchByDates/SearchByDates';
 import { ReactSession } from 'react-client-session';
@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import FindFriends from './Components/FindFriends/FindFriends.jsx';
 import FriendRequests from './Components/FriendRequests/FriendRequests.jsx';
+import FindExistingFriends from './Components/FindExistingFriends/FindExistingFriends.jsx';
 
 function App() {
   ReactSession.setStoreType("localStorage");
@@ -40,8 +41,8 @@ function App() {
   };
 
   const updateExpireTime = () => {
-    const expireTime = Date.now() + 10000000;
-
+    const expireTime = Date.now() + 100000000000;
+    
     localStorage.setItem("expireTime", expireTime);
   }
 
@@ -118,9 +119,9 @@ function App() {
         <Route path="/recurring-events" element={<Recurrence />} />
         <Route path="/map" element={<Map />} />
         <Route path="/multi_filter" element={<All_search />} />
-
         <Route path="/find-friends" element={<FindFriends />} />
         <Route path="/friend-requests" element={<FriendRequests />} />
+        <Route path="/friend-list" element={<FindExistingFriends />} />
 
       </Routes>
       <Modal

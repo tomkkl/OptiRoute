@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { ReactSession } from "react-client-session"
+import { useNavigate } from 'react-router-dom';
 
 var friendId;
 const FindFriends = () => {
@@ -8,15 +9,10 @@ const FindFriends = () => {
   const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
   const [currentUser, setCurrentUser] = useState(null)
   const [user, setUser] = useState(null)
-
+  const navigate = useNavigate();
   const [popup, setPopup] = useState(false)
 
-  // const [name, setName] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [phone, setPhone] = useState('');
-  // const [bio, setBio] = useState('');
   const [friendRequestList, setFriendRequestList] = useState([]) // the fri req list of that user
-
 
   const [searchBy, setSearchBy] = useState('name'); // Stores the type of info 
   const [searchInput, setSearchInput] = useState(''); // Stores the value
@@ -99,6 +95,9 @@ const FindFriends = () => {
         console.log("Successfully retrieved the info of: " + json.name)
         // console.log("Successfully retrieved the info of:2 " + user.name)
         
+        console.log("Successfully retrieved the info of json: " + json.name)
+        console.log("Successfully retrieved the info of local: " + user.name)
+        setFriendRequestList(json.friendRequestList)
         console.log("fri req list before adding current user: " + json.friendRequestList)
 
       }
@@ -143,6 +142,57 @@ const FindFriends = () => {
         }
       } catch (error) {
         console.error('Error sending friend request:', error);
+    // Logic to send friend request for selectedFriends array
+    console.log('Sending friend request to:', selectedFriends);
+    // Implement the logic to send friend requests to selected friends
+    // console.lo g(users)
+    // get every user
+
+    // Loop through selectedFriends using forEach
+    selectedFriends.forEach((friendId) => {
+      // Go through users and append current user to the friend's friend request list
+      // var response = await fetch('/api/users/' + friendId)
+      // var json = await response.json()
+      // if (response.ok) {
+      //   console.log("Successfully retrieved the info of: " + json.name)
+      //   // console.log(json.email)
+      //   // console.log(json._id)
+      //   // // set everything
+      //   setUser(json)  
+      //   setFriendRequestList(json.friendRequestList)
+      // console.log("Req List: " + friendRequestList)
+
+      // }
+
+      fetchUserData(friendId);
+      // make a patch request adding current user to friend request list of that friend
+      // if the list contains current user already, then don't do anything but otherwise add current user
+      if (!friendRequestList.includes(userId)) {
+        friendRequestList.push(userId)
+      }
+
+
+      console.log("Fri req list after: " + friendRequestList)
+
+      console.log("user: " + user) // user is null
+      console.log("user fr req list " + user.friendRequestList)
+      user.friendRequestList = friendRequestList; // this is null
+      // console.log("User " + user)
+      
+      const response = fetch('/api/users/' + friendId, { //
+        method: "PATCH",
+        body: JSON.stringify(user),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+
+      if (response.ok) {
+        console.log('Successfully added user to friend request list')
+        console.log(user.friendRequestList)
+      } else {
+        throw new Error('Bad request');
       }
     });
   };
@@ -158,6 +208,7 @@ const FindFriends = () => {
 
     // Filter users based on the search criteria
     // Will include yourself if you fit the criteria as well
+    
     var filteredUsers = users.filter((user) =>
       user[searchBy].toLowerCase().includes(searchInput.toLowerCase())
     );
@@ -240,6 +291,7 @@ const FindFriends = () => {
               </div>
             </div>
           )}
+          <div className="button" onClick={() => { navigate("/friend-list") }}>See Friends</div>
         </div>
       )}
     </div>
