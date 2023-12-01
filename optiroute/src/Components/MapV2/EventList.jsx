@@ -4,6 +4,8 @@ import './EventList.css';
 import Datetime from "react-datetime";
 
 const EventList = ({ events }) => {
+
+
   return (
     <>
       <h2 className="event-list-title">Events For The Day</h2>

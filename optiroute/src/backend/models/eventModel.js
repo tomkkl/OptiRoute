@@ -70,6 +70,12 @@ const eventSchema = new Schema({
         type: String,
         // You can specify additional validation or constraints if needed
     }, 
+    travelTime: {
+        type: Number,
+    },
+    leaveTime: {
+        type: Date,
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Event', eventSchema);
