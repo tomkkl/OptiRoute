@@ -1,8 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 import './EventList.css';
+import Datetime from "react-datetime";
 
 const EventList = ({ events }) => {
+
+
   return (
     <div className="event-list-container">
       <h2 className="event-list-title">Events For The Day</h2>
@@ -10,7 +13,11 @@ const EventList = ({ events }) => {
         {events.map((event, index) => (
           <li key={index} className="event-list-item">
             <span className="event-title">{event.title}</span>
-            <span className="event-time">{moment(event.start).format('HH:mm:ss')}</span>
+            <span className="event-time">{"Event Start: " + moment(event.start).format('HH:mm')}</span>
+            <span className= "event-leave-time">{"Leave By: "+moment(event.start).subtract(moment(event.travelTime), "seconds").format('HH:mm')}</span>
+            {moment(event.leaveTime).subtract(moment(event.travelTime), "seconds").isBefore(moment(event.start)) ?
+             (<span className="event-time">{" - Warning: Leave time is earlier than the start time!"}</span>) :
+             <span className="event-time">{""}</span> }
           </li>
         ))}
       </ul>
