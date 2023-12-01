@@ -2,14 +2,21 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { ReactSession } from "react-client-session"
 
-
+var friendId;
 const FindFriends = () => {
   // Id of current user
   const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
   const [currentUser, setCurrentUser] = useState(null)
   const [user, setUser] = useState(null)
-  const [friendRequestList, setFriendRequestList] = useState([])
+
   const [popup, setPopup] = useState(false)
+
+  // const [name, setName] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [phone, setPhone] = useState('');
+  // const [bio, setBio] = useState('');
+  const [friendRequestList, setFriendRequestList] = useState([]) // the fri req list of that user
+
 
   const [searchBy, setSearchBy] = useState('name'); // Stores the type of info 
   const [searchInput, setSearchInput] = useState(''); // Stores the value
@@ -17,7 +24,7 @@ const FindFriends = () => {
 
   // NOTE: Not the friends that the user currently has, just the ones that matched his search
   const [friends, setFriends] = useState([]); // contains all the friends that the user is looking for
-  
+
   // Get and Set Current User
   useEffect(() => {
     const fetchUser = async () => {
@@ -30,24 +37,24 @@ const FindFriends = () => {
     }
     fetchUser()
   }, [])
-  
+
   // the list of friends that the user has chosen to send friend requests to
-  const [selectedFriends, setSelectedFriends] = useState([]); 
+  const [selectedFriends, setSelectedFriends] = useState([]);
   useEffect(() => {
     const fetchUsers = async () => {
-        try {
-          const response = await fetch('/api/users');
-          const json = await response.json();
-  
-          if (response.ok) {
-            setUsers(json);
-          } else {
-            console.error('Error fetching users:', json);
-          }
-        } catch (error) {
-          console.error('Fetch error:', error);
+      try {
+        const response = await fetch('/api/users');
+        const json = await response.json();
+
+        if (response.ok) {
+          setUsers(json);
+        } else {
+          console.error('Error fetching users:', json);
         }
-      };
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
     fetchUsers()
   }, [])
 
@@ -64,7 +71,7 @@ const FindFriends = () => {
 
   const handleFriendCheckboxChange = (event, friendId) => {
     const isChecked = event.target.checked;
-  
+
     if (isChecked) {
       setSelectedFriends([...selectedFriends, friendId]);
     } else {
@@ -74,37 +81,69 @@ const FindFriends = () => {
       setSelectedFriends(updatedSelectedFriends);
     }
   };
-  
-  const handleSendFriendRequest = async () => {
+  // useEffect(() => {
+    const fetchUserData = async (friendId) => {
+
+      const response = await fetch('/api/users/' + friendId);
+      const json = await response.json();
+
+      setUser(json);// problem is here probably
+     
+      if (response.ok && json) {
+        
+        // user = json
+
+        console.log("Successfully retrieved the info of: " + json.name)
+        console.log("Successfully retrieved the info of:2 " + user.name)
+        setFriendRequestList(json.friendRequestList)
+        console.log("fri req list before adding current user: " + json.friendRequestList)
+      }
+
+     
+
+    };
+  //   fetchUserData(friendId)
+  // }, [user, friendId])
+  const handleSendFriendRequest = () => {
 
     setPopup(true);
     // Logic to send friend request for selectedFriends array
     console.log('Sending friend request to:', selectedFriends);
     // Implement the logic to send friend requests to selected friends
-    console.log(users)
+    // console.lo g(users)
     // get every user
 
     // Loop through selectedFriends using forEach
-    selectedFriends.forEach(async (friendId) => {
+    selectedFriends.forEach((friendId) => {
       // Go through users and append current user to the friend's friend request list
-      var response = await fetch('/api/users/' + friendId)
+      // var response = await fetch('/api/users/' + friendId)
+      // var json = await response.json()
+      // if (response.ok) {
+      //   console.log("Successfully retrieved the info of: " + json.name)
+      //   // console.log(json.email)
+      //   // console.log(json._id)
+      //   // // set everything
+      //   setUser(json)  
+      //   setFriendRequestList(json.friendRequestList)
+      // console.log("Req List: " + friendRequestList)
 
-      
-      var json = await response.json()
-      if (response.ok) {
-        setUser(json)
-        setFriendRequestList(json.friendRequestList)
-      }
+      // }
 
-
+      fetchUserData(friendId);
       // make a patch request adding current user to friend request list of that friend
       // if the list contains current user already, then don't do anything but otherwise add current user
-      if(!friendRequestList.includes(userId)) {
+      if (!friendRequestList.includes(userId)) {
         friendRequestList.push(userId)
       }
-      
 
-      response = await fetch('/api/users/' + friendId, {
+
+      console.log("Fri req list after: " + friendRequestList)
+
+      console.log("user: " + user) // user is null
+      console.log("user fr req list " + user.friendRequestList)
+      user.friendRequestList = friendRequestList; // this is null
+      // console.log("User " + user)
+      const response = fetch('/api/users/' + friendId, { //
         method: "PATCH",
         body: JSON.stringify(user),
         headers: {
@@ -112,42 +151,18 @@ const FindFriends = () => {
         }
       })
 
-      json = await response.json()
 
-      if(response.ok) {
+      if (response.ok) {
         console.log('Successfully added user to friend request list')
         console.log(user.friendRequestList)
+      } else {
+        throw new Error('Bad request');
       }
 
     });
   };
 
-    // Function to handle username updates
-  // const handleUsernameUpdate = async event => {
 
-  //   console.log("name")
-  //   user.name = newUsername
-  //   const response = await fetch('/api/users/' + userId, {
-  //     method: "PATCH",
-  //     body: JSON.stringify(user),
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  //   const json = await response.json()
-
-  //   // if (!response.ok) {
-  //   //     setError(json.error)
-  //   // }
-
-  //   if (response.ok) {
-  //     // setError(null)
-  //     console.log('name changed')
-  //     console.log('new name: ' + user.name)
-  //     fetchUserData()
-  //   }
-  //   setNewUsername(''); // Clear the input field
-  // };
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
@@ -177,8 +192,8 @@ const FindFriends = () => {
       filteredUsers.splice(indexToRemove, 1); // Removes 1 element at the specified index
     }
 
-    
- 
+
+
     // Update the state with the filtered users
     setFriends(filteredUsers);
   };
@@ -215,28 +230,28 @@ const FindFriends = () => {
         <div>
           <h3>Search Results:</h3>
           <ul>
-          {friends.map((friend) => (
-            <li key={friend._id}>
-              <label>
-                <input
-                  type="checkbox"
-                  onChange={(e) => handleFriendCheckboxChange(e, friend._id)}
-                  checked={selectedFriends.includes(friend._id)}
-                />
-                {` Name: ${friend.name}`}
-              </label>
-            </li>
-          ))}
+            {friends.map((friend) => (
+              <li key={friend._id}>
+                <label>
+                  <input
+                    type="checkbox"
+                    onChange={(e) => handleFriendCheckboxChange(e, friend._id)}
+                    checked={selectedFriends.includes(friend._id)}
+                  />
+                  {` Name: ${friend.name}`}
+                </label>
+              </li>
+            ))}
           </ul>
           <button onClick={handleSendFriendRequest}>Send Friend Request</button>
           {popup && (
             <div className="popup">
               <div className="popup-content">
-              <span onClick={closePopup} className="close-btn">
-                &times;
-              </span>
-              <h2>Friend Request Sent!</h2>
-              
+                <span onClick={closePopup} className="close-btn">
+                  &times;
+                </span>
+                <h2>Friend Request Sent!</h2>
+
               </div>
             </div>
           )}
