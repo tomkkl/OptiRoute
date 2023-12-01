@@ -26,13 +26,14 @@ const FriendRequests = () => {
             if (responce.ok) {
                 setCurrentUser(json)
                 setFriendRequestList(json.friendRequestList)
+                setFriendList(json.friendList)
                 console.log("Successfully retrieved current user data")
                 // console.log("Current user id: " + json._id)
                 // console.log("Current user name: " + json.name)
             }
         }
         fetchUser()
-    }, [userId, setCurrentUser])
+    }, [userId, setCurrentUser, setFriendList])
 
 
     useEffect(() => {
@@ -109,9 +110,11 @@ const FriendRequests = () => {
           console.log(`Accepted friend request with ID: ${user_id}`);
           
           // Remove the friend from the friend request list
-          const updatedRequests = friendRequestList.filter(request => request._id !== user_id);
+          console.log("Friend req list before removing friend" + friendRequestList) 
+          const updatedRequests = friendRequestList.filter(request => request !== user_id);
           setFriendRequestList(updatedRequests);
-      
+          console.log("Friend req list after removing friend" + updatedRequests)
+            
           // Check if the user_id is already in the friendList
           if (!friendList.includes(user_id)) {
             // Add the friend to the friend list if not already present
@@ -141,7 +144,8 @@ const FriendRequests = () => {
               // Handle error scenarios or show error messages to the user
             }
           } else {
-            console.log(`User with ID: ${user_id} is already in the friend list`);
+            console.log(`User with id: ${user_id} is already in the friend list`);
+            
           }
           // Remove the user name from the userNames array
           const updatedUserNames = userNames.filter((_, index) => index !== friendRequestList.indexOf(user_id));
