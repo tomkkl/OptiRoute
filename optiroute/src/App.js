@@ -19,6 +19,8 @@ import Modal from 'react-modal';
 import "react-datetime/css/react-datetime.css";
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import emailjs from '@emailjs/browser'
+
 
 
 function App() {
@@ -55,6 +57,127 @@ function App() {
     setLoggedIn(false);
   };
 
+
+  const send_email = async (object) => {
+    const userId = ReactSession.get('user_id');
+
+    try {
+      const response = await fetch(`/api/NotificationSetting?user_id=${userId}`);
+      const users = await response.json();
+      console.log(users)
+      const current_user = users.filter((event) => event.user_id === userId)[0];
+      console.log(current_user.email)
+
+      if (current_user.email) {
+        const text = (current_user.title ? "Title: " + object.title + ",\n" : "") + (current_user.date_time ? "Starting at: " + object.notification_time : "") +
+          (current_user.location ? "Location: " + object.location : "") + (current_user.address ? "Address: " + object.address : "") +
+          (current_user.description ? "Location: " + object.description : "");
+
+
+
+        // Add logic to send a test message
+        const form = document.createElement('form');
+        form.style.display = 'none';
+
+        // Add input fields for message, email, and title
+        const messageInput = document.createElement('input');
+        messageInput.type = 'text';
+        messageInput.name = 'message';
+        messageInput.value = text; // Replace with your actual message
+        form.appendChild(messageInput);
+
+        const emailInput = document.createElement('input');
+        emailInput.type = 'text';
+        emailInput.name = 'email';
+        emailInput.value = current_user.email_address;// Use the stored email address or replace it with a default/test email
+        form.appendChild(emailInput);
+
+        // Append the form to the body
+        document.body.appendChild(form);
+        emailjs
+          .sendForm('service_mg8oh6d', 'template_llr8y8a', form, 'nsNXmsj_H0dyrU3zA')
+          .then(
+            (response) => {
+              console.log('Email sent successfully:', response);
+              window.alert('Test message sent!');
+            },
+            (error) => {
+              console.error('Failed to send email:', error);
+              window.alert('Failed to send test message.');
+            }
+          ).finally(() => {
+            // Remove the hidden form from the body after submission
+            document.body.removeChild(form);
+          });
+
+      }
+
+      // Add logic to fetch and set other notification-related data if needed
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+
+
+
+  };
+
+  const checkSomethingEvery30Seconds = async () => {
+    try {
+      // Add your logic to check something here
+      console.log('Checking something every 30 seconds');
+      // For example, you might want to fetch data from the server
+      if (ReactSession.get('user_id') != null) {
+        const userId = ReactSession.get('user_id');
+        try {
+          const response = await fetch(`/api/events?user_id=${userId}`);
+          const users = await response.json();
+          console.log(users)
+          const events = users.filter((event) => event.user_id === userId);
+          if (events !== undefined) {
+            console.log(events)
+            console.log("There is event")
+            if (events.length > 0) {
+              console.log("There are events");
+
+              // Loop through each event
+              events.map((event) => {
+                console.log('Event:', event);
+
+                // You can access properties of each event, e.g., event.title, event.start, etc.
+                console.log('Title:', event.notification_time);
+                const notification_time = event.notification_time;
+                const currentUTC = new Date().toJSON();
+                console.log(currentUTC)
+
+                const isSameDateTime = String(notification_time).slice(0, 16) === String(currentUTC).slice(0, 16);
+                if (isSameDateTime) {
+                  send_email(event);
+                }
+
+                return null; // React requires a return value in a map function
+              });
+            } else {
+              console.log("No events");
+            }
+
+          } else {
+            console.log("There is no evnet")
+          }
+
+          // Add logic to fetch and set other notification-related data if needed
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      } else {
+        console.log("not logged in")
+      }
+      const response = await fetch('/api/some-endpoint');
+      const data = await response.json();
+      console.log('Data:', data);
+    } catch (error) {
+      console.error('Error checking something:', error);
+    }
+  };
   useEffect(() => {
     const interval = setInterval(() => {
       checkForInactivity();
@@ -79,6 +202,14 @@ function App() {
       window.removeEventListener('mousemove', updateExpireTime);
     }
 
+  }, []);
+
+  useEffect(() => {
+    // Call the checkSomethingEvery30Seconds function periodically
+    const checkInterval = setInterval(() => {
+      checkSomethingEvery30Seconds();
+    }, 60 * 1000); // 30 seconds
+    return () => clearInterval(checkInterval);
   }, []);
 
   useEffect(() => {
@@ -133,5 +264,4 @@ function App() {
     </>
   );
 }
-
 export default App;
