@@ -18,7 +18,9 @@ import Modal from 'react-modal';
 import "react-datetime/css/react-datetime.css";
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
+import FindFriends from './Components/FindFriends/FindFriends.jsx';
+import FriendRequests from './Components/FriendRequests/FriendRequests.jsx';
+import FindExistingFriends from './Components/FindExistingFriends/FindExistingFriends.jsx';
 
 function App() {
   ReactSession.setStoreType("localStorage");
@@ -39,8 +41,8 @@ function App() {
   };
 
   const updateExpireTime = () => {
-    const expireTime = Date.now() + 1000000000;
-
+    const expireTime = Date.now() + 100000000000;
+    
     localStorage.setItem("expireTime", expireTime);
   }
 
@@ -117,6 +119,10 @@ function App() {
         <Route path="/recurring-events" element={<Recurrence />} />
         <Route path="/map" element={<Map />} />
         <Route path="/multi_filter" element={<All_search />} />
+        <Route path="/find-friends" element={<FindFriends />} />
+        <Route path="/friend-requests" element={<FriendRequests />} />
+        <Route path="/friend-list" element={<FindExistingFriends />} />
+
       </Routes>
       <Modal
         isOpen={showTimeoutModal}
