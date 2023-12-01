@@ -266,7 +266,7 @@ const Map = () => {
                 }
 
                 {!showMap && <div className="no-events-text">No Events For This Day</div>}
-                {showMap && <EventList events={filteredEvents} />}
+                
             </div>
             <div className="map-container">
                 {showMap && <GMap key={mapKey} events={filteredEvents} travelMode={travelMode} />}

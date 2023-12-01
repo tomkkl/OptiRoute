@@ -3,9 +3,15 @@
 .map-page-container {
   display: flex;
   background-color: #f4f4f4; /* Soft background color */
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .event-list-sidebar {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
   width: 25%;
   background-color: #e6f9f1; /* Light green background for a fresh look */
   padding: 20px;
@@ -94,10 +100,22 @@
 }
 
 .map-container {
+  flex: 3;
   width: 75%;
   height: 100vh;
   background-color: #fff; /* White background for the map area */
   padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .map-page-container {
+    flex-direction: column; /* Stack components vertically on smaller screens */
+  }
+
+  .event-list-sidebar, .map-container {
+    width: 100%; /* Full width of the viewport */
+    height: auto; /* Height adjusts to the content */
+  }
 }
 
 .control-panel {
@@ -256,7 +274,6 @@
 }
 
 .modal {
-  max-height: 15%;
   position: absolute;
   top: 40%;
   left: 50%;

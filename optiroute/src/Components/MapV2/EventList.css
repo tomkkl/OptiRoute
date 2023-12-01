@@ -1,5 +1,6 @@
 .event-list-container {
   margin-top: 20px;
+  width: 100%;
 }
 
 /* .event-list-title {
@@ -10,14 +11,21 @@
 } */
 
 .event-list-title {
-  font-family: 'Roboto', sans-serif; /* Roboto font for a modern look */
-  font-size: 1.5em; /* Adjust size as needed */
-  color: #0056b3; /* A modern, slightly vibrant color */
-  font-weight: 500; /* Semi-bold weight for clarity */
-  letter-spacing: 0.5px; /* Subtle letter spacing */
-  text-transform: uppercase; /* Uppercase text for a modern touch */
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5em;
+  color: #0056b3;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
   margin-bottom: 10px;
   text-align: center;
+  /* Ensure the title doesn't scroll */
+}
+
+.event-list-scrollable {
+  overflow-y: auto; /* Enable scrolling */
+  max-height: 60vh; /* Adjust the height as needed */
+  /* Styling for the scrollable container */
 }
 
 
