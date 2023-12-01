@@ -15,8 +15,7 @@ const NotificationSetting = ({ onSave = () => { } }) => {
     const [addressNotification, setAddressNotification] = useState(false);
     const [descriptionNotification, setDescriptionNotification] = useState(false);
     const [emailAddressNotification, setEmailAddressNotification] = useState('');
-    // const [emailAddress, setEmailAddress] = useState('');
-    // const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneAddressNotification, setPhonelAddressNotification] = useState('');
 
 
     const [selectedInfo, setSelectedInfo] = useState([]);
@@ -40,6 +39,7 @@ const NotificationSetting = ({ onSave = () => { } }) => {
                 setAddressNotification(current_user.address);
                 setDescriptionNotification(current_user.description);
                 setEmailAddressNotification(current_user.email_address)
+                setPhonelAddressNotification(current_user.phone_address)
 
                 current_db_id = current_user._id;
                 console.log(current_db_id)
@@ -69,6 +69,7 @@ const NotificationSetting = ({ onSave = () => { } }) => {
                     address: addressNotification,
                     description: descriptionNotification,
                     email_address: emailAddressNotification,
+                    phone_address: phoneAddressNotification,
 
                 }),
             });
@@ -93,10 +94,42 @@ const NotificationSetting = ({ onSave = () => { } }) => {
             addressNotification,
             descriptionNotification,
             emailAddressNotification,
+            phoneAddressNotification,
 
             selectedInfo,
         });
     };
+
+    const sendSMS = async () => {
+        const apiUrl = "https://textflow.me/api/send-sms";
+        const phoneNumber = "+1" + phoneAddressNotification;
+        console.log(phoneNumber)
+        const textMessage = "This is a test SMS.";
+        const apiKey = "ipuRM7I1xzp4Ent0QjttMUgoxLhcNLd1TxNsFMuX9SKM8KJezjtC6nBc9Xc2K4Y3"; // Replace with your actual API key
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`,
+                },
+                body: JSON.stringify({
+                    phone_number: phoneNumber,
+                    text: textMessage,
+                }),
+            });
+
+            if (response.ok) {
+                console.log('SMS sent successfully!');
+            } else {
+                console.error('Failed to send SMS:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error sending SMS:', error.message);
+        }
+    };
+
 
     const handleSendTestMessage = () => {
         // Add logic to send a test message
@@ -136,6 +169,11 @@ const NotificationSetting = ({ onSave = () => { } }) => {
 
             ;
         window.alert('Test message sent!');
+
+        sendSMS();
+
+
+
     };
 
 
@@ -228,16 +266,16 @@ const NotificationSetting = ({ onSave = () => { } }) => {
                         />
                     </label>
                 </div>
-                {/* <div className="contact-option">
+                <div className="contact-option">
                     <label>
                         Phone Number:
                         <input
                             type="text"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            value={phoneAddressNotification}
+                            onChange={(e) => setPhonelAddressNotification(e.target.value)}
                         />
                     </label>
-                </div> */}
+                </div>
             </div>
             <button className="save-button" onClick={handleSave}>
                 Save Settings

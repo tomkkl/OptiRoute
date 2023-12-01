@@ -58,7 +58,7 @@ function App() {
   };
 
 
-  const send_email = async (object) => {
+  const send_message = async (object) => {
     const userId = ReactSession.get('user_id');
 
     try {
@@ -68,12 +68,11 @@ function App() {
       const current_user = users.filter((event) => event.user_id === userId)[0];
       console.log(current_user.email)
 
+      const text = (current_user.title ? "Title: " + object.title + ",\n" : "") + (current_user.date_time ? "Starting at: " + object.notification_time : "") +
+        (current_user.location ? "Location: " + object.location : "") + (current_user.address ? "Address: " + object.address : "") +
+        (current_user.description ? "Location: " + object.description : "");
+
       if (current_user.email) {
-        const text = (current_user.title ? "Title: " + object.title + ",\n" : "") + (current_user.date_time ? "Starting at: " + object.notification_time : "") +
-          (current_user.location ? "Location: " + object.location : "") + (current_user.address ? "Address: " + object.address : "") +
-          (current_user.description ? "Location: " + object.description : "");
-
-
 
         // Add logic to send a test message
         const form = document.createElement('form');
@@ -112,6 +111,35 @@ function App() {
 
       }
 
+      if (current_user.phone) {
+        const apiUrl = "https://textflow.me/api/send-sms";
+        const phoneNumber = "+1" + current_user.phone_address;
+        const textMessage = text;
+        const apiKey = "ipuRM7I1xzp4Ent0QjttMUgoxLhcNLd1TxNsFMuX9SKM8KJezjtC6nBc9Xc2K4Y3"; // Replace with your actual API key
+
+        try {
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({
+              phone_number: phoneNumber,
+              text: textMessage,
+            }),
+          });
+
+          if (response.ok) {
+            console.log('SMS sent successfully!');
+          } else {
+            console.error('Failed to send SMS:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error sending SMS:', error.message);
+        }
+      }
+
       // Add logic to fetch and set other notification-related data if needed
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -121,7 +149,7 @@ function App() {
 
   };
 
-  const checkSomethingEvery30Seconds = async () => {
+  const checkSomethingEvery60Seconds = async () => {
     try {
       // Add your logic to check something here
       console.log('Checking something every 30 seconds');
@@ -134,10 +162,8 @@ function App() {
           console.log(users)
           const events = users.filter((event) => event.user_id === userId);
           if (events !== undefined) {
-            console.log(events)
-            console.log("There is event")
+
             if (events.length > 0) {
-              console.log("There are events");
 
               // Loop through each event
               events.map((event) => {
@@ -151,7 +177,7 @@ function App() {
 
                 const isSameDateTime = String(notification_time).slice(0, 16) === String(currentUTC).slice(0, 16);
                 if (isSameDateTime) {
-                  send_email(event);
+                  send_message(event);
                 }
 
                 return null; // React requires a return value in a map function
@@ -205,10 +231,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Call the checkSomethingEvery30Seconds function periodically
+    // Call the checkSomethingEvery60Seconds function periodically
     const checkInterval = setInterval(() => {
-      checkSomethingEvery30Seconds();
-    }, 60 * 1000); // 30 seconds
+      checkSomethingEvery60Seconds();
+    }, 60 * 1000); // 60 seconds
     return () => clearInterval(checkInterval);
   }, []);
 

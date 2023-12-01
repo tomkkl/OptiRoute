@@ -46,10 +46,10 @@ router.get('/:id', async (req, res) => {
 
 // Create a new notification
 router.post('/', async (req, res) => {
-    const { user_id, phone, email, title, date_time, location, address, description, email_address } = req.body;
+    const { user_id, phone, email, title, date_time, location, address, description, email_address, phone_address } = req.body;
 
     try {
-        const notification = await Notification.create({ user_id, phone, email, title, date_time, location, address, description, email_address });
+        const notification = await Notification.create({ user_id, phone, email, title, date_time, location, address, description, email_address, phone_address });
         res.status(201).json(notification);
     } catch (error) {
         res.status(400).json({ error: error.message });

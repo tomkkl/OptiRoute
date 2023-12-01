@@ -216,7 +216,7 @@ const LoginSignup = () => {
 
             fetch('/api/NotificationSetting', {
                 method: 'POST',
-                body: JSON.stringify({ user_id: String(json._id), phone: false, email: false, title: false, date_time: false, location: false, address: false, description: false, email_address: "none" }),
+                body: JSON.stringify({ user_id: String(json._id), phone: false, email: false, title: false, date_time: false, location: false, address: false, description: false, email_address: "none", phone_address: "none" }),
                 headers: {
                     'Content-Type': 'application/json'
                 }

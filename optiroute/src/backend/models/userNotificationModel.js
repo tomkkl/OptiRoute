@@ -38,6 +38,10 @@ const SettingSchema = new Schema({
     email_address: {
         type: String,
         required: true
+    },
+    phone_address: {
+        type: String,
+        required: true
     }
 }, { timestamps: true });
 
