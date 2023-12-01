@@ -2,12 +2,24 @@
   margin-top: 20px;
 }
 
-.event-list-title {
+/* .event-list-title {
   text-align: center;
   color: #333;
   margin-bottom: 10px;
   font-size: 1.5em;
+} */
+
+.event-list-title {
+  font-family: 'Roboto', sans-serif; /* Roboto font for a modern look */
+  font-size: 1.5em; /* Adjust size as needed */
+  color: #0056b3; /* A modern, slightly vibrant color */
+  font-weight: 500; /* Semi-bold weight for clarity */
+  letter-spacing: 0.5px; /* Subtle letter spacing */
+  text-transform: uppercase; /* Uppercase text for a modern touch */
+  margin-bottom: 10px;
+  text-align: center;
 }
+
 
 .event-list {
   list-style: none;

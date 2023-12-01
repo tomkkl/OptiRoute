@@ -2,22 +2,71 @@
 
 .map-page-container {
   display: flex;
+  background-color: #f4f4f4; /* Soft background color */
 }
 
 .event-list-sidebar {
   width: 25%;
-  background-color: #c1ffd5;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  background-color: #e6f9f1; /* Light green background for a fresh look */
+  padding: 20px;
+  box-shadow: 3px 0 10px rgba(0,0,0,0.2);
 }
 
 .date-picker-container {
+  margin-bottom: 20px;
+}
+
+.date-picker-container .label {
+  display: block;
+  font-size: 1.1em; /* Adjust size as needed */
+  color: #0056b3; /* A modern, slightly vibrant color */
   margin-bottom: 10px;
+  font-weight: 500; /* Semi-bold weight for clarity */
+  font-family: 'Roboto', sans-serif; /* Roboto font for a modern look */
+  letter-spacing: 0.5px; /* Subtle letter spacing */
+}
+
+.date-picker-container .rdt {
+  position: relative;
+}
+
+.date-picker-container .form-control {
+  display: inline-block;
+  width: 100%;
+  height: 38px;
+  padding: 6px 12px;
+  font-size: 1.1em;
+  height: auto;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.date-picker-container .rdtPicker {
+  width: 100%; /* Adjusted to match the container width */
+  padding: 4px;
+  margin-top: 1px;
+  z-index: 99999 !important;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden; /* Prevent content from overflowing */
+}
+
+/* Adjust the input field size if necessary */
+.date-picker-container .form-control {
+  width: calc(100% - 24px); /* Adjusted width to prevent overflow */
+  /* ... other existing styles ... */
 }
 
 .create-map-button-container {
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -25,25 +74,30 @@
   width: 100%;
   padding: 10px;
   border: none;
-  background-color: #007bff;
+  background-color: #008CBA; /* Modern blue */
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 8px; /* Rounded corners for consistency */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: adds a subtle shadow */
 }
 
 .create-map-button:hover {
-  background-color: #0056b3;
+  background-color: #007B9E;
 }
 
+
 .no-events-text {
+  color: #555;
+  font-size: 1.1em;
   margin-top: 10px;
-  text-align: center;
-  color: #666;
 }
 
 .map-container {
   width: 75%;
   height: 100vh;
+  background-color: #fff; /* White background for the map area */
+  padding: 20px;
 }
 
 .control-panel {
@@ -60,15 +114,10 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow for depth */
 }
 
-.travel-mode-container label {
-  margin-bottom: 5px;
-  display: block; /* Makes the label go on top of the dropdown */
-  /* Add other label styles if needed */
-}
-
 .travel-mode-container select {
   width: 100%; /* Makes the select box full width */
   padding: 5px;
+  font-size: 1.1em;
   border: 1px solid #ccc;
   border-radius: 4px; /* Rounded corners for the select element */
   /* Add other select styles if needed */
@@ -96,10 +145,6 @@
     align-items: flex-start;
   }
 
-  .travel-mode-container label {
-    margin-bottom: 5px;
-  }
-
   .travel-mode-container select {
     width: 100%;
   }
@@ -108,69 +153,72 @@
 .weather-info-container {
   margin-top: 20px;
   padding: 20px;
-  background-color: #f9f9f9; /* Lighter background for a subtle look */
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  background-color: #ffffff; /* Clean white background */
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
   text-align: center;
-  font-family: 'Arial', sans-serif; /* Modern font */
+  font-family: 'Arial', sans-serif;
 }
 
 .weather-header {
   font-size: 1.2em;
-  color: #007bff;
+  color: #0056b3; /* Deep blue for contrast */
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .weather-location {
   font-weight: bold;
   font-size: 1.2em;
-  display: block; /* Location on its own line */
+  display: block; /* Ensuring the location is on its own line */
   margin-bottom: 5px;
 }
 
 .weather-date {
   color: #666;
   font-size: 0.9em;
+  display: block; /* Ensuring the date is on its own line */
 }
 
 .weather-details {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-bottom: 15px;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .weather-icon {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   margin-right: 15px;
 }
 
 .weather-temp {
-  font-size: 2em;
+  font-size: 2.5em;
   font-weight: bold;
-  color: #333;
+  color: #007bff;
 }
 
 .weather-subtext p {
-  font-size: 1.1em;
+  font-size: 1.2em;
   color: #444;
-  margin: 5px 0;
+  margin: 8px 0;
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
-  .weather-details {
-    flex-direction: column;
-  }
+.refresh-weather-button {
+  margin-top: 15px;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 1.1em;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-  .weather-icon {
-    margin-bottom: 10px;
-  }
-
-  .weather-temp {
-    font-size: 1.8em;
-  }
+.refresh-weather-button:hover {
+  background-color: #0056b3;
 }
 
 .route-management-container {
@@ -180,16 +228,12 @@
   border-radius: 10px; /* Rounded corners */
 }
 
-.route-management-container label {
-  display: block; /* Label on top */
-  margin-bottom: 5px;
-}
-
 .route-management-container select {
   width: 100%;
   padding: 5px;
   border-radius: 4px;
   margin-bottom: 10px;
+  font-size: 1.1em;
 }
 
 .route-buttons-container {
@@ -252,4 +296,12 @@
 
 .save-route-button:hover {
   background-color: #0056b3;
+}
+
+.route-management-container label,
+.travel-mode-container label {
+  font-size: 1.1em; /* Adjust to match the desired size */
+  color: #333; /* Optional: Adjust color for better visibility */
+  margin-bottom: 5px;
+  display: block;
 }
