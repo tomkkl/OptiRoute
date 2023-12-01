@@ -1,14 +1,19 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { ReactSession } from "react-client-session"
+import './FriendRequests.css'; // Import CSS file
 
 const FriendRequests = () => {
-    // stores all the incoming friend requests that the user currently has
+    // stores all the incoming friend requests (ids) that the user currently has
     const [friendRequestList, setFriendRequestList] = useState([])
     // stores the current user
     const [currentUser, setCurrentUser] = useState(null)
     // stores the friends that the user has
     const [friendList, setFriendList] = useState([])
+    const [userNames, setUserNames] = useState([]);
+
+    const [handledRequests, setHandledRequests] = useState([]);
+    
 
     // Id of current user
     const userId = ReactSession.get("user_id");
@@ -21,140 +26,145 @@ const FriendRequests = () => {
             if (responce.ok) {
                 setCurrentUser(json)
                 setFriendRequestList(json.friendRequestList)
-                setFriendList(json.friendList)
                 console.log("Successfully retrieved current user data")
-
-                for (let i = 0; i < friendRequestList.length; i++) {
-                    console.log(friendRequestList[i].name)
-                }
+                // console.log("Current user id: " + json._id)
+                // console.log("Current user name: " + json.name)
             }
         }
         fetchUser()
-    }, [])
+    }, [userId, setCurrentUser])
 
-    const acceptRequest = (user_id) => {
-        // Logic to accept friend request
-        console.log(`Accepted friend request with ID: ${user_id}`);
-        // Here, you can perform actions like making an API call to accept the request
-        // and update the UI accordingly (remove the request from the list)
 
-        var indexToRemove = -1;
-        // remove the friend from the friend request list 
-        for (let i = 0; i < friendRequestList; i++) {
-            if (friendRequestList[i]._id === user_id) {
-                indexToRemove = i;
+    useEffect(() => {
+        if (currentUser) {
+            console.log("Current user id: " + currentUser._id);
+            console.log("Current user name: " + currentUser.name);
+            // Other actions based on updated currentUser
+            console.log("friend req list" + friendRequestList.length)
+            console.log("Name of fri req: " + friendRequestList)
+        }
+    }, [currentUser]);
+
+    // Loop through the db and get all the names of the requests 
+    // Fetch user data for each ID in friendRequestList and extract names
+    useEffect(() => {
+        const fetchUserNames = async () => {
+            const names = [];
+            for (let i = 0; i < friendRequestList.length; i++) {
+                try {
+                    const response = await fetch('/api/users/' + friendRequestList[i]);
+                    const json = await response.json();
+                    if (response.ok && json && json.name) {
+                        names.push(json.name);
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
             }
-        }
-        if (indexToRemove >= 0 && indexToRemove < friendRequestList.length) {
-            friendRequestList.splice(indexToRemove, 1); // Removes 1 element at the specified index
-        }
+            setUserNames(names); // Set the array of user names
+        };
 
-        // Add the friend to the friend list
-        friendList.push(user_id)
+        fetchUserNames();
+    }, [friendRequestList]);
 
-        // Make a patch request and update changes in the backend
-        var response = fetch('/api/users/' + userId)
-        var json = response.json()
-
-        if(response.ok) {
-            console.log("Successfully retrieved user data2")
-            setCurrentUser(json)
-            setFriendRequestList(json.friendRequestList)
-            setFriendList(json.friendList)
-        }
-
-
-        response = fetch('/api/users/' + userId, {
+    const rejectRequest = async (user_id) => {
+        try {
+          console.log(`Rejected friend request with ID: ${user_id}`);
+          
+          // Remove the friend from the friend request list
+          const updatedRequests = friendRequestList.filter(request => request._id !== user_id);
+          setFriendRequestList(updatedRequests);
+      
+          // Make a PATCH request to update changes in the backend
+          const response = await fetch(`/api/users/${userId}`, {
             method: "PATCH",
-            body: JSON.stringify(currentUser),
+            body: JSON.stringify({ friendRequestList: updatedRequests }),
             headers: {
               'Content-Type': 'application/json'
             }
-          })
-    
-          json = response.json()
-    
-          if(response.ok) {
-            console.log('Successfully accepted friend request')
-            console.log("Friend req list of user" + currentUser.friendRequestList)
-            console.log("Friend list of user" + currentUser.friendList)
+          });
+      
+          if (response.ok) {
+            const json = await response.json();
+            console.log('Successfully rejected friend request');
+            console.log("Updated friend request list of user:", json.friendRequestList);
+            // Update the UI or perform other actions as needed
+          } else {
+            console.error('Failed to update friend request list in the backend');
+            // Handle error scenarios or show error messages to the user
           }
+        } catch (error) {
+          console.error('Error rejecting friend request:', error);
+          // Handle errors such as network issues, etc.
+        }
+      };
 
-        // Update the UI by removing the user from the request list
-        const updatedRequests = friendRequestList.filter(request => request._id !== user_id);
-        setFriendRequestList(updatedRequests);
-    };
 
-    const rejectRequest = (user_id) => {
-        // Logic to reject friend request
-        console.log(`Rejected friend request with ID: ${user_id}`);
-        // Here, you can perform actions like making an API call to reject the request
-        // and update the UI accordingly (remove the request from the list)
-        
-        var indexToRemove = -1;
-        // remove the friend from the friend request list 
-        for (let i = 0; i < friendRequestList; i++) {
-            if (friendRequestList[i]._id === user_id) {
-                indexToRemove = i;
+
+    const acceptRequest = async (user_id) => {
+        try {
+          console.log(`Accepted friend request with ID: ${user_id}`);
+          
+          // Remove the friend from the friend request list
+          const updatedRequests = friendRequestList.filter(request => request._id !== user_id);
+          setFriendRequestList(updatedRequests);
+      
+          // Check if the user_id is already in the friendList
+          if (!friendList.includes(user_id)) {
+            // Add the friend to the friend list if not already present
+            const updatedFriendList = [...friendList, user_id];
+            setFriendList(updatedFriendList);
+      
+            // Make a PATCH request to update changes in the backend
+            const response = await fetch(`/api/users/${userId}`, {
+              method: "PATCH",
+              body: JSON.stringify({ 
+                friendRequestList: updatedRequests,
+                friendList: updatedFriendList
+              }),
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+      
+            if (response.ok) {
+              const json = await response.json();
+              console.log('Successfully accepted friend request');
+              console.log("Updated friend request list of user:", json.friendRequestList);
+              console.log("Updated friend list of user:", json.friendList);
+              // Update the UI or perform other actions as needed
+            } else {
+              console.error('Failed to update friend request or friend list in the backend');
+              // Handle error scenarios or show error messages to the user
             }
-        }
-
-        if (indexToRemove >= 0 && indexToRemove < friendRequestList.length) {
-            friendRequestList.splice(indexToRemove, 1); // Removes 1 element at the specified index
-        }
-
-        // Make a patch request and update changes in the backend
-        var response = fetch('/api/users/' + userId)
-        var json = response.json()
-
-        if(response.ok) {
-            console.log("Successfully retrieved user data2")
-            setCurrentUser(json)
-            setFriendRequestList(json.friendRequestList)
-            setFriendList(json.friendList)
-        }
-
-
-        response = fetch('/api/users/' + userId, {
-            method: "PATCH",
-            body: JSON.stringify(currentUser),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
-    
-          json = response.json()
-    
-          if(response.ok) {
-            console.log('Successfully accepted friend request')
-            console.log("Friend req list of user" + currentUser.friendRequestList)
-            console.log("Friend list of user" + currentUser.friendList)
+          } else {
+            console.log(`User with ID: ${user_id} is already in the friend list`);
           }
-
-        const updatedRequests = friendRequestList.filter(request => request._id !== user_id);
-        setFriendRequestList(updatedRequests);
-    };
+        } catch (error) {
+          console.error('Error accepting friend request:', error);
+          // Handle errors such as network issues, etc.
+        }
+      };
 
     return (
         <div>
             <h1>Incoming Friend Requests</h1>
             <ul>
-                {friendRequestList.map((request) => (
-                    <li key={request._id}>
-                        {request.name}
-                        
-                        <button onClick={() => acceptRequest(request._id)}>Accept</button>
-                        <button onClick={() => rejectRequest(request._id)}>Reject</button>
+                {userNames.map((userName, index) => (
+                    <li key={index}>
+                        {userName}
+                        <button onClick={() => acceptRequest(friendRequestList[index])}>Accept</button>
+                        <button onClick={() => rejectRequest(friendRequestList[index])}>Reject</button>
                     </li>
                 ))}
             </ul>
         </div>
     );
+};
 
 
 
 
-}
 
 
 export default FriendRequests;
