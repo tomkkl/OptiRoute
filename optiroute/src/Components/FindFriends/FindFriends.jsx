@@ -86,21 +86,22 @@ const FindFriends = () => {
 
       const response = await fetch('/api/users/' + friendId);
       const json = await response.json();
+      
 
-      setUser(json);// problem is here probably
+      // setUser(json);// problem is here probably
      
       if (response.ok && json) {
-        
+        console.log("This line has been ")
+        setFriendRequestList(json.friendRequestList)
+        console.log("executed")
         // user = json
 
         console.log("Successfully retrieved the info of: " + json.name)
-        console.log("Successfully retrieved the info of:2 " + user.name)
-        setFriendRequestList(json.friendRequestList)
+        // console.log("Successfully retrieved the info of:2 " + user.name)
+        
         console.log("fri req list before adding current user: " + json.friendRequestList)
+
       }
-
-     
-
     };
   //   fetchUserData(friendId)
   // }, [user, friendId])
@@ -128,35 +129,41 @@ const FindFriends = () => {
       // console.log("Req List: " + friendRequestList)
 
       // }
-
+      
       fetchUserData(friendId);
+      
       // make a patch request adding current user to friend request list of that friend
       // if the list contains current user already, then don't do anything but otherwise add current user
+      console.log("Before the push: " + friendRequestList)
       if (!friendRequestList.includes(userId)) {
         friendRequestList.push(userId)
       }
+      console.log("After the push: " + friendRequestList)
 
 
       console.log("Fri req list after: " + friendRequestList)
 
-      console.log("user: " + user) // user is null
-      console.log("user fr req list " + user.friendRequestList)
-      user.friendRequestList = friendRequestList; // this is null
+      // console.log("user: " + user) // user is null
+      // console.log("user fr req list " + user.friendRequestList)
+      // user.friendRequestList = friendRequestList; // this is null
       // console.log("User " + user)
       const response = fetch('/api/users/' + friendId, { //
         method: "PATCH",
-        body: JSON.stringify(user),
+        body: JSON.stringify({ friendRequestList: friendRequestList }), // Update only the 'friendRequestList' field
         headers: {
           'Content-Type': 'application/json'
         }
       })
 
 
+  
+
       if (response.ok) {
         console.log('Successfully added user to friend request list')
-        console.log(user.friendRequestList)
+        // console.log(user.friendRequestList)
       } else {
-        throw new Error('Bad request');
+        // throw new Error('Bad request');
+        console.log("Bad Request")
       }
 
     });
