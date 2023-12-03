@@ -25,7 +25,7 @@ const LoginSignup = () => {
 
         var userinsert;
         console.log(user)
-        userinsert = { name: user.name, email: user.email, phone: "", password: user.sub }
+        userinsert = { name: user.name, email: user.email, phoneNumber: "", password: user.sub }
 
 
 
@@ -49,7 +49,6 @@ const LoginSignup = () => {
             ReactSession.set('user_id', json._id)
             navigate("/profile", { state: { userId: json._id } });
         }
-
     }
 
     function handleCallBackResponse(responce) {
@@ -213,6 +212,19 @@ const LoginSignup = () => {
                 ReactSession.set('user_id', json._id)
                 navigate("/profile", { state: { userId: json._id } });
             }
+
+            fetch('/api/NotificationSetting', {
+                method: 'POST',
+                body: JSON.stringify({ user_id: String(json._id), phone: false, email: false, title: false, date_time: false, location: false, address: false, description: false, email_address: "none", phone_address: "none" }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((response) => response.json())
+                .catch((error) => {
+                    console.error('Error adding event:', error);
+                });
+
+
         } else if (action === "Login") {
 
             if (telEmail.length == 0) {

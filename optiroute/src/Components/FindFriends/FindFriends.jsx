@@ -81,27 +81,27 @@ const FindFriends = () => {
     }
   };
   // useEffect(() => {
-    const fetchUserData = async (friendId) => {
+  const fetchUserData = async (friendId) => {
 
-      const response = await fetch('/api/users/' + friendId);
-      const json = await response.json();
-      
+    const response = await fetch('/api/users/' + friendId);
+    const json = await response.json();
 
-      // setUser(json);// problem is here probably
-     
-      if (response.ok && json) {
-        console.log("This line has been ")
-        setFriendRequestList(json.friendRequestList)
-        console.log("executed")
-        // user = json
 
-        console.log("Successfully retrieved the info of: " + json.name)
-        // console.log("Successfully retrieved the info of:2 " + user.name)
-        
-        console.log("fri req list before adding current user: " + json.friendRequestList)
+    // setUser(json);// problem is here probably
 
-      }
-    };
+    if (response.ok && json) {
+      console.log("This line has been ")
+      setFriendRequestList(json.friendRequestList)
+      console.log("executed")
+      // user = json
+
+      console.log("Successfully retrieved the info of: " + json.name)
+      // console.log("Successfully retrieved the info of:2 " + user.name)
+
+      console.log("fri req list before adding current user: " + json.friendRequestList)
+
+    }
+  };
   //   fetchUserData(friendId)
   // }, [user, friendId])
   const handleSendFriendRequest = () => {
@@ -128,9 +128,9 @@ const FindFriends = () => {
       // console.log("Req List: " + friendRequestList)
 
       // }
-      
+
       fetchUserData(friendId);
-      
+
       // make a patch request adding current user to friend request list of that friend
       // if the list contains current user already, then don't do anything but otherwise add current user
       console.log("Before the push: " + friendRequestList)
@@ -155,7 +155,7 @@ const FindFriends = () => {
       })
 
 
-  
+
 
       if (response.ok) {
         console.log('Successfully added user to friend request list')

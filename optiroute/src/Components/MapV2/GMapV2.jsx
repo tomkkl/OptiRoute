@@ -40,14 +40,14 @@ export class GMap extends Component {
 
     console.log("name")
     currEvent.travelTime = travelTime
-    const response =  fetch('/api/events/' + currEvent._id, {
+    const response = fetch('/api/events/' + currEvent._id, {
       method: "PATCH",
       body: JSON.stringify(currEvent),
       headers: {
         'Content-Type': 'application/json'
       }
     })
-    const json =  response.json()
+    const json = response.json()
 
     if (response.ok) {
       // setError(null)
@@ -80,24 +80,24 @@ export class GMap extends Component {
           if (status === this.props.google.maps.DirectionsStatus.OK) {
             const route = result.routes[0]; // Assuming there's only one route
             const legs = route.legs;
-            
+
             // Total duration of the route
             let totalDurationInSeconds = 0;
             let index = 0;
             legs.forEach((leg) => {
-              console.log("LEG LENGTH " + events[index]._id +":" + leg.duration.value);
+              console.log("LEG LENGTH " + events[index]._id + ":" + leg.duration.value);
               // handleMoveEvent(events[index], leg.duration.value);
-              
+
               ///UPDATE INFROMATION
-              
+
               events[index].travelTime = leg.duration.value
-              events[index].leaveTime = events[index+1].start
+              events[index].leaveTime = events[index + 1].start
               console.log(events[index].start)
               // console.log(events[index].start.getHours())
               // console.log(events[index].start.getMinutes())
-              
+
               //END UPDATE INFORMATION
-              
+
               index++;
 
               totalDurationInSeconds += leg.duration.value; // Duration in seconds
@@ -105,7 +105,7 @@ export class GMap extends Component {
             //Last event has not travel time
             events[index].travelTime = 0
             events[index].leaveTime = events[index].end
-            
+
             // Convert total duration from seconds to a more readable format (hours and minutes)
             const totalDurationInMinutes = totalDurationInSeconds / 60;
             const hours = Math.floor(totalDurationInMinutes / 60);
@@ -142,7 +142,7 @@ export class GMap extends Component {
   };
   render() {
     const { events } = this.state;
-  
+
     return (
       <div className="gmap-container"> {/* Applied gmap-container class */}
         {events && events.length > 0 ? (
