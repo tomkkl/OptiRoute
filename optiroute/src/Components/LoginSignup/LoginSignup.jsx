@@ -25,7 +25,7 @@ const LoginSignup = () => {
 
         var userinsert;
         console.log(user)
-        userinsert = { name: user.name, email: user.email, phone: "", password: user.sub }
+        userinsert = { name: user.name, email: user.email, phoneNumber: "", password: user.sub }
 
 
 
