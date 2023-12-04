@@ -44,6 +44,7 @@
   transition: background-color 0.3s ease;
   border-radius: 8px;
   margin-bottom: 5px;
+  white-space: pre;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
