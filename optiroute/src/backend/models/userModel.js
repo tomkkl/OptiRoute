@@ -7,11 +7,11 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    email:{
+    email: {
         type: String,
         required: false
     },
-    phoneNumber :{
+    phoneNumber: {
         type: String,
         required: false
     },
@@ -20,23 +20,23 @@ const userSchema = new Schema({
         required: true
     },
     securityQuestion: {
-        type:String,
-        required:false
+        type: String,
+        required: false
     },
     bio: {
-        type:String,
+        type: String,
         required: false
     },
     friendList: {
-        type:[String],
+        type: [String],
         default: [],
-        required: false 
+        required: false
     },
     friendRequestList: {
-        type:[String],
+        type: [String],
         default: [],
-        required: false 
-    },   
+        required: false
+    },
 
 }, { timestamps: true })
 

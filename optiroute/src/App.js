@@ -12,6 +12,7 @@ import Recurrence from './Components/Recurrence/Recurrence';
 import Map from './Components/MapV2/MapV2';
 import All_search from './Components/All_search/All_search.jsx';
 import SearchByDates from './Components/SearchByDates/SearchByDates';
+import NotificationSetting from './Components/NotificationSetting/NotificationSetting';
 import { ReactSession } from 'react-client-session';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
@@ -21,6 +22,9 @@ import { useNavigate } from "react-router-dom";
 import FindFriends from './Components/FindFriends/FindFriends.jsx';
 import FriendRequests from './Components/FriendRequests/FriendRequests.jsx';
 import FindExistingFriends from './Components/FindExistingFriends/FindExistingFriends.jsx';
+import emailjs from '@emailjs/browser'
+
+
 
 function App() {
   ReactSession.setStoreType("localStorage");
@@ -42,7 +46,7 @@ function App() {
 
   const updateExpireTime = () => {
     const expireTime = Date.now() + 100000000000;
-    
+
     localStorage.setItem("expireTime", expireTime);
   }
 
@@ -56,6 +60,153 @@ function App() {
     setLoggedIn(false);
   };
 
+
+  const send_message = async (object) => {
+    const userId = ReactSession.get('user_id');
+
+    try {
+      const response = await fetch(`/api/NotificationSetting?user_id=${userId}`);
+      const users = await response.json();
+      console.log(users)
+      const current_user = users.filter((event) => event.user_id === userId)[0];
+      console.log(current_user.email)
+
+      const text = (current_user.title ? "Title: " + object.title + ",\n" : "") + (current_user.date_time ? "Starting at: " + object.notification_time : "") +
+        (current_user.location ? "Location: " + object.location : "") + (current_user.address ? "Address: " + object.address : "") +
+        (current_user.description ? "Location: " + object.description : "");
+
+      if (current_user.email) {
+
+        // Add logic to send a test message
+        const form = document.createElement('form');
+        form.style.display = 'none';
+
+        // Add input fields for message, email, and title
+        const messageInput = document.createElement('input');
+        messageInput.type = 'text';
+        messageInput.name = 'message';
+        messageInput.value = text; // Replace with your actual message
+        form.appendChild(messageInput);
+
+        const emailInput = document.createElement('input');
+        emailInput.type = 'text';
+        emailInput.name = 'email';
+        emailInput.value = current_user.email_address;// Use the stored email address or replace it with a default/test email
+        form.appendChild(emailInput);
+
+        // Append the form to the body
+        document.body.appendChild(form);
+        emailjs
+          .sendForm('service_mg8oh6d', 'template_llr8y8a', form, 'nsNXmsj_H0dyrU3zA')
+          .then(
+            (response) => {
+              console.log('Email sent successfully:', response);
+              window.alert('Test message sent!');
+            },
+            (error) => {
+              console.error('Failed to send email:', error);
+              window.alert('Failed to send test message.');
+            }
+          ).finally(() => {
+            // Remove the hidden form from the body after submission
+            document.body.removeChild(form);
+          });
+
+      }
+
+      if (current_user.phone) {
+        const apiUrl = "https://textflow.me/api/send-sms";
+        const phoneNumber = "+1" + current_user.phone_address;
+        const textMessage = text;
+        const apiKey = "ipuRM7I1xzp4Ent0QjttMUgoxLhcNLd1TxNsFMuX9SKM8KJezjtC6nBc9Xc2K4Y3"; // Replace with your actual API key
+
+        try {
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({
+              phone_number: phoneNumber,
+              text: textMessage,
+            }),
+          });
+
+          if (response.ok) {
+            console.log('SMS sent successfully!');
+          } else {
+            console.error('Failed to send SMS:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error sending SMS:', error.message);
+        }
+      }
+
+      // Add logic to fetch and set other notification-related data if needed
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+
+
+
+  };
+
+  const checkSomethingEvery60Seconds = async () => {
+    try {
+      // Add your logic to check something here
+      console.log('Checking something every 30 seconds');
+      // For example, you might want to fetch data from the server
+      if (ReactSession.get('user_id') != null) {
+        const userId = ReactSession.get('user_id');
+        try {
+          const response = await fetch(`/api/events?user_id=${userId}`);
+          const users = await response.json();
+          console.log(users)
+          const events = users.filter((event) => event.user_id === userId);
+          if (events !== undefined) {
+
+            if (events.length > 0) {
+
+              // Loop through each event
+              events.map((event) => {
+                console.log('Event:', event);
+
+                // You can access properties of each event, e.g., event.title, event.start, etc.
+                console.log('Title:', event.notification_time);
+                const notification_time = event.notification_time;
+                const currentUTC = new Date().toJSON();
+                console.log(currentUTC)
+
+                const isSameDateTime = String(notification_time).slice(0, 16) === String(currentUTC).slice(0, 16);
+                if (isSameDateTime) {
+                  send_message(event);
+                }
+
+                return null; // React requires a return value in a map function
+              });
+            } else {
+              console.log("No events");
+            }
+
+          } else {
+            console.log("There is no evnet")
+          }
+
+          // Add logic to fetch and set other notification-related data if needed
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      } else {
+        console.log("not logged in")
+      }
+      const response = await fetch('/api/some-endpoint');
+      const data = await response.json();
+      console.log('Data:', data);
+    } catch (error) {
+      console.error('Error checking something:', error);
+    }
+  };
   useEffect(() => {
     const interval = setInterval(() => {
       checkForInactivity();
@@ -80,6 +231,14 @@ function App() {
       window.removeEventListener('mousemove', updateExpireTime);
     }
 
+  }, []);
+
+  useEffect(() => {
+    // Call the checkSomethingEvery60Seconds function periodically
+    const checkInterval = setInterval(() => {
+      checkSomethingEvery60Seconds();
+    }, 60 * 1000); // 60 seconds
+    return () => clearInterval(checkInterval);
   }, []);
 
   useEffect(() => {
@@ -122,7 +281,7 @@ function App() {
         <Route path="/find-friends" element={<FindFriends />} />
         <Route path="/friend-requests" element={<FriendRequests />} />
         <Route path="/friend-list" element={<FindExistingFriends />} />
-
+        <Route path="/notification_setting" element={<NotificationSetting />} />
       </Routes>
       <Modal
         isOpen={showTimeoutModal}
@@ -137,5 +296,4 @@ function App() {
     </>
   );
 }
-
 export default App;
