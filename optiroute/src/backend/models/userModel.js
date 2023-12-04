@@ -26,7 +26,18 @@ const userSchema = new Schema({
     bio: {
         type: String,
         required: false
-    }
+    },
+    friendList: {
+        type: [String],
+        default: [],
+        required: false
+    },
+    friendRequestList: {
+        type: [String],
+        default: [],
+        required: false
+    },
+
 }, { timestamps: true })
 
 module.exports = mongoose.model('User', userSchema)

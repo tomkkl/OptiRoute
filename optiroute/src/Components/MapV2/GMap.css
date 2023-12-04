@@ -1,0 +1,56 @@
+/* Container for the whole GMap component */
+.gmap-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Use the full height of the viewport */
+}
+
+/* Style for the event list */
+.event-list-container {
+  margin-top: auto;
+  flex: 1; /* Take up the remaining space */
+  overflow-y: auto; /* Enable scrolling within the event list if needed */
+  margin-bottom: auto;
+  box-sizing: border-box;
+  border-bottom: 3.5px solid #e0e0e0;
+}
+
+.event-list-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.event-list-container::-webkit-scrollbar-thumb {
+  background-color: #b6b6b6;
+  border-radius: 10px;
+}
+
+/* Style for the map */
+.map-container {
+  margin-top: auto;
+  flex: 2; /* Map takes twice as much space as the event list */
+  position: relative;
+  box-sizing: border-box; /* Include padding in the width/height calculations */
+  height: 100%; /* Full height of the parent container */
+}
+
+/* Ensuring the map fills its container */
+.google-map {
+  position: absolute;
+  margin-top: 20px;
+  top: 0px; /* Same as the padding of map-container */
+  right: 0px; /* Same as the padding of map-container */
+  bottom: 0px; /* Same as the padding of map-container */
+  left: 0px; /* Same as the padding of map-container */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  .gmap-container {
+    flex-direction: row; /* Change direction to row for smaller screens */
+  }
+
+  .event-list-container,
+  .map-container {
+    flex: 1; /* Both event list and map take equal space */
+  }
+}
