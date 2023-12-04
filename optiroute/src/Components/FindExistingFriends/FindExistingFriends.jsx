@@ -104,7 +104,7 @@ const FindExistingFriends = () => {
           <li key={index} className="curr-friend-list">
             <span className="curr-friend-list-item">Username: {friend.name}</span>
             <span className="curr-friend-list-item">Email: {friend.email}</span>
-            <span className="curr-friend-list-item">Phone: {friend.phone}</span>
+            <span className="curr-friend-list-item">Phone: {friend.phoneNumber}</span>
           </li>
         ))}
       </div>
@@ -144,7 +144,7 @@ const FindExistingFriends = () => {
               <li key={index} className="curr-friend-list">
                 <span className="curr-friend-list-item">Username: {friend.name}</span>
                 <span className="curr-friend-list-item">Email: {friend.email}</span>
-                <span className="curr-friend-list-item">Phone: {friend.phone}</span>
+                <span className="curr-friend-list-item">Phone: {friend.phoneNumber}</span>
               </li>
             ))}
           </ul>
