@@ -226,7 +226,8 @@ const LoginSignup = () => {
 
 
         } else if (action === "Login") {
-
+            console.log("Username is: " + telEmail)
+            console.log("Password is: " + password)
             if (telEmail.length == 0) {
                 if (loginPhone) {
                     console.log("Phone is empty")
@@ -246,10 +247,11 @@ const LoginSignup = () => {
                 return;
             }
 
+
             //Do check if email or phone number
             for (let i = 0; i < users.length; i++) {
                 // console.log(users[i].email)
-                if (users[i].email === telEmail || users[i].phoneNumber === telEmail || users[i].username === telEmail) {
+                if (users[i].email === telEmail || users[i].phoneNumber === telEmail || users[i].name === telEmail) {
                     if (users[i].password === password) {
 
                         console.log("LOGGED IN YIPEEEE")
