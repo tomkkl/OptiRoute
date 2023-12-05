@@ -11,7 +11,7 @@ const FriendRequests = () => {
     // stores the friends that the user has
     const [friendList, setFriendList] = useState([])
     const [userNames, setUserNames] = useState([]);
-
+    const [names, setNames] = useState([]);
     const [handledRequests, setHandledRequests] = useState([]);
 
 
@@ -42,37 +42,77 @@ const FriendRequests = () => {
             // Other actions based on updated currentUser
             console.log("friend req list" + friendRequestList.length)
             console.log("Name of fri req: " + friendRequestList)
+            
         }
     }, [currentUser]);
 
     // Loop through the db and get all the names of the requests 
     // Fetch user data for each ID in friendRequestList and extract names
-    useEffect(() => {
-        const fetchUserNames = async () => {
-            const names = [];
-            for (let i = 0; i < friendRequestList.length; i++) {
-                try {
-                    const response = await fetch('/api/users/' + friendRequestList[i]);
-                    const json = await response.json();
-                    if (response.ok && json && json.name) {
-                        names.push(json.name);
-                    }
-                } catch (error) {
-                    console.error("Error fetching user data:", error);
-                }
-            }
-            setUserNames(names); // Set the array of user names
-        };
+    // useEffect(() => {
+    //     const fetchUserNames = async () => {
+    //         // var names = []; /// made names global
+    //         // names = friendRequestList; // not sure must initialize with names instead of id
+            
+    //         // add all the names to the name
+    //         // for(let i = 0; i < friendRequestList.length; i++) {
+    //         //   names.push(friendRequestList[i].name)
+    //         // }
 
-        fetchUserNames();
-    }, [friendRequestList]);
+    //         console.log('names before: ' + names)
+    //         for (let i = 0; i < friendRequestList.length; i++) {
+    //             try {
+    //                 const response = await fetch('/api/users/' + friendRequestList[i]);
+    //                 const json = await response.json();
+    //                 if (response.ok && json && json.name) {
+    //                   // make a check to see if "names" alrdy has the json.name then no need to add
+    //                   // make sure you print names instead
+    //                   if (!names.includes(json.name)) {
+    //                     names.push(json.name)
+    //                   } 
+
+    //                 }
+    //             } catch (error) {
+    //                 console.error("Error fetching user data:", error);
+    //             }
+    //         }
+    //         console.log("names after: " + names)
+    //         setUserNames(names); // Set the array of user names
+    //     };
+
+    //     fetchUserNames();
+    // }, [friendRequestList, names]);
+
+    // Populate user names before rendering the component
+    useEffect(() => {
+      const fetchUserNames = async () => {
+          const fetchedUserNames = [];
+          for (let i = 0; i < friendRequestList.length; i++) {
+              try {
+                  const response = await fetch('/api/users/' + friendRequestList[i]);
+                  const json = await response.json();
+                  if (response.ok && json && json.name) {
+                      if (!fetchedUserNames.includes(json.name)) {
+                          fetchedUserNames.push(json.name);
+                      }
+                  }
+              } catch (error) {
+                  console.error("Error fetching user data:", error);
+              }
+          }
+          setUserNames(fetchedUserNames); // Set the array of user names after fetching
+      };
+
+      fetchUserNames();
+  }, [friendRequestList]); // Trigger fetch when friendRequestList changes
+
+
 
     const rejectRequest = async (user_id) => {
         try {
           console.log(`Rejected friend request with ID: ${user_id}`);
           
           // Remove the friend from the friend request list
-          const updatedRequests = friendRequestList.filter(request => request._id !== user_id);
+          const updatedRequests = friendRequestList.filter(request => request !== user_id); // check again
           setFriendRequestList(updatedRequests);
       
           // Make a PATCH request to update changes in the backend
@@ -109,8 +149,10 @@ const FriendRequests = () => {
           console.log(`Accepted friend request with ID: ${user_id}`);
           
           // Remove the friend from the friend request list
-          const updatedRequests = friendRequestList.filter(request => request._id !== user_id);
-          setFriendRequestList(updatedRequests);
+          const updatedRequests = friendRequestList.filter(request => request !== user_id); // check again
+          setFriendRequestList(updatedRequests); // might need to change
+          console.log("Updated Requests after remove: " + updatedRequests)
+          
       
           // Check if the user_id is already in the friendList
           if (!friendList.includes(user_id)) {
