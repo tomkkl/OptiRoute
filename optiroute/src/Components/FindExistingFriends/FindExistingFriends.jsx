@@ -144,6 +144,7 @@ const FindExistingFriends = () => {
         <div>
           <h3>Search Results:</h3>
           <ul>
+          <div className="friend-list-sidebar">
           {friends.map((friend, index) => (
           <li key={index} className="curr-friend-list">
             <span className="curr-friend-list-item">Username: {friend.name}</span>
@@ -151,6 +152,7 @@ const FindExistingFriends = () => {
             <span className="curr-friend-list-item">Phone: {friend.phoneNumber}</span>
           </li>
         ))}
+        </div>
           </ul>          
         </div>
       )}
