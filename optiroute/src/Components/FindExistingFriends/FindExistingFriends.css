@@ -1,49 +1,161 @@
 /* FindExistingFriends.css */
 
-/* .FEF-page-container {
-    display: flex;
-  } */
-.friend-list-sidebar {
-    width: 50%;
-    background-color: #c1ffd5;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    /* box-shadow: 2px 0 5px rgba(0,0,0,0.1); */
+/* Main container */
+.FEF-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f4f4f4;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #333;
+  padding: 20px;
 }
-  
-  .curr-friend-list {
-    list-style: none;
-    width: 50%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
-  }
-  
-  .curr-friend-list span {
-    width: 50%;
-    display: block;
-    margin-bottom: 5px;
-  }
-  .search-label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 16px;
-  }
-  
-  .search-select {
-    width: calc(100% - 10px); /* Adjust width as needed */
-    padding: 6px; /* Adjust padding */
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  /* Styling for select dropdown arrow */
-  .search-select::-ms-expand {
-    display: none;
-  }
-  
-  .search-select option {
-    font-size: 16px;
-  }
+
+/* Friend list sidebar */
+.friend-list-sidebar {
+  width: 100%;
+  max-width: 400px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* List styles */
+.curr-friend-list {
+  list-style: none;
+  padding: 10px;
+  border-bottom: 1px solid #e1e1e1;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.curr-friend-list:last-child {
+  border-bottom: 1px solid #e1e1e1; /* Ensure the bottom line is shown */
+}
+
+.curr-friend-list-item {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Search form */
+form {
+  width: 100%;
+  max-width: 400px;
+  background-color: #ffffff;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+input[type="text"], .search-select {
+  width: calc(100% - 16px); /* Adjust width to match button width */
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Search results */
+.search-results {
+  width: 100%;
+  max-width: 400px;
+  background-color: #ffffff;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.search-results h3 {
+  margin-top: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Adjust input, select, and button to have the same width and alignment */
+input[type="text"], .search-select, button {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box; /* Include padding and border in the element's width and height */
+}
+
+/* Use flexbox for label alignment */
+.search-label, .search-input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+/* Align the label text vertically */
+.search-label {
+  margin-bottom: 0; /* Remove margin bottom from label */
+}
+
+/* Adjust button styling */
+button {
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Additional styling for alignment and aesthetics */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Align children width to match the parent's width */
+}
+
+button {
+  width: 100%;
+  padding: 8px; /* Make padding consistent with input and select */
+  margin-bottom: 10px; /* Consistent margin with other elements */
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-sizing: border-box; /* Include padding and border in the width and height */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
