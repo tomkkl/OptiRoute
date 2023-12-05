@@ -247,16 +247,6 @@ const LoginSignup = () => {
                 return;
             }
 
-            // test for loop start
-
-            console.log("users: " + users[0].name)
-
-            for(let i = 0; i < users.length; i++) {
-                console.log("name: " + users[i].name)
-              //  console.log("password: " + user[i].password)
-            }
-
-            // test for loop end
 
             //Do check if email or phone number
             for (let i = 0; i < users.length; i++) {
