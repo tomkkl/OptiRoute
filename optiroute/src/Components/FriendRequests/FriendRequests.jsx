@@ -11,7 +11,7 @@ const FriendRequests = () => {
     // stores the friends that the user has
     const [friendList, setFriendList] = useState([])
     const [userNames, setUserNames] = useState([]);
-
+    const [names, setNames] = useState([]);
     const [handledRequests, setHandledRequests] = useState([]);
 
 
@@ -42,6 +42,7 @@ const FriendRequests = () => {
             // Other actions based on updated currentUser
             console.log("friend req list" + friendRequestList.length)
             console.log("Name of fri req: " + friendRequestList)
+            
         }
     }, [currentUser]);
 
@@ -49,18 +50,32 @@ const FriendRequests = () => {
     // Fetch user data for each ID in friendRequestList and extract names
     useEffect(() => {
         const fetchUserNames = async () => {
-            const names = [];
+            // var names = []; /// made names global
+            // names = friendRequestList; // not sure must initialize with names instead of id
+            
+            // add all the names to the name
+            // for(let i = 0; i < friendRequestList.length; i++) {
+            //   names.push(friendRequestList[i].name)
+            // }
+
+            console.log('names before: ' + names)
             for (let i = 0; i < friendRequestList.length; i++) {
                 try {
                     const response = await fetch('/api/users/' + friendRequestList[i]);
                     const json = await response.json();
                     if (response.ok && json && json.name) {
-                        names.push(json.name);
+                      // make a check to see if "names" alrdy has the json.name then no need to add
+                      // make sure you print names instead
+                      if (!names.includes(json.name)) {
+                        names.push(json.name)
+                      } 
+
                     }
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                 }
             }
+            console.log("names after: " + names)
             setUserNames(names); // Set the array of user names
         };
 
@@ -72,7 +87,7 @@ const FriendRequests = () => {
           console.log(`Rejected friend request with ID: ${user_id}`);
           
           // Remove the friend from the friend request list
-          const updatedRequests = friendRequestList.filter(request => request._id !== user_id);
+          const updatedRequests = friendRequestList.filter(request => request !== user_id); // check again
           setFriendRequestList(updatedRequests);
       
           // Make a PATCH request to update changes in the backend
@@ -109,7 +124,7 @@ const FriendRequests = () => {
           console.log(`Accepted friend request with ID: ${user_id}`);
           
           // Remove the friend from the friend request list
-          const updatedRequests = friendRequestList.filter(request => request._id !== user_id);
+          const updatedRequests = friendRequestList.filter(request => request !== user_id); // check again
           setFriendRequestList(updatedRequests);
       
           // Check if the user_id is already in the friendList

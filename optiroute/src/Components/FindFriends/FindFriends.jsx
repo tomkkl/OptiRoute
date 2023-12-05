@@ -14,8 +14,8 @@ const FindFriends = () => {
 
   const [popup, setPopup] = useState(false)
 
-  const [friendRequestList, setFriendRequestList] = useState([]) // the fri req list of that user
-
+  // const [friendRequestList, setFriendRequestList] = useState([]) // the fri req list of that user
+  var friendRequestList = [];
 
   const [searchBy, setSearchBy] = useState('name'); // Stores the type of info 
   const [searchInput, setSearchInput] = useState(''); // Stores the value
@@ -31,11 +31,18 @@ const FindFriends = () => {
       const json = await responce.json()
       if (responce.ok) {
         setCurrentUser(json)
+        
+        
         console.log("Successfully retrieved current user data")
+        
       }
+
+    
     }
     fetchUser()
   }, [])
+
+  
 
   // the list of friends that the user has chosen to send friend requests to
   const [selectedFriends, setSelectedFriends] = useState([]);
@@ -91,7 +98,7 @@ const FindFriends = () => {
      
       if (response.ok && json) {
         console.log("This line has been ")
-        setFriendRequestList(json.friendRequestList)
+        // setFriendRequestList(json.friendRequestList)
         console.log("executed")
         // user = json
 
@@ -99,74 +106,54 @@ const FindFriends = () => {
         // console.log("Successfully retrieved the info of:2 " + user.name)
         
         console.log("fri req list before adding current user: " + json.friendRequestList)
+        friendRequestList = json.friendRequestList
+        console.log("Local list is: " + friendRequestList)
 
       }
     };
   //   fetchUserData(friendId)
   // }, [user, friendId])
-  const handleSendFriendRequest = () => {
 
+  // make this wait for friendrequestlist
+
+  const handleSendFriendRequest = async () => {
     setPopup(true);
-    // Logic to send friend request for selectedFriends array
+    
     console.log('Sending friend request to:', selectedFriends);
-    // Implement the logic to send friend requests to selected friends
-    // console.lo g(users)
-    // get every user
-
-    // Loop through selectedFriends using forEach
-    selectedFriends.forEach((friendId) => {
-      // Go through users and append current user to the friend's friend request list
-      // var response = await fetch('/api/users/' + friendId)
-      // var json = await response.json()
-      // if (response.ok) {
-      //   console.log("Successfully retrieved the info of: " + json.name)
-      //   // console.log(json.email)
-      //   // console.log(json._id)
-      //   // // set everything
-      //   setUser(json)  
-      //   setFriendRequestList(json.friendRequestList)
-      // console.log("Req List: " + friendRequestList)
-
-      // }
-      
-      fetchUserData(friendId);
-      
-      // make a patch request adding current user to friend request list of that friend
-      // if the list contains current user already, then don't do anything but otherwise add current user
-      console.log("Before the push: " + friendRequestList)
-      if (!friendRequestList.includes(userId)) {
-        friendRequestList.push(userId)
-      }
-      console.log("After the push: " + friendRequestList)
-
-
-      console.log("Fri req list after: " + friendRequestList)
-
-      // console.log("user: " + user) // user is null
-      // console.log("user fr req list " + user.friendRequestList)
-      // user.friendRequestList = friendRequestList; // this is null
-      // console.log("User " + user)
-      const response = fetch('/api/users/' + friendId, { //
-        method: "PATCH",
-        body: JSON.stringify({ friendRequestList: friendRequestList }), // Update only the 'friendRequestList' field
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-
   
+    for (const friendId of selectedFriends) {
+      console.log("Friend ID: " + friendId);
+  
+      try {
+        const userData = await fetchUserData(friendId);
+  
+        console.log("UserData:", userData);
+  
+        if (!friendRequestList.includes(userId)) {
+          friendRequestList.push(userId);
+          console.log("After pushing current user: " + friendRequestList)
 
-      if (response.ok) {
-        console.log('Successfully added user to friend request list')
-        // console.log(user.friendRequestList)
-      } else {
-        // throw new Error('Bad request');
-        console.log("Bad Request")
+          const response = await fetch('/api/users/' + friendId, {
+            method: "PATCH",
+            body: JSON.stringify({ friendRequestList: friendRequestList }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+  
+          if (response.ok) {
+            console.log('Successfully added user to friend request list');
+          } else {
+            console.log("Bad Request");
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
       }
-
-    });
+    }
   };
+
+  // end here
 
 
 
