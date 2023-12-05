@@ -39,7 +39,7 @@ const LoginSignup = () => {
         const json = await response.json()
 
         if (!response.ok) {
-            setError(json.error)
+            // setError(json.error)
         }
 
         if (response.ok) {
@@ -202,7 +202,7 @@ const LoginSignup = () => {
 
             if (!response.ok) {
                 console.log(json.error)
-                setError(json.error)
+                // setError(json.error)
             }
 
             if (response.ok) {
@@ -358,7 +358,9 @@ const LoginSignup = () => {
                         value={securityQuestion} />
                 </div>
             )}
-            {error && <div className='error'>{error}</div>}
+            {error && <div className='error-container'>
+    <div className='error'>{error}</div>
+  </div>}
             <div id="signInGoogleDiv"></div>
 
 

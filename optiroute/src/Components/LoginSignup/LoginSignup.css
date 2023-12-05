@@ -14,6 +14,23 @@
     width: 100%;
     margin-top: 30px;
 }
+.error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4vh; /* Adjust the height as needed */
+  }
+  
+  .error {
+    /* Your styles for the error message */
+    padding: 8px;
+    background-color: #ffcccc;
+    color: #ff0000;
+    border: 1px solid #ff0000;
+    font-size: 14px; /* Adjust the font size as needed */
+    text-align: center; /* Center-align text */
+    max-width: 80%; /* Limit the maximum width of the error message */
+  }
 .text{
     font-size: 48px;
     font-weight: 700;
