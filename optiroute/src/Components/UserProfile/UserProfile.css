@@ -71,7 +71,9 @@
 }
 .submit-container{
     display: flex;
-    gap: 30px;
+    align-items: center;
+    gap: 20px;
+    height: 40px;
     margin: 60px auto;
 }
 .submit{
