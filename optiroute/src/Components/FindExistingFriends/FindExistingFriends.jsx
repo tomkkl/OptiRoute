@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { ReactSession } from "react-client-session"
+import { useNavigate } from 'react-router-dom';
+
 import './FindExistingFriends.css';
 
 var friendId;
 const FindExistingFriends = () => {
+  const navigate = useNavigate();
+
   // Id of current user
   const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
   const [currentUser, setCurrentUser] = useState(null)
@@ -150,7 +154,10 @@ const FindExistingFriends = () => {
           </ul>          
         </div>
       )}
+      <div className="submit" onClick={() => { navigate("/find-friends") }}>Find Friends</div>
+
     </div>
+    
   );
 };
 

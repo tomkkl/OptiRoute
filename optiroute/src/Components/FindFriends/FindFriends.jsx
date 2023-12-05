@@ -261,9 +261,9 @@ const FindFriends = () => {
               </div>
             </div>
           )}
-          <div className="submit" onClick={() => { navigate("/friend-list") }}>Friend List</div>
         </div>
       )}
+      <div className="submit" onClick={() => { navigate("/friend-list") }}>Friend List</div>
     </div>
   );
   // random comment
