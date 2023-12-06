@@ -452,14 +452,16 @@ export class CalendarMain extends React.Component {
   // };
 
 
-  addColor = ({ colorName, colorCode }) => {
+  addColor = ({ userId, colorName, colorCode }) => {
     // Make a POST request to your API endpoint to save the event to MongoDB
+    const user_id = userId;
+    console.log(user_id)
     fetch('/api/colors', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ colorName, colorCode }),
+      body: JSON.stringify({ user_id, colorName, colorCode }),
     })
       .then((response) => response.json())
       .catch((error) => {

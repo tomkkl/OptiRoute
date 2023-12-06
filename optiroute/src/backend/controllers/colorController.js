@@ -10,9 +10,9 @@ const getColors = async (req, res) => {
 };
 
 const createColor = async (req, res) => {
-    const { colorName, colorCode } = req.body;
+    const { user_id, colorName, colorCode } = req.body;
     try {
-        const color = await Color.create({ colorName, colorCode });
+        const color = await Color.create({ user_id, colorName, colorCode });
         res.status(201).json(color);
     } catch (error) {
         res.status(400).json({ error: error.message });
