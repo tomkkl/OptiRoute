@@ -3,6 +3,8 @@ import Modal from 'react-modal';
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import './AddEventModal.css'; // Import your CSS file for modal styling
+import { ReactSession } from "react-client-session"
+
 
 Modal.setAppElement('#root');
 
@@ -96,38 +98,40 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
   }, [isOpen]); // This effect runs when `isOpen` changes
 
 
-const handleAddEvent = () => {
+  const handleAddEvent = () => {
+    const userId = ReactSession.get("user_id");
     if (title && start && end && location && description && recurrence && category && notification_time) {
-        console.log("color")
-        console.log(category)
-        // Fetch colorCode based on the selected category from the colors data
-        fetch('/api/colors')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                const selectedColor = data.find(color => color.colorName === category);
+      console.log("color")
+      console.log(category)
+      // Fetch colorCode based on the selected category from the colors data
+      fetch('/api/colors')
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          data = data.filter((event) => event.user_id === userId);
+          const selectedColor = data.find(color => color.colorName === category);
 
-                if (selectedColor) {
-                    console.log("exist")
-                    const colorID = selectedColor.colorCode
-                    console.log(colorID)
-                    const eventDetails = recurrence === 'No recurrence'
-                    ? { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, colorID }
-                    : { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID };
-                    // Call addEvent with eventDetails including colorCode
-                    addEvent(eventDetails);
-                    closeModal();
-                } else {
-                    alert('Invalid category selected.'); // Handle the case when category does not have a corresponding colorCode
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching color data:', error);
-            });
+          if (selectedColor) {
+            console.log("exist")
+            const colorID = selectedColor.colorCode
+            console.log(colorID)
+            const eventDetails = recurrence === 'No recurrence'
+              ? { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, colorID }
+              : { title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID };
+            // Call addEvent with eventDetails including colorCode
+            addEvent(eventDetails);
+            closeModal();
+          } else {
+            alert('Invalid category selected.'); // Handle the case when category does not have a corresponding colorCode
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching color data:', error);
+        });
     } else {
-        alert('Please fill out all fields.');
+      alert('Please fill out all fields.');
     }
-};
+  };
 
 
   const recurrenceOptions = ['No recurrence', 'Daily', 'Weekly'];
@@ -139,6 +143,8 @@ const handleAddEvent = () => {
         // Update categoryOptions state with the received categories
         // console.log(data);
         // console.log(data.colorName);
+        const userId = ReactSession.get("user_id");
+        data = data.filter((event) => event.user_id === userId);
         setCategoryOptions(data);
       })
       .catch(error => {

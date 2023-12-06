@@ -27,6 +27,7 @@ import emailjs from '@emailjs/browser'
 
 
 function App() {
+
   ReactSession.setStoreType("localStorage");
   const [loggedIn, setLoggedIn] = useState(true);
   const [showTimeoutModal, setShowTimeoutModal] = useState(false);
@@ -286,6 +287,8 @@ function App() {
       <Modal
         isOpen={showTimeoutModal}
         contentLabel="Session Timeout"
+        className="custom-modal"
+        overlayClassName="custom-overlay"
       >
         <div>
           <p>Are you still here?</p>
