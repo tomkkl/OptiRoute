@@ -245,6 +245,7 @@ export class CalendarMain extends React.Component {
           <button onClick={() => this.props.navigate("/map")} className='common-dimensions'>Route Your Day!</button>
           <button onClick={this.openAddColorModal} className='common-dimensions'>Add Category</button>
           <button onClick={() => this.props.navigate("/multi_filter")} className='common-dimensions'>Multi Filter</button>
+          <button onClick={() => this.props.navigate("/")} className='common-dimensions'>Main</button>
         </div>
 
 

@@ -12,6 +12,7 @@ import { FacebookLoginButton } from "react-social-login-buttons";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ReactSession } from "react-client-session"
 
+
 const LoginSignup = () => {
 
     const navigate = useNavigate();
@@ -277,6 +278,7 @@ const LoginSignup = () => {
 
     return (
         <div className='container'>
+
             <div className='header'>
                 <div className='text'>{action}</div>
                 {action === "Sign Up" ? (
@@ -359,8 +361,8 @@ const LoginSignup = () => {
                 </div>
             )}
             {error && <div className='error-container'>
-    <div className='error'>{error}</div>
-  </div>}
+                <div className='error'>{error}</div>
+            </div>}
             <div id="signInGoogleDiv"></div>
 
 
