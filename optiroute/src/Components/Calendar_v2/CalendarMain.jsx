@@ -42,7 +42,8 @@ export class CalendarMain extends React.Component {
     categoryTerm: "",
     startSearchDate: new Date(),
     endSearchDate: new Date(),
-    validInputSearching: true
+    validInputSearching: true,
+    color_id: ''
   }
 
   componentDidMount() {
@@ -531,91 +532,105 @@ export class CalendarMain extends React.Component {
   //     });
   // };
 
-  updateEvent = ({ id, title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID }) => {
-    // Make a PUT request to update the event in the database
-    fetch(`/api/events/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID }),
-    })
+  updateEvent = ({ id, title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur }) => {
+    let colorID = '';
+    const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
+
+    fetch('/api/colors')
       .then((response) => response.json())
       .then((data) => {
-        // Find the index of the updated event in the state
-        const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
-        console.log(updatedEventIndex)
+        const filteredData = data.filter((event) => event.user_id === userId);
+        const newData = filteredData.filter((event) => event.colorName === category);
+        console.log(newData)
 
-        // Update the events state to reflect the changes
-        if (updatedEventIndex !== -1) {
-          let eventColor = "blue"; // Default color
-          if (data.category === 'Work') {
-            eventColor = 'red'; // Work events are red
-          } else if (data.category === 'Personal') {
-            eventColor = 'green'; // Personal events are green
-          }
+        colorID = newData[0].colorCode;
+        this.setState({ color_id: colorID });
 
-          const start = new Date(data.start);
-          const end = new Date(data.end);
-          let daysOfWeek = null;
-          let startTime = null;
-          let endTime = null;
-          let startRecur = null;
-          let endRecur = null;
+        return fetch(`/api/events/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur, colorID }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Find the index of the updated event in the state
+            const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
+            console.log(updatedEventIndex)
 
-          if (data.endRecur) {
-            endRecur = new Date(data.endRecur).toISOString();
-          }
+            // Update the events state to reflect the changes
+            if (updatedEventIndex !== -1) {
+              let eventColor = colorID;
 
-          if (data.recurrence !== "No recurrence") {
-            if (data.recurrence === "Daily") {
-              daysOfWeek = null;
-            } else {
-              const dayOfWeek = start.getDay() === 0 ? 7 : start.getDay(); // Adjusting Sunday to 7
-              daysOfWeek = [dayOfWeek];
+              const start = new Date(data.start);
+              const end = new Date(data.end);
+              let daysOfWeek = null;
+              let startTime = null;
+              let endTime = null;
+              let startRecur = null;
+              let endRecur = null;
+
+              if (data.endRecur) {
+                endRecur = new Date(data.endRecur).toISOString();
+              }
+
+              if (data.recurrence !== "No recurrence") {
+                if (data.recurrence === "Daily") {
+                  daysOfWeek = null;
+                } else {
+                  const dayOfWeek = start.getDay() === 0 ? 7 : start.getDay(); // Adjusting Sunday to 7
+                  daysOfWeek = [dayOfWeek];
+                }
+                startTime = start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes();
+                endTime = end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
+                startRecur = new Date(data.startRecur).toISOString();
+              } else { endRecur = null; }
+
+              // Update the events state to include the newly added event
+              const newEvent = {
+                allDay: false,
+                id: data._id,
+                title: data.title,
+                start: start,
+                end: end,
+                notification_time: new Date(data.notification_time),
+                recurrence: data.recurrence,
+                category: data.category,
+                location: data.location,
+                address: data.address,
+                longitude: data.longitude,
+                latitude: data.latitude,
+                description: data.description,
+                color: eventColor, // Set event color based on category
+                daysOfWeek: daysOfWeek,//[1,3],
+                startTime: startTime,
+                endTime: endTime,
+                startRecur: startRecur,
+                endRecur: endRecur,
+              };
+
+
+              this.setState((prevState) => {
+                const updatedEvents = [...prevState.events];
+                updatedEvents[updatedEventIndex] = newEvent;
+                return {
+                  events: updatedEvents,
+                  isModalOpen: false,
+                };
+              });
             }
-            startTime = start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes();
-            endTime = end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
-            startRecur = new Date(data.startRecur).toISOString();
-          } else { endRecur = null; }
-
-          // Update the events state to include the newly added event
-          const newEvent = {
-            allDay: false,
-            id: data._id,
-            title: data.title,
-            start: start,
-            end: end,
-            notification_time: new Date(data.notification_time),
-            recurrence: data.recurrence,
-            category: data.category,
-            location: data.location,
-            address: data.address,
-            longitude: data.longitude,
-            latitude: data.latitude,
-            description: data.description,
-            color: eventColor, // Set event color based on category
-            daysOfWeek: daysOfWeek,//[1,3],
-            startTime: startTime,
-            endTime: endTime,
-            startRecur: startRecur,
-            endRecur: endRecur,
-          };
-
-
-          this.setState((prevState) => {
-            const updatedEvents = [...prevState.events];
-            updatedEvents[updatedEventIndex] = newEvent;
-            return {
-              events: updatedEvents,
-              isModalOpen: false,
-            };
+          })
+          .catch((error) => {
+            console.error('Error updating event:', error);
           });
-        }
+
       })
-      .catch((error) => {
-        console.error('Error updating event:', error);
-      });
+
+
+
+
+
   };
 
 
