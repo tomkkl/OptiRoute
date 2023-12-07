@@ -271,10 +271,10 @@ const UserProfile = () => {
             <div className='underline'></div>
           </div>
           <div className='submit-container'>
-          <div className="submit" onClick={() => navigate("/calendar")}>To Calendar</div>
-          <div className="submit" onClick={() => navigate("/find-friends")}>Find Friends</div>
-          <div className="submit" onClick={() => navigate("/friend-requests")}>Friend Requests</div> 
-          <div className="submit" onClick={() => navigate("/friend-list")}>Friend List</div> 
+            <div className="submit" onClick={() => navigate("/calendar")}>To Calendar</div>
+            <div className="submit" onClick={() => navigate("/find-friends")}>Find Friends</div>
+            <div className="submit" onClick={() => navigate("/friend-requests")}>Friend Requests</div>
+            <div className="submit" onClick={() => navigate("/friend-list")}>Friend List</div>
           </div>
           <div className='field-group'>
             <div className='inputs'>
