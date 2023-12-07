@@ -246,49 +246,7 @@ export class CalendarMain extends React.Component {
           <button onClick={this.openAddColorModal} className='common-dimensions'>Add Category</button>
           <button onClick={() => this.props.navigate("/multi_filter")} className='common-dimensions'>Multi Filter</button>
         </div>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <form onSubmit={this.handleSearchSubmit}>
-            <input // <form onSubmit... - START OF BEN WORK
-              type="text"
-              placeholder="Search All Events"
-              value={this.searchTerm}
-              onChange={this.handleSearchChange}
-              style={this.searchInputStyle}
-              className="common-dimensions"
-            />
-          </form >
 
-          <form onSubmit={this.handleCategoryhSubmit}>
-            <input // <form onSubmit... - START OF BEN WORK
-              type="text"
-              placeholder="Search All Categories"
-              value={this.categoryTerm}
-              onChange={this.handleCategoryChange}
-              style={this.searchInputStyle}
-              className="common-dimensions"
-            />
-          </form >
-        </div>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "10px" }}>
-            <div style={{ marginRight: "10px" }}>
-              <label className="common-dimensions">Start Search Date:</label>
-              <Datetime
-                value={this.state.startSearchDate}
-                onChange={this.handleStartSearchDateChange} />
-            </div>
-            <div>
-              <label className="common-dimensions">End Search Date:</label>
-              <Datetime
-                value={this.state.endSearchDate}
-                onChange={this.handleEndSearchDateChange}
-              />
-            </div>
-          </div>
-          <div className='flex-container-center'>
-            <button onClick={this.handleSearchDates} className='common-dimensions'>Search Dates</button>
-          </div>
-        </div>
 
       </div>
 
