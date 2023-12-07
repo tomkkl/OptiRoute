@@ -6,6 +6,15 @@ import { ReactSession } from 'react-client-session';
 const Sidebar = () => {
     const userId = ReactSession.get('user_id');
 
+    const handleLogout = () => {
+        // Clear the session and perform any additional logout logic
+        ReactSession.set('user_id', null);
+        // Add any other necessary logout actions
+
+        // Refresh the page
+        window.location.reload();
+    };
+
     return (
         <div className='sidebar'>
             <Link to="/">Home</Link>
@@ -15,12 +24,22 @@ const Sidebar = () => {
                     <Link to="/calendar">Calendar</Link>
                     <Link to="/notification_setting">Notification</Link>
                     <Link to="/find-friends">Find Friends</Link>
-                    <Link to="/login">Login/Signup</Link>
-                </>
+                    <button onClick={handleLogout}
+                        style={{
+                            backgroundColor: 'transparent',
+                            border: 'none',
+                            cursor: 'pointer',
+                            color: '#fff', // Text color
+                            transition: 'background-color 0.3s',
+                            textAlign: 'left', // Align text to the left
+                            paddingLeft: 0, // Remove left padding
+                            fontWeight: 'bold', // Set font weight
+                        }}>Logout</button>                </>
             ) : (
                 <Link to="/login">Login/Signup</Link>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 };
 
