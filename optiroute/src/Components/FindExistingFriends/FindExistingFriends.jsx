@@ -102,6 +102,10 @@ const FindExistingFriends = () => {
   // console.log(friends)
   return (
     <div className="FEF-page-container">
+      <div className="button-container">
+        <div className="submit" onClick={() => { navigate("/find-friends") }}>Find More Friends</div>
+        <div className="submit" onClick={() => { navigate("/profile", { state: { userId: userId } }) }}>User Profile</div>
+      </div>
       <div className="friend-list-sidebar">
         <h2>Friend List</h2>
         {currFriends.map((friend, index) => (
@@ -112,7 +116,7 @@ const FindExistingFriends = () => {
           </li>
         ))}
       </div>
-      <h2>Find Friends</h2>
+      <h2>Find Existing Friends</h2>
       <form onSubmit={handleSearchSubmit}>
       <label htmlFor="searchBy" className="search-label">
       Search By:
@@ -156,7 +160,7 @@ const FindExistingFriends = () => {
           </ul>          
         </div>
       )}
-      <div className="submit" onClick={() => { navigate("/find-friends") }}>Find Friends</div>
+      
 
     </div>
     

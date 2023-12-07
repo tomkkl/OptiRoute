@@ -99,7 +99,10 @@ button:hover {
   font-size: 18px;
   color: #333;
 }
-
+.button-container {
+  /* Using flexbox to align buttons horizontally */
+  display: flex;
+}
 /* Adjust input, select, and button to have the same width and alignment */
 input[type="text"], .search-select, button {
   width: 100%;
@@ -158,4 +161,10 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+.submit {
+  /* Styling for the buttons */
+  display: inline-block;
+  /* Add other necessary styling properties */
+  margin-right: 10px; /* Adjust spacing between buttons as needed */
 }
