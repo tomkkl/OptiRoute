@@ -145,14 +145,13 @@
 }
 
 .delete{
-    margin-top: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 220px;
     height: 59px;
     color: #fff;
-    background-color: #cd0202;
+    background-color: #6f3838;
     border-radius: 50px;
     font-size: 19px;
     font-weight: 700;

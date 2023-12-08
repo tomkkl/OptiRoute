@@ -314,6 +314,10 @@ const UserProfile = () => {
 
             </div>
 
+            <div className='section'>
+            <div className="delete" onClick={deleteProfile}>Delete Profile</div>
+            </div>
+
             {/* Profile Deletion Section */}
             {showDialog && (
               <div className="confirmation-dialog">
