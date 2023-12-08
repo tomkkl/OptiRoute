@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { ReactSession } from "react-client-session"
 import { useNavigate } from 'react-router-dom';
 import './FindFriends.css';
+import Sidebar from '../Sidebar/Sidebar';
 var friendId;
 const FindFriends = () => {
   // Id of current user
@@ -31,18 +32,18 @@ const FindFriends = () => {
       const json = await responce.json()
       if (responce.ok) {
         setCurrentUser(json)
-        
-        
+
+
         console.log("Successfully retrieved current user data")
-        
+
       }
 
-    
+
     }
     fetchUser()
   }, [])
 
-  
+
 
   // the list of friends that the user has chosen to send friend requests to
   const [selectedFriends, setSelectedFriends] = useState([]);
@@ -88,29 +89,29 @@ const FindFriends = () => {
     }
   };
   // useEffect(() => {
-    const fetchUserData = async (friendId) => {
+  const fetchUserData = async (friendId) => {
 
-      const response = await fetch('/api/users/' + friendId);
-      const json = await response.json();
-      
+    const response = await fetch('/api/users/' + friendId);
+    const json = await response.json();
 
-      // setUser(json);// problem is here probably
-     
-      if (response.ok && json) {
-        console.log("This line has been ")
-        // setFriendRequestList(json.friendRequestList)
-        console.log("executed")
-        // user = json
 
-        console.log("Successfully retrieved the info of: " + json.name)
-        // console.log("Successfully retrieved the info of:2 " + user.name)
-        
-        console.log("fri req list before adding current user: " + json.friendRequestList)
-        friendRequestList = json.friendRequestList
-        console.log("Local list is: " + friendRequestList)
+    // setUser(json);// problem is here probably
 
-      }
-    };
+    if (response.ok && json) {
+      console.log("This line has been ")
+      // setFriendRequestList(json.friendRequestList)
+      console.log("executed")
+      // user = json
+
+      console.log("Successfully retrieved the info of: " + json.name)
+      // console.log("Successfully retrieved the info of:2 " + user.name)
+
+      console.log("fri req list before adding current user: " + json.friendRequestList)
+      friendRequestList = json.friendRequestList
+      console.log("Local list is: " + friendRequestList)
+
+    }
+  };
   //   fetchUserData(friendId)
   // }, [user, friendId])
 
@@ -118,17 +119,17 @@ const FindFriends = () => {
 
   const handleSendFriendRequest = async () => {
     setPopup(true);
-    
+
     console.log('Sending friend request to:', selectedFriends);
-  
+
     for (const friendId of selectedFriends) {
       console.log("Friend ID: " + friendId);
-  
+
       try {
         const userData = await fetchUserData(friendId);
-  
+
         console.log("UserData:", userData);
-  
+
         if (!friendRequestList.includes(userId)) {
           friendRequestList.push(userId);
           console.log("After pushing current user: " + friendRequestList)
@@ -140,7 +141,7 @@ const FindFriends = () => {
               'Content-Type': 'application/json'
             }
           });
-  
+
           if (response.ok) {
             console.log('Successfully added user to friend request list');
           } else {
@@ -195,65 +196,63 @@ const FindFriends = () => {
   // TODO: Fri req checkbox  
   // console.log(friends)
   return (
-    <div>
-      <h2>Find Friends</h2>
-      <form onSubmit={handleSearchSubmit}>
-        <label>
-          Search By:
-          <select value={searchBy} onChange={handleSearchByChange}>
-            <option value="name">Name</option>
-            <option value="email">Email</option>
-            <option value="phoneNumber">Phone number</option>
-          </select>
-        </label>
-        <br />
-        <label>
-          {`Enter ${searchBy}: `}
-          <input
-            type="text"
-            value={searchInput}
-            onChange={handleSearchInputChange}
-          />
-        </label>
-        <br />
-        <button type="submit">Search</button>
-      </form>
-
-      {users && (
-        <div>
-          <h3>Search Results:</h3>
-          <ul>
-            {friends.map((friend) => (
-              <li key={friend._id}>
-                <label>
-                  <input
-                    type="checkbox"
-                    onChange={(e) => handleFriendCheckboxChange(e, friend._id)}
-                    checked={selectedFriends.includes(friend._id)}
-                  />
-                  {` Name: ${friend.name}`}
-                </label>
-              </li>
-            ))}
-          </ul>
-          <button onClick={handleSendFriendRequest}>Send Friend Request</button>
-          {popup && (
-            <div className="popup">
-              <div className="popup-content">
-                <span onClick={closePopup} className="close-btn">
-                  &times;
-                </span>
-                <h2>Friend Request Sent!</h2>
-
-              </div>
-            </div>
-          )}
+    <>
+      <Sidebar /> {/* Include Sidebar component */}
+      <div className="FEF-page-container">
+        <div className="friend-list-sidebar">
+          <h2>Find Friends</h2>
+          <form className="form-modern" onSubmit={handleSearchSubmit}>
+            <label htmlFor="searchBy" className="search-label">
+              Search By:
+              <select
+                id="searchBy"
+                className="search-select"
+                value={searchBy}
+                onChange={handleSearchByChange}
+              >
+                <option value="name">Name</option>
+                <option value="email">Email</option>
+                <option value="phoneNumber">Phone number</option>
+              </select>
+            </label>
+            <br />
+            <label>
+              {`Enter ${searchBy}: `}
+              <input
+                type="text"
+                value={searchInput}
+                onChange={handleSearchInputChange}
+              />
+            </label>
+            <br />
+            <button className="submit">Search</button>
+          </form>
         </div>
-      )}
-      <div className="submit" onClick={() => { navigate("/friend-list") }}>Friend List</div>
-    </div>
+
+        {users && (
+          <div className="friend-list-sidebar">
+            <h3>Search Results:</h3>
+            <ul>
+              {friends.map((friend) => (
+                <li key={friend._id} className="curr-friend-list">
+                  <label>
+                    <input
+                      type="checkbox"
+                      onChange={(e) => handleFriendCheckboxChange(e, friend._id)}
+                      checked={selectedFriends.includes(friend._id)}
+                    />
+                    <span className="curr-friend-list-item">Username: {friend.name}</span>
+                    {/* Additional details can be included as in FEF.jsx */}
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <button onClick={handleSendFriendRequest}>Send Friend Request</button>
+          </div>
+        )}
+      </div>
+    </>
   );
-  // random comment
 };
 
 export default FindFriends;

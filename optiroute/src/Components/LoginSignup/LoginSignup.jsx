@@ -68,7 +68,7 @@ const LoginSignup = () => {
         /* global google */
         if (window.google && window.google.accounts && window.google.accounts.id) {
             google.accounts.id.initialize({
-                client_id: "984345413432-64d1vhk7u12h3iodbbft1s3435nc5i00.apps.googleusercontent.com",
+                client_id: "API KEY.apps.googleusercontent.com",
                 callback: handleCallBackResponse
             });
 
@@ -325,7 +325,7 @@ const LoginSignup = () => {
             <div className='inputs'></div>
             {action === "Login" ? <div></div> : <div className='input'>
                 <img src={user_icon} alt='' />
-                <input id="name" type='text' placeholder='Name' onChange={handleChangeName}
+                <input id="name" placeholder='Name' onChange={handleChangeName}
                     value={name} />
 
             </div>}

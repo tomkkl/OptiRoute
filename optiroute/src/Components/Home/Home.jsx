@@ -21,7 +21,6 @@ const Home = () => {
         <div className='submit-container'>
           <div className="submit" onClick={() => { navigate("/login") }}>Sign Up Now!</div>
         </div>
-        <img src={design} alt="App Mockup" className="mockup-image" />
       </div>
 
     </div>

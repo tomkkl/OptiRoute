@@ -250,8 +250,10 @@ class EditEventModal extends Component {
           </div>
           <label>Description:</label>
           <textarea value={description} onChange={(e) => this.setState({ description: e.target.value })} />
-          <button onClick={this.handleEditEvent}>Save Changes</button>
-          <button onClick={closeModal}>Cancel</button>
+          <div className='button-container'>
+            <button onClick={this.handleEditEvent}>Save Changes</button>
+            <button onClick={closeModal}>Cancel</button>
+          </div>
         </div>
       </Modal>
     );

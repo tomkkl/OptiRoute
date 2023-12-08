@@ -6,7 +6,7 @@ import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import moment from 'moment';
 import Weather from './Weather'
 import { ReactSession } from 'react-client-session';
-
+import { useNavigate } from 'react-router-dom';
 import GMap from './GMapV2'
 import EventList from './EventList';
 import Home from '../Home/Home'
@@ -16,6 +16,8 @@ Modal.setAppElement('#root');
 
 const Map = () => {
     // deprecate this
+
+    const navigate = useNavigate();
     const userId = ReactSession.get('user_id');
     const [travelMode, setTravelMode] = useState('DRIVING');
 
@@ -266,6 +268,12 @@ const Map = () => {
                 }
 
                 {!showMap && <div className="no-events-text">No Events For This Day</div>}
+
+                <div className="create-map-button-container">
+                    <button className="create-map-button" onClick={() => { navigate("/calendar") }}>
+                        Back To Calendar
+                    </button>
+                </div>
                 
             </div>
             <div className="map-container">

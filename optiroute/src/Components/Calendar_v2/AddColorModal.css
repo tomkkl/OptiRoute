@@ -77,6 +77,17 @@ button.cancel:hover {
     background-color: #d32f2f;
 }
 
+.button-container {
+    display: flex;
+    justify-content: space-between; /* Adjust as necessary */
+    padding: 10px 0; /* Add padding at top and bottom */
+}
+
+.button-container button {
+    flex: 1; /* Make buttons take equal space */
+    margin: 0 5px; /* Add margin between buttons */
+}
+
 .select-field {
     width: 100%;
     padding: 8px;

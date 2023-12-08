@@ -47,21 +47,25 @@
     flex-direction: column;
     gap: 25px;
 }
-.input{
-    display: flex;
-    align-items: center;
-    margin: auto;
-    width: 480px;
-    height: 80 px;
-    background: #eaeaea;
-    border-radius: 6px;
+.input {
+    align-self: center;
+    height: 50px;
+    width: 100%; /* Adjusted to 100% of the parent container */
+    max-width: 800px; /* Maximum width to ensure fields don't get too wide */
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #797979;
+    font-size: 19px;
 }
 .input img{
     margin: 0px 30px;
 }
-.input input{
+.input input {
+    align-self: center;
     height: 50px;
-    width: 400px;
+    width: 100%; /* Adjusted to 100% of the parent container */
+    max-width: 800px; /* Maximum width to ensure fields don't get too wide */
     background: transparent;
     border: none;
     outline: none;
@@ -74,13 +78,23 @@
     justify-content: center;
     margin-top: 20px;
 }
+
 .phone-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 59px; /* Consistent height */
+    color: #fff;
+    background-color: #3E5346;
+    border-radius: 50px;
+    font-size: 19px;
+    font-weight: 700;
     cursor: pointer;
-    background-color: #eaeaea;
-    border: none;
-    padding: 10px;
-    margin-top: 10px;
+    width: 50%; /* Consistent width */
+    max-width: 300px; /* Consistent max width */
+    margin: 10px auto; /* Centers the button and adds margin on top and bottom */
 }
+
 .submit-container{
     display: flex;
     gap: 30px;

@@ -21,9 +21,12 @@ const Sidebar = () => {
             <Link to="/about">About Team 17</Link>
             {userId ? (
                 <>
+                    <Link to="/profile">Profile</Link>
                     <Link to="/calendar">Calendar</Link>
                     <Link to="/notification_setting">Notification</Link>
                     <Link to="/find-friends">Find Friends</Link>
+                    <Link to="/friend-list">Friend List</Link>
+                    <Link to="/friend-requests">Friend Requests</Link>
                     <button onClick={handleLogout}
                         style={{
                             backgroundColor: 'transparent',
