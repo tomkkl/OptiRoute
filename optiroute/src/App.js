@@ -6,12 +6,10 @@ import About from './Components/About/About';
 import Home from './Components/Home/Home';
 import CalendarMain from './Components/Calendar_v2/CalendarMain.jsx';
 import UserProfile from './Components/UserProfile/UserProfile';
-import Search from './Components/Search/Search';
 import Category from './Components/Category/Category.jsx';
 import Recurrence from './Components/Recurrence/Recurrence';
 import Map from './Components/MapV2/MapV2';
 import All_search from './Components/All_search/All_search.jsx';
-import SearchByDates from './Components/SearchByDates/SearchByDates';
 import NotificationSetting from './Components/NotificationSetting/NotificationSetting';
 import { ReactSession } from 'react-client-session';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -270,8 +268,6 @@ function App() {
         <Route path="/calendar" element={<CalendarMain />} />
         {/* <Route path="/calendar" element={<CalendarComponent />} /> */}
         <Route path="/profile" element={<UserProfile />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/SBD" element={<SearchByDates />} />
         <Route path="/category" element={<Category />} />
         <Route path="/recurring-events" element={<Recurrence />} />
         <Route path="/map" element={<Map />} />
