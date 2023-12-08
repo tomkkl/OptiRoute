@@ -51,8 +51,10 @@ const AddColorModal = ({ isOpen, closeModal, addColor }) => {
                         onChange={(color) => setSelectedColor(color.hex)}
                     />
                 </div>
-                <button onClick={handleAddColor}>Add</button>
-                <button onClick={closeModal}>Cancel</button>
+                <div className='button-container'>
+                    <button onClick={handleAddColor}>Add</button>
+                    <button onClick={closeModal}>Cancel</button>
+                </div>
             </div>
         </Modal>
     );

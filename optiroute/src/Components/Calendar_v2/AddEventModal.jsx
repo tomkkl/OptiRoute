@@ -235,8 +235,10 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
         </div>
         <label>Description:</label>
         <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
-        <button onClick={handleAddEvent}>Add Event</button>
-        <button onClick={closeModal}>Cancel</button>
+        <div className='button-container'>
+          <button onClick={handleAddEvent}>Add Event</button>
+          <button onClick={closeModal}>Cancel</button>
+        </div>
       </div>
     </Modal>
   );

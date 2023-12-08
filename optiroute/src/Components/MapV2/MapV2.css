@@ -72,13 +72,15 @@
 }
 
 .create-map-button-container {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 10px; /* Space below the travel mode dropdown */
+  display: flex; /* Use flexbox for alignment */
+  justify-content: flex-start; /* Align to the start of the container */
 }
 
 .create-map-button {
-  width: 100%;
-  padding: 10px;
+  padding: 10px; /* Existing padding */
+  margin-left: auto;
+  margin-right: auto;
   border: none;
   background-color: #008CBA; /* Modern blue */
   color: white;
@@ -170,6 +172,7 @@
 
 .weather-info-container {
   margin-top: 20px;
+  margin-bottom: 30px;
   padding: 20px;
   background-color: #ffffff; /* Clean white background */
   border-radius: 15px;

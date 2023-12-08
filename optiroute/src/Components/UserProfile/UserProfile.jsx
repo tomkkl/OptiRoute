@@ -3,6 +3,10 @@ import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import './UserProfile.css';
 import logo from '../Assets/logo.png'
+import { ReactSession } from "react-client-session"
+import Sidebar from '../Sidebar/Sidebar';
+
+
 
 const UserProfile = () => {
   const navigate = useNavigate()
@@ -10,16 +14,16 @@ const UserProfile = () => {
   const location = useLocation();
 
   const [invalidAccess, setInvalidAccess] = useState(false);
+  const userId = ReactSession.get("user_id");
 
   useEffect(() => {
-    if (!location.state || !location.state.userId) {
+    if (!userId) {
       alert("Invalid access. Please login first.");
       setInvalidAccess(true);
       navigate("/");
     }
   }, []);
 
-  const userId = location.state?.userId;
   //console.log("USERPROFILE: " + userId);
 
   ///////////////////////////////// Backend Data Transfer Start
@@ -205,40 +209,6 @@ const UserProfile = () => {
   };
   /////////////////////////////// Update Phone Number End
 
-
-  ////////////////////////////// Update Profile Picture Start
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
-
-  const defaultProfilePictureUrl = useState('optiroute/src/Components/Assets/logo.png');
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-  };
-
-  const handleFileRemove = () => {
-    setImageUrl(null)
-    setSelectedFile(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-
-  const handleUpload = () => {
-    if (selectedFile && selectedFile instanceof File) {
-      // You can perform image upload logic here
-      // For this example, we'll just simulate a delay and set the URL
-      setTimeout(() => {
-        setImageUrl(URL.createObjectURL(selectedFile));
-      }, 1000);
-    } else {
-      alert("Please select an image first!");
-    }
-  };
-  ////////////////////////////// Update Profile Picture End
-
-
   ////////////////////////////// Delete Profile (Ben) Start
   const [showDialog, setShowDialog] = useState(false);
   const deleteProfile = () => {
@@ -264,96 +234,106 @@ const UserProfile = () => {
   // test new
   return (
     <>
-      {invalidAccess ? null : (
-        <div className='container'>
-          <div className='header'>
-            <div className='text'>Profile Settings</div>
-            <div className='underline'></div>
-          </div>
-          <div className='submit-container'>
-            <div className="submit" onClick={() => navigate("/calendar")}>To Calendar</div>
-            <div className="submit" onClick={() => navigate("/find-friends")}>Find Friends</div>
-            <div className="submit" onClick={() => navigate("/friend-requests")}>Friend Requests</div>
-            <div className="submit" onClick={() => navigate("/friend-list")}>Friend List</div>
-          </div>
-          <div className='field-group'>
-            <div className='inputs'>
-              <h1>Current Username: {name}</h1>
-              <div className='input'>
-                <input
-                  type="text"
-                  value={newUsername}
-                  onChange={(e) => setNewUsername(e.target.value)}
-                  placeholder="Enter new username"
-                />
+      <div className="user-profile">
+        <Sidebar />
+        {invalidAccess ? null : (
+          <div className='profile-container'>
+            <div className='header'>
+              <div className='text'>Profile Settings</div>
+              <div className='underline'></div>
+            </div>
+
+            <div className='section'>
+              <div className='section-header'>
+                <span className='section-header-icon'>👤</span> {/* Icon for the section */}
+                <h1>Username: {name} </h1>
+              </div>
+              <div className='inputs'>
+                <div className='input'>
+                  <input
+                    value={newUsername}
+                    onChange={(e) => setNewUsername(e.target.value)}
+                    placeholder="Enter new username"
+                  />
+                </div>
               </div>
               <div className="submit" onClick={handleUsernameUpdate}>Update Username</div>
 
-              <h1>Current Email: {email}</h1>
-              <div className='input'>
-                <input
-                  type="text"
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  placeholder="Enter new Email"
-                />
+            </div>
+
+            <div className='section'>
+              <div className='section-header'>
+                <span className='section-header-icon'>📧</span> {/* Icon for the section */}
+                <h1>Email: {email} </h1>
+              </div>
+              <div className='inputs'>
+                <div className='input'>
+                  <input
+                    value={newEmail}
+                    onChange={(e) => setNewEmail(e.target.value)}
+                    placeholder="Enter new Email"
+                  />
+                </div>
               </div>
               <div className="submit" onClick={handleEmailUpdate}>Update Email</div>
+            </div>
 
-              <h1>Current Phone Number: {phone}</h1>
-              <div className='input'>
-                <input
-                  type="text"
-                  value={newPhonenumber}
-                  onChange={(e) => setNewPhonenumber(e.target.value)}
-                  placeholder="Enter new phone number"
-                />
+            <div className='section'>
+              <div className='section-header'>
+                <span className='section-header-icon'>📞</span> {/* Icon for the section */}
+                <h1>Phone Number: {phone} </h1>
+              </div>
+              <div className='inputs'>
+                <div className='input'>
+                  <input
+                    value={newPhonenumber}
+                    onChange={(e) => setNewPhonenumber(e.target.value)}
+                    placeholder="Enter new phone number"
+                  />
+                </div>
               </div>
               <div className="submit" onClick={handlePhonenumberUpdate}>Update Phone Number</div>
+            </div>
 
-              <h1>Current Bio: {bio}</h1>
-              <div className='input'>
-                <input
-                  type="text"
-                  value={newBio}
-                  onChange={(e) => setNewBio(e.target.value)}
-                  placeholder="Enter new bio"
-                />
+            <div className='section'>
+              <div className='section-header'>
+                <span className='section-header-icon'>📝</span> {/* Icon for the section */}
+                <h1>Bio: {bio} </h1>
+              </div>
+              <div className='inputs'>
+                <div className='input'>
+                  <textarea
+                    value={newBio}
+                    onChange={(e) => setNewBio(e.target.value)}
+                    placeholder="Enter new bio"
+                    rows="4"  // Adjust the number of rows as needed
+                  />
+                </div>
               </div>
               <div className="submit" onClick={handleBioUpdate}>Update Bio</div>
 
-              <div className='input'>
-                <input type="file" accept="image/*" onChange={handleFileChange} ref={fileInputRef} />
+            </div>
+
+            {/* Profile Deletion Section */}
+            {showDialog && (
+              <div className="confirmation-dialog">
+                <p>Are you sure you want to delete your profile?</p>
+                <button onClick={() => {
+                  executeProfileDelete();
+                  setShowDialog(false);
+                }}>
+                  Confirm
+                </button>
+                <button onClick={() => {
+                  setShowDialog(false);
+                }}>
+                  Cancel
+                </button>
               </div>
-              <div className="submit" onClick={handleUpload} disabled={!selectedFile}>Upload Image</div>
-              <div className="submit" onClick={handleFileRemove}>Remove Image</div>
-              {imageUrl && (
-                <div className='img'>
-                  <h3>Current Profile Picture:</h3>
-                  <img src={imageUrl} alt="Uploaded" className='profile-picture' />
-                </div>
-              )}
-              <div className="delete" onClick={deleteProfile}>Delete Profile</div>
-            </div>
+            )}
           </div>
-          {showDialog && (
-            <div className="confirmation-dialog">
-              <p>Are you sure you want to delete your profile?</p>
-              <button onClick={() => {
-                executeProfileDelete();
-                setShowDialog(false);
-              }}>
-                Confirm
-              </button>
-              <button onClick={() => {
-                setShowDialog(false);
-              }}>
-                Cancel
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+        )}
+      </div>
     </>
   )
 }

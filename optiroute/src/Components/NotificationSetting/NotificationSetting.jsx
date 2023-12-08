@@ -3,8 +3,11 @@ import { ReactSession } from 'react-client-session';
 import emailjs from '@emailjs/browser'
 
 import './NotificationSetting.css';
+import Sidebar from '../Sidebar/Sidebar';
 
 let current_db_id = null;
+
+console.log("ldoasdosadkoasdkoaspd");
 
 const NotificationSetting = ({ onSave = () => { } }) => {
     const [phoneNotification, setPhoneNotification] = useState(false);
@@ -178,6 +181,8 @@ const NotificationSetting = ({ onSave = () => { } }) => {
 
 
     return (
+        <>
+        <Sidebar />
         <div className="notification-settings-container">
             <h2>Notification Settings</h2>
             <div className="notification-option">
@@ -200,8 +205,8 @@ const NotificationSetting = ({ onSave = () => { } }) => {
                     />
                 </label>
             </div>
-            <div className="notification-info">
-                <h3>Select Information for Notification</h3>
+            <div>
+                <h2>Select Information for Notification</h2>
                 {/* Render checkboxes for selecting notification information */}
             </div>
             <div className="notification-option">
@@ -284,6 +289,7 @@ const NotificationSetting = ({ onSave = () => { } }) => {
                 Send Test Message
             </button>
         </div>
+        </>
     );
 };
 

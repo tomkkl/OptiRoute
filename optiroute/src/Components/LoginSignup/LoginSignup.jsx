@@ -325,7 +325,7 @@ const LoginSignup = () => {
             <div className='inputs'></div>
             {action === "Login" ? <div></div> : <div className='input'>
                 <img src={user_icon} alt='' />
-                <input id="name" type='text' placeholder='Name' onChange={handleChangeName}
+                <input id="name" placeholder='Name' onChange={handleChangeName}
                     value={name} />
 
             </div>}

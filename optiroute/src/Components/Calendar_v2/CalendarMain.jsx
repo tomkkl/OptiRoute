@@ -241,11 +241,10 @@ export class CalendarMain extends React.Component {
         />
         <div className='flex-container-center'>
           <button onClick={this.openAddEventModal} className='common-dimensions'>Add Event</button>
-          <button onClick={() => this.props.navigate(`/recurring-events`)} className='common-dimensions'>Show Recurring Events</button>
+          <button onClick={() => this.props.navigate("/multi_filter")} className='common-dimensions'>Filter Events</button>
           <button onClick={() => this.props.navigate("/map")} className='common-dimensions'>Route Your Day!</button>
           <button onClick={this.openAddColorModal} className='common-dimensions'>Add Category</button>
-          <button onClick={() => this.props.navigate("/multi_filter")} className='common-dimensions'>Multi Filter</button>
-          <button onClick={() => this.props.navigate("/")} className='common-dimensions'>Main</button>
+          <button onClick={() => this.props.navigate("/profile")} className='common-dimensions'>Profile Page</button>
         </div>
 
 
