@@ -2,48 +2,69 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import EventDetailModal from "../Calendar_v2/EventDetailsModal";
 import './styles.css'; // Import the CSS file
+import { ReactSession } from "react-client-session"
+
 
 function All_search() {
-    const [category, setCategory] = useState('');
-    const [recurrence, setRecurrence] = useState('');
-    const [title, setTitle] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [matchedEvents, setMatchedEvents] = useState([]);
-    const [selectedEvent, setSelectedEvent] = useState(null);
-    const [triggerRefresh, setTriggerRefresh] = useState(false);
-  
-    useEffect(() => {
-      fetch('/api/events')
-        .then(response => response.json())
-        .then(data => {
-          let filteredEvents = data;
-  
-          // Apply filters
-          if (category) {
-            filteredEvents = filteredEvents.filter(event => event.category.toLowerCase().includes(category.toLowerCase()));
-          }
-          if (recurrence) {
-            filteredEvents = filteredEvents.filter(event => event.recurrence.toLowerCase().includes(recurrence.toLowerCase()));
-          }
-          if (title) {
-            filteredEvents = filteredEvents.filter(event => event.title.toLowerCase().includes(title.toLowerCase()));
-          }
-          if (startDate) {
-            filteredEvents = filteredEvents.filter(event => new Date(event.start) >= new Date(startDate));
-          }
-  
-          // Update matchedEvents state with filtered events
-          setMatchedEvents(filteredEvents.map(event => ({
-            ...event,
-            id: event._id,
-            start: new Date(event.start),
-            end: new Date(event.end),
-          })));
-        })
-        .catch(error => {
-          console.error('Error fetching events:', error);
-        });
-    }, [category, recurrence, title, triggerRefresh]);
+  const [category, setCategory] = useState('');
+  const [recurrence, setRecurrence] = useState('');
+  const [title, setTitle] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [matchedEvents, setMatchedEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [triggerRefresh, setTriggerRefresh] = useState(false);
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const recurrenceOptions = ['No recurrence', 'Daily', 'Weekly'];
+
+  useEffect(() => {
+    fetch('/api/colors')
+      .then(response => response.json())
+      .then(data => {
+        const userId = ReactSession.get("user_id");
+        const filteredData = data.filter((event) => event.user_id === userId);
+        const colorNames = filteredData.map((event) => event.colorName);
+        setCategoryOptions(colorNames);
+      })
+      .catch(error => {
+        console.error('Error fetching category options:', error);
+      });
+  }, []); // Empty dependency array to run the effect only once on component mount
+
+
+  useEffect(() => {
+    fetch('/api/events')
+      .then(response => response.json())
+      .then(data => {
+        const userId = ReactSession.get("user_id");
+        const userEvents = data.filter((event) => event.user_id === userId);
+        let filteredEvents = userEvents;
+
+        // Apply filters
+        if (category) {
+          filteredEvents = filteredEvents.filter(event => event.category.toLowerCase().includes(category.toLowerCase()));
+        }
+        if (recurrence) {
+          filteredEvents = filteredEvents.filter(event => event.recurrence.toLowerCase().includes(recurrence.toLowerCase()));
+        }
+        if (title) {
+          filteredEvents = filteredEvents.filter(event => event.title.toLowerCase().includes(title.toLowerCase()));
+        }
+        if (startDate) {
+          filteredEvents = filteredEvents.filter(event => new Date(event.start) >= new Date(startDate));
+        }
+
+        // Update matchedEvents state with filtered events
+        setMatchedEvents(filteredEvents.map(event => ({
+          ...event,
+          id: event._id,
+          start: new Date(event.start),
+          end: new Date(event.end),
+        })));
+      })
+      .catch(error => {
+        console.error('Error fetching events:', error);
+      });
+  }, [category, recurrence, title, triggerRefresh]);
 
   const handleDelete = () => {
     if (selectedEvent.id) {
@@ -70,7 +91,7 @@ function All_search() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur}),
+      body: JSON.stringify({ title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur }),
     })
       .then((response) => response.json())
       .then((updatedEvent) => {
@@ -91,14 +112,40 @@ function All_search() {
     <div className="search-results-container">
       <h1>Filter Events</h1>
       <div className="filter-form">
-        <label>Category:</label>
-        <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} />
-        <label>Recurrence:</label>
-        <input type="text" value={recurrence} onChange={(e) => setRecurrence(e.target.value)} />
-        <label>Title:</label>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <label>Start Date:</label>
-        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+        <div className="form-group">
+          <label style={{ minWidth: '80px' }}>Title:</label>
+          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} style={{ flex: 1, maxWidth: '70%' }} />
+        </div>
+        <div className="form-group">
+          <label style={{ minWidth: '80px' }}>Category:</label>
+          <select value={category} onChange={(e) => setCategory(e.target.value)} style={{ flex: 1, maxWidth: '70%' }}>
+            <option value="">Select Category</option>
+            {categoryOptions.map((option, index) => (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label style={{ minWidth: '80px' }}>Recurrence:</label>
+          <select value={recurrence} onChange={(e) => setCategory(e.target.value)} style={{ flex: 1, maxWidth: '70%' }}>
+            <option value="">Select Recurrence</option>
+            {recurrenceOptions.map((option, index) => (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+        {/* <div className="form-group">
+          <label style={{ minWidth: '80px' }}>Recurrence:</label>
+          <input type="text" value={recurrence} onChange={(e) => setRecurrence(e.target.value)} style={{ flex: 1 }} />
+        </div> */}
+        <div className="form-group">
+          <label style={{ minWidth: '80px' }}>Start Date:</label>
+          <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} style={{ flex: 1, maxWidth: '70%' }} />
+        </div>
         {/* <button onClick={() => setTriggerRefresh(t => !t)}>Apply Filters</button> */}
       </div>
       <h1>Search Results:</h1>

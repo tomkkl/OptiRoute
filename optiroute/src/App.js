@@ -201,9 +201,6 @@ function App() {
       } else {
         console.log("not logged in")
       }
-      const response = await fetch('/api/some-endpoint');
-      const data = await response.json();
-      console.log('Data:', data);
     } catch (error) {
       console.error('Error checking something:', error);
     }

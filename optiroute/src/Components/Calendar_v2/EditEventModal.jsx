@@ -5,6 +5,7 @@ import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import 'react-datepicker/dist/react-datepicker.css';
 import './AddEventModal.css'; // Import your CSS file for modal styling
+import { ReactSession } from "react-client-session"
 import moment from 'moment';
 
 
@@ -26,13 +27,14 @@ class EditEventModal extends Component {
       category: '',
       notification_time: '',
       startRecur: '',
-      endRecur: ''
+      endRecur: '',
+      categoryOptions: []
     };
     this.autocomplete = null;
     this.inputRef = React.createRef();
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { event } = this.props;
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY&libraries=places`;
@@ -40,6 +42,23 @@ class EditEventModal extends Component {
     script.defer = true;
     script.onload = this.initAutocomplete;
     document.head.appendChild(script);
+    try {
+      const userId = ReactSession.get("user_id");
+      const response = await fetch('/api/colors');
+      const data = await response.json();
+      // Filter the data based on the user_id
+      console.log(data)
+      const filteredData = data.filter((event) => event.user_id === userId);
+      console.log(filteredData)
+
+      // Extract an array of colorName values
+      const colorNames = filteredData.map((event) => event.colorName);
+      console.log(colorNames)
+      this.setState({ categoryOptions: colorNames });
+    } catch (error) {
+      console.error('Error fetching category options:', error);
+    }
+
     if (event) {
       this.setState({
         title: event.title,
@@ -54,7 +73,7 @@ class EditEventModal extends Component {
         category: event.category,
         notification_time: event.notification_time,
         startRecur: event.startRecur,
-        endRecur: event.endRecur
+        endRecur: event.endRecur,
       });
     }
   }
@@ -114,10 +133,12 @@ class EditEventModal extends Component {
 
   render() {
     const { isOpen, closeModal } = this.props;
-    const { title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur } = this.state;
+    const { title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur, categoryOptions } = this.state;
 
     const recurrenceOptions = ['No recurrence', 'Daily', 'Weekly'];
-    const categoryOptions = ['Personal', 'Work'];
+    console.log(this.categoryOptions)
+    // const categoryOptions = ['Personal', 'Work'];
+
 
     return (
       <Modal
