@@ -108,7 +108,7 @@ const NotificationSetting = ({ onSave = () => { } }) => {
         const phoneNumber = "+1" + phoneAddressNotification;
         console.log(phoneNumber)
         const textMessage = "This is a test SMS.";
-        const apiKey = "ipuRM7I1xzp4Ent0QjttMUgoxLhcNLd1TxNsFMuX9SKM8KJezjtC6nBc9Xc2K4Y3"; // Replace with your actual API key
+        const apiKey = "API"; // Replace with your actual API key
 
         try {
             const response = await fetch(apiUrl, {
