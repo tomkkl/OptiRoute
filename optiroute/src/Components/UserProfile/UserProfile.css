@@ -114,7 +114,7 @@
     
 }
 
-.submit {
+.submit2 {
     display: flex; /* Ensures the contents of the button are flexibly aligned */
     justify-content: center; /* Centers content horizontally */
     align-items: center; /* Centers content vertically */
@@ -128,10 +128,12 @@
     border: none; /* Removes border */
     border-radius: 20px; /* Rounded corners */
     font-size: 18px; /* Font size */
+    font-weight: 700;
     cursor: pointer; /* Changes cursor to pointer on hover */
     text-align: center; /* Ensures text inside is centered */
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Adds subtle shadow for depth */
     transition: background-color 0.3s; /* Smooth transition for hover effects */
+    box-sizing: content-box;
 }
 
 .submit:hover {

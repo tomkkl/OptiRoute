@@ -257,7 +257,7 @@ const UserProfile = () => {
                   />
                 </div>
               </div>
-              <div className="submit" onClick={handleUsernameUpdate}>Update Username</div>
+              <div className="submit2" onClick={handleUsernameUpdate}>Update Username</div>
 
             </div>
 
@@ -275,7 +275,7 @@ const UserProfile = () => {
                   />
                 </div>
               </div>
-              <div className="submit" onClick={handleEmailUpdate}>Update Email</div>
+              <div className="submit2" onClick={handleEmailUpdate}>Update Email</div>
             </div>
 
             <div className='section'>
@@ -292,7 +292,7 @@ const UserProfile = () => {
                   />
                 </div>
               </div>
-              <div className="submit" onClick={handlePhonenumberUpdate}>Update Phone Number</div>
+              <div className="submit2" onClick={handlePhonenumberUpdate}>Update Phone Number</div>
             </div>
 
             <div className='section'>
@@ -310,7 +310,7 @@ const UserProfile = () => {
                   />
                 </div>
               </div>
-              <div className="submit" onClick={handleBioUpdate}>Update Bio</div>
+              <div className="submit2" onClick={handleBioUpdate}>Update Bio</div>
 
             </div>
 
