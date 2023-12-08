@@ -321,18 +321,6 @@ const UserProfile = () => {
                 />
               </div>
               <div className="submit" onClick={handleBioUpdate}>Update Bio</div>
-
-              <div className='input'>
-                <input type="file" accept="image/*" onChange={handleFileChange} ref={fileInputRef} />
-              </div>
-              <div className="submit" onClick={handleUpload} disabled={!selectedFile}>Upload Image</div>
-              <div className="submit" onClick={handleFileRemove}>Remove Image</div>
-              {imageUrl && (
-                <div className='img'>
-                  <h3>Current Profile Picture:</h3>
-                  <img src={imageUrl} alt="Uploaded" className='profile-picture' />
-                </div>
-              )}
               <div className="delete" onClick={deleteProfile}>Delete Profile</div>
             </div>
           </div>

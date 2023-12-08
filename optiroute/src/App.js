@@ -119,7 +119,7 @@ function App() {
         const apiUrl = "https://textflow.me/api/send-sms";
         const phoneNumber = "+1" + current_user.phone_address;
         const textMessage = text;
-        const apiKey = "ipuRM7I1xzp4Ent0QjttMUgoxLhcNLd1TxNsFMuX9SKM8KJezjtC6nBc9Xc2K4Y3"; // Replace with your actual API key
+        const apiKey = "API KEYS"; // Replace with your actual API key
 
         try {
           const response = await fetch(apiUrl, {

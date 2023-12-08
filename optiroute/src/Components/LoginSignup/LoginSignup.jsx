@@ -67,7 +67,7 @@ const LoginSignup = () => {
         /* global google */
         if (window.google && window.google.accounts && window.google.accounts.id) {
             google.accounts.id.initialize({
-                client_id: "984345413432-64d1vhk7u12h3iodbbft1s3435nc5i00.apps.googleusercontent.com",
+                client_id: "API KEY.apps.googleusercontent.com",
                 callback: handleCallBackResponse
             });
 
