@@ -148,14 +148,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 220px;
-    height: 59px;
+    width: 200px; /* Adjusts width to content size */
+    height: 40px; /* Adjust height as needed */
+    padding: 10px 20px; /* Top and bottom padding 10px, left and right padding 20px */
+    margin-left: 0; /* Removes any left margin */
+    margin-top: 10px; /* Adds a little space above the button */
     color: #fff;
     background-color: #6f3838;
-    border-radius: 50px;
-    font-size: 19px;
+    border-radius: 20px; /* Rounded corners */
+    font-size: 19px; /* Font size */
     font-weight: 700;
-    cursor: pointer;
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    text-align: center; /* Ensures text inside is centered */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Adds subtle shadow for depth */
+    transition: background-color 0.3s; /* Smooth transition for hover effects */
 }
 .gray{
     background-color: #EAEAEA;
