@@ -8,11 +8,7 @@ const Sidebar = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // Clear the session and perform any additional logout logic
         ReactSession.set('user_id', null);
-        // Add any other necessary logout actions
-
-        // Refresh the page
         navigate('/');
         window.location.reload();
     };

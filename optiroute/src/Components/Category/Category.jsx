@@ -59,7 +59,7 @@ function Category() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur}),
+      body: JSON.stringify({ title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur }),
     })
       .then((response) => response.json())
       .then((updatedEvent) => {

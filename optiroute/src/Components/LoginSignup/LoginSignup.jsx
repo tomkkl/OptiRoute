@@ -7,29 +7,16 @@ import email_icon from '../Assets/email.png';
 import phone_icon from '../Assets/phone.png'
 import password_icon from '../Assets/password.png';
 import { useNavigate } from 'react-router-dom';
-import { LoginSocialFacebook } from 'reactjs-social-login';
-import { FacebookLoginButton } from "react-social-login-buttons";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ReactSession } from "react-client-session"
-
 
 const LoginSignup = () => {
 
     const navigate = useNavigate();
-
-    const [profile, setProfile] = useState(null);
-
     const [user, setUser] = useState({});
-
-
     const insertUser = async event => {
-
         var userinsert;
         console.log(user)
         userinsert = { name: user.name, email: user.email, phoneNumber: "", password: user.sub }
-
-
-
         const response = await fetch('/api/users', {
             method: "POST",
             body: JSON.stringify(userinsert),
@@ -40,7 +27,7 @@ const LoginSignup = () => {
         const json = await response.json()
 
         if (!response.ok) {
-            // setError(json.error)
+            console.log(json.error)
         }
 
         if (response.ok) {
@@ -53,8 +40,6 @@ const LoginSignup = () => {
     }
 
     function handleCallBackResponse(responce) {
-        // console.log("Encoded JWT ID token" + responce.credential);
-        // console.log("\n")
         var userObject = jwt_decode(responce.credential);
         console.log(userObject)
         setUser(userObject)
@@ -325,7 +310,7 @@ const LoginSignup = () => {
             <div className='inputs'></div>
             {action === "Login" ? <div></div> : <div className='input'>
                 <img src={user_icon} alt='' />
-                <input id="name" placeholder='Name' onChange={handleChangeName}
+                <input id="name" placeholder='Username' onChange={handleChangeName}
                     value={name} />
 
             </div>}

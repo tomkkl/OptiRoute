@@ -5,8 +5,10 @@
     line-height: 1.6;
 }
 
-.description-container h2, .description-container h3 {
-    color: #3E5346; /* Using the color from your previous CSS */
+.description-container h2,
+.description-container h3 {
+    color: #3E5346;
+    /* Using the color from your previous CSS */
     margin-top: 20px;
     margin-bottom: 15px;
     font-weight: bold;

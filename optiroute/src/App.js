@@ -6,7 +6,6 @@ import Home from './Components/Home/Home';
 import CalendarMain from './Components/Calendar_v2/CalendarMain.jsx';
 import UserProfile from './Components/UserProfile/UserProfile';
 import Category from './Components/Category/Category.jsx';
-import Recurrence from './Components/Recurrence/Recurrence';
 import Map from './Components/MapV2/MapV2';
 import All_search from './Components/All_search/All_search.jsx';
 import NotificationSetting from './Components/NotificationSetting/NotificationSetting';
@@ -268,7 +267,6 @@ function App() {
         <Route path="/calendar" element={<CalendarMain />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/category" element={<Category />} />
-        <Route path="/recurring-events" element={<Recurrence />} />
         <Route path="/map" element={<Map />} />
         <Route path="/multi_filter" element={<All_search />} />
         <Route path="/find-friends" element={<FindFriends />} />

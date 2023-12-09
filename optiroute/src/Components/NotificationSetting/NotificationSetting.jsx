@@ -182,113 +182,113 @@ const NotificationSetting = ({ onSave = () => { } }) => {
 
     return (
         <>
-        <Sidebar />
-        <div className="notification-settings-container">
-            <h2>Notification Settings</h2>
-            <div className="notification-option">
-                <label>
-                    Phone Notification:
-                    <input
-                        type="checkbox"
-                        checked={phoneNotification}
-                        onChange={() => setPhoneNotification(!phoneNotification)}
-                    />
-                </label>
-            </div>
-            <div className="notification-option">
-                <label>
-                    Email Notification:
-                    <input
-                        type="checkbox"
-                        checked={emailNotification}
-                        onChange={() => setEmailNotification(!emailNotification)}
-                    />
-                </label>
-            </div>
-            <div>
-                <h2>Select Information for Notification</h2>
-                {/* Render checkboxes for selecting notification information */}
-            </div>
-            <div className="notification-option">
-                <label>
-                    Title:
-                    <input
-                        type="checkbox"
-                        checked={titleNotification}
-                        onChange={() => setTitleNotification(!titleNotification)}
-                    />
-                </label>
-            </div>
-            <div className="notification-option">
-                <label>
-                    Start Date and Time:
-                    <input
-                        type="checkbox"
-                        checked={date_timeNotification}
-                        onChange={() => setDate_TimeNotification(!date_timeNotification)}
-                    />
-                </label>
-            </div>
-            <div className="notification-option">
-                <label>
-                    Location:
-                    <input
-                        type="checkbox"
-                        checked={locationNotification}
-                        onChange={() => setLocationNotification(!locationNotification)}
-                    />
-                </label>
-            </div>
-            <div className="notification-option">
-                <label>
-                    Address:
-                    <input
-                        type="checkbox"
-                        checked={addressNotification}
-                        onChange={() => setAddressNotification(!addressNotification)}
-                    />
-                </label>
-            </div>
-            <div className="notification-option">
-                <label>
-                    Description:
-                    <input
-                        type="checkbox"
-                        checked={descriptionNotification}
-                        onChange={() => setDescriptionNotification(!descriptionNotification)}
-                    />
-                </label>
-            </div>
-            <div className="contact-info">
-                <h3>Contact Information</h3>
-                <div className="contact-option">
+            <Sidebar />
+            <div className="notification-settings-container">
+                <h2>Notification Settings</h2>
+                <div className="notification-option">
                     <label>
-                        Email Address:
+                        Phone Notification:
                         <input
-                            type="text"
-                            value={emailAddressNotification}
-                            onChange={(e) => setEmailAddressNotification(e.target.value)}
+                            type="checkbox"
+                            checked={phoneNotification}
+                            onChange={() => setPhoneNotification(!phoneNotification)}
                         />
                     </label>
                 </div>
-                <div className="contact-option">
+                <div className="notification-option">
                     <label>
-                        Phone Number:
+                        Email Notification:
                         <input
-                            type="text"
-                            value={phoneAddressNotification}
-                            onChange={(e) => setPhonelAddressNotification(e.target.value)}
+                            type="checkbox"
+                            checked={emailNotification}
+                            onChange={() => setEmailNotification(!emailNotification)}
                         />
                     </label>
                 </div>
+                <div>
+                    <h2>Select Information for Notification</h2>
+                    {/* Render checkboxes for selecting notification information */}
+                </div>
+                <div className="notification-option">
+                    <label>
+                        Title:
+                        <input
+                            type="checkbox"
+                            checked={titleNotification}
+                            onChange={() => setTitleNotification(!titleNotification)}
+                        />
+                    </label>
+                </div>
+                <div className="notification-option">
+                    <label>
+                        Start Date and Time:
+                        <input
+                            type="checkbox"
+                            checked={date_timeNotification}
+                            onChange={() => setDate_TimeNotification(!date_timeNotification)}
+                        />
+                    </label>
+                </div>
+                <div className="notification-option">
+                    <label>
+                        Location:
+                        <input
+                            type="checkbox"
+                            checked={locationNotification}
+                            onChange={() => setLocationNotification(!locationNotification)}
+                        />
+                    </label>
+                </div>
+                <div className="notification-option">
+                    <label>
+                        Address:
+                        <input
+                            type="checkbox"
+                            checked={addressNotification}
+                            onChange={() => setAddressNotification(!addressNotification)}
+                        />
+                    </label>
+                </div>
+                <div className="notification-option">
+                    <label>
+                        Description:
+                        <input
+                            type="checkbox"
+                            checked={descriptionNotification}
+                            onChange={() => setDescriptionNotification(!descriptionNotification)}
+                        />
+                    </label>
+                </div>
+                <div className="contact-info">
+                    <h3>Contact Information</h3>
+                    <div className="contact-option">
+                        <label>
+                            Email Address:
+                            <input
+                                type="text"
+                                value={emailAddressNotification}
+                                onChange={(e) => setEmailAddressNotification(e.target.value)}
+                            />
+                        </label>
+                    </div>
+                    <div className="contact-option">
+                        <label>
+                            Phone Number:
+                            <input
+                                type="text"
+                                value={phoneAddressNotification}
+                                onChange={(e) => setPhonelAddressNotification(e.target.value)}
+                            />
+                        </label>
+                    </div>
+                </div>
+                <button className="save-button" onClick={handleSave}>
+                    Save Settings
+                </button>
+                <button className="test-message-button" onClick={handleSendTestMessage}>
+                    Send Test Message
+                </button>
             </div>
-            <button className="save-button" onClick={handleSave}>
-                Save Settings
-            </button>
-            <button className="test-message-button" onClick={handleSendTestMessage}>
-                Send Test Message
-            </button>
-        </div>
         </>
     );
 };

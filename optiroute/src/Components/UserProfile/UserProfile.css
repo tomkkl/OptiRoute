@@ -1,20 +1,24 @@
 .user-profile-container {
     display: flex;
-    flex-direction: row; /* side-by-side layout */
+    flex-direction: row;
+    /* side-by-side layout */
     align-items: flex-start;
-    gap: 20px; /* Adjust as needed */
+    gap: 20px;
+    /* Adjust as needed */
     padding: 20px;
 }
 
 .user-profile-content {
-    margin-left: 250px; /* Margin equal to the sidebar width */
+    margin-left: 250px;
+    /* Margin equal to the sidebar width */
     flex-grow: 1;
     padding: 1rem;
 }
 
 @media (max-width: 800px) {
     .main-content {
-        margin-left: 0; /* No margin for smaller screens */
+        margin-left: 0;
+        /* No margin for smaller screens */
         width: 100%;
     }
 }
@@ -26,7 +30,7 @@
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .section-header {
@@ -41,12 +45,14 @@
 
 .input {
     /* existing styles... */
-    margin-bottom: 10px; /* Add some spacing */
+    margin-bottom: 10px;
+    /* Add some spacing */
 }
 
 /* Add styles for the icons in the section headers */
 .section-header-icon {
-    font-size: 24px; /* Adjust size as needed */
+    font-size: 24px;
+    /* Adjust size as needed */
 }
 
 
@@ -57,48 +63,60 @@
     gap: 20px;
     width: 100%;
 }
-.container{
+
+.container {
     display: flex;
     flex-direction: column;
     margin: auto;
     background-color: #fff;
     padding-bottom: 30px;
 }
-.header{
+
+.header {
     display: flex;
     flex-direction: column;
     gap: 9px;
     width: 100%;
     margin-top: 30px;
 }
-.text{
+
+.text {
     font-size: 48px;
     font-weight: 700;
 }
-.underline{
+
+.underline {
     width: 61px;
     height: 6px;
     background-color: #C1FFD5;
     border-radius: 9px;
 }
+
 .inputs {
     margin-top: 0px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align items to the left */
-    width: 100%; /* Ensure full width */
+    align-items: flex-start;
+    /* Align items to the left */
+    width: 100%;
+    /* Ensure full width */
     gap: 25px;
 }
 
 .input {
-    width: auto; /* Set width to auto or a specific value */
-    margin: 0; /* Remove any default margin */
-    padding: 0; /* Remove any default padding */
+    width: auto;
+    /* Set width to auto or a specific value */
+    margin: 0;
+    /* Remove any default margin */
+    padding: 0;
+    /* Remove any default padding */
 }
-.input img{
+
+.input img {
     margin: 0px 30px;
 }
-.input input{
+
+.input input {
     height: 50px;
     width: 400px;
     background: transparent;
@@ -108,12 +126,14 @@
     color: #797979;
     font-size: 19px;
 }
+
 #signInGoogleDiv {
     width: 100%;
     display: flex;
     justify-content: center;
     margin-top: 20px;
 }
+
 .phone-user {
     cursor: pointer;
     background-color: #eaeaea;
@@ -121,7 +141,8 @@
     padding: 10px;
     margin-top: 10px;
 }
-.submit-container{
+
+.submit-container {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -129,68 +150,104 @@
     margin: 60px auto;
 }
 
-.inputs > div {
-    align-self: flex-start; /* Aligns each child div of .inputs to the left */
-    width: auto; /* Ensures the div takes the full width */
+.inputs>div {
+    align-self: flex-start;
+    /* Aligns each child div of .inputs to the left */
+    width: auto;
+    /* Ensures the div takes the full width */
     margin-bottom: 25px;
-    
+
 }
 
 .submit2 {
-    display: flex; /* Ensures the contents of the button are flexibly aligned */
-    justify-content: center; /* Centers content horizontally */
-    align-items: center; /* Centers content vertically */
-    width: 200px; /* Adjusts width to content size */
-    height: 40px; /* Adjust height as needed */
-    padding: 10px 20px; /* Top and bottom padding 10px, left and right padding 20px */
-    margin-left: 0; /* Removes any left margin */
-    margin-top: 10px; /* Adds a little space above the button */
-    background-color: #3E5346; /* Background color of the button */
-    color: #fff; /* Text color */
-    border: none; /* Removes border */
-    border-radius: 20px; /* Rounded corners */
-    font-size: 18px; /* Font size */
+    display: flex;
+    /* Ensures the contents of the button are flexibly aligned */
+    justify-content: center;
+    /* Centers content horizontally */
+    align-items: center;
+    /* Centers content vertically */
+    width: 200px;
+    /* Adjusts width to content size */
+    height: 40px;
+    /* Adjust height as needed */
+    padding: 10px 20px;
+    /* Top and bottom padding 10px, left and right padding 20px */
+    margin-left: 0;
+    /* Removes any left margin */
+    margin-top: 10px;
+    /* Adds a little space above the button */
+    background-color: #3E5346;
+    /* Background color of the button */
+    color: #fff;
+    /* Text color */
+    border: none;
+    /* Removes border */
+    border-radius: 20px;
+    /* Rounded corners */
+    font-size: 18px;
+    /* Font size */
     font-weight: 700;
-    cursor: pointer; /* Changes cursor to pointer on hover */
-    text-align: center; /* Ensures text inside is centered */
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Adds subtle shadow for depth */
-    transition: background-color 0.3s; /* Smooth transition for hover effects */
+    cursor: pointer;
+    /* Changes cursor to pointer on hover */
+    text-align: center;
+    /* Ensures text inside is centered */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    /* Optional: Adds subtle shadow for depth */
+    transition: background-color 0.3s;
+    /* Smooth transition for hover effects */
     box-sizing: content-box;
 }
 
 .submit:hover {
-    background-color: #2D4235; /* Slightly darker background on hover */
+    background-color: #2D4235;
+    /* Slightly darker background on hover */
 }
 
 .submit:disabled {
-    background-color: #e0e0e0; /* Disabled state background color */
-    color: #aaa; /* Disabled state text color */
-    cursor: not-allowed; /* Cursor to indicate disabled state */
+    background-color: #e0e0e0;
+    /* Disabled state background color */
+    color: #aaa;
+    /* Disabled state text color */
+    cursor: not-allowed;
+    /* Cursor to indicate disabled state */
 }
 
-.delete{
+.delete {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 200px; /* Adjusts width to content size */
-    height: 40px; /* Adjust height as needed */
-    padding: 10px 20px; /* Top and bottom padding 10px, left and right padding 20px */
-    margin-left: 0; /* Removes any left margin */
-    margin-top: 10px; /* Adds a little space above the button */
+    width: 200px;
+    /* Adjusts width to content size */
+    height: 40px;
+    /* Adjust height as needed */
+    padding: 10px 20px;
+    /* Top and bottom padding 10px, left and right padding 20px */
+    margin-left: 0;
+    /* Removes any left margin */
+    margin-top: 10px;
+    /* Adds a little space above the button */
     color: #fff;
     background-color: #6f3838;
-    border-radius: 20px; /* Rounded corners */
-    font-size: 19px; /* Font size */
+    border-radius: 20px;
+    /* Rounded corners */
+    font-size: 19px;
+    /* Font size */
     font-weight: 700;
-    cursor: pointer; /* Changes cursor to pointer on hover */
-    text-align: center; /* Ensures text inside is centered */
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Adds subtle shadow for depth */
-    transition: background-color 0.3s; /* Smooth transition for hover effects */
+    cursor: pointer;
+    /* Changes cursor to pointer on hover */
+    text-align: center;
+    /* Ensures text inside is centered */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    /* Optional: Adds subtle shadow for depth */
+    transition: background-color 0.3s;
+    /* Smooth transition for hover effects */
 }
-.gray{
+
+.gray {
     background-color: #EAEAEA;
     color: #676767;
 }
+
 .confirmation-dialog {
     position: fixed;
     top: 50%;
@@ -200,14 +257,19 @@
     background-color: #fff;
     border: 1px solid #ccc;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;  /* To ensure it's above other elements */
+    z-index: 1000;
+    /* To ensure it's above other elements */
 }
+
 .profile-picture {
     width: 256px;
     height: 256px;
-    object-fit: cover;  /* This will ensure that the image covers the entire size of the container without stretching */
-    border-radius: 10px; /* Optional: if you want rounded corners */
+    object-fit: cover;
+    /* This will ensure that the image covers the entire size of the container without stretching */
+    border-radius: 10px;
+    /* Optional: if you want rounded corners */
 }
+
 .submit:disabled {
     background-color: #e0e0e0;
     color: #aaa;
@@ -221,33 +283,38 @@
     gap: 20px;
     padding: 20px;
     background-color: #F5F5F5;
-  }
-  
-  .profile-container {
+}
+
+.profile-container {
     width: 1000px;
     margin: auto;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-  }
-  
-  .profile-header {
+}
+
+.profile-header {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
-  }
-  
-  .profile-grid {
+}
+
+.profile-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
-  }
+}
 
-  .input textarea {
-    width: 100%; /* Ensure it fills the container */
-    padding: 10px; /* Add some padding for text area */
-    border-radius: 6px; /* Rounded corners */
-    border: 1px solid #ddd; /* Add a light border */
-    resize: vertical; /* Allow vertical resizing only */
+.input textarea {
+    width: 100%;
+    /* Ensure it fills the container */
+    padding: 10px;
+    /* Add some padding for text area */
+    border-radius: 6px;
+    /* Rounded corners */
+    border: 1px solid #ddd;
+    /* Add a light border */
+    resize: vertical;
+    /* Allow vertical resizing only */
 }

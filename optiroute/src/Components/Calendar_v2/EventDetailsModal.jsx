@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { formatDate } from '@fullcalendar/core';
 import './EventDetailsModal.css'; // Import the CSS file for modal styling
@@ -7,7 +7,7 @@ import EditEventModal from './EditEventModal'; // Import the EditEventModal comp
 Modal.setAppElement('#root');
 
 const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) => {
-  
+
   console.log("EventDetailsModal id: " + event_id)
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [event, setEvent] = useState(null);
@@ -17,24 +17,13 @@ const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) =
     setEditModalOpen(true);
   };
 
-  const componentDidMount = () => {
-    const { event } = this.props;
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY&libraries=places`;
-    script.async = true;
-    script.defer = true;
-    script.onload = this.initAutocomplete;
-    document.head.appendChild(script);
-
-  }
-
   useEffect(() => {
     // Fetch event details based on event_id from your API
     const fetchEventDetails = async () => {
       try {
         // Perform API call to fetch event details using event_id
         const response = await fetch(`/api/events/${event_id}`); // Replace this with your actual API endpoint
-        const event  = await response.json();
+        const event = await response.json();
         console.log(event)
         setEvent(event); // Update the event state with fetched data
       } catch (error) {
@@ -93,13 +82,14 @@ const EventDetailsModal = ({ isOpen, closeModal, event_id, onEdit, onDelete }) =
             <button onClick={onDelete}>Delete</button>
             <button onClick={closeModal}>Close</button>
           </div>
+          
           {/* Render EditEventModal when isEditModalOpen is true */}
           {isEditModalOpen && (
             <EditEventModal
               isOpen={isEditModalOpen}
               closeModal={() => {
                 setEditModalOpen(false)
-                // ben fix for not auto-update popup
+                // fix for auto-update popup
                 setTriggerRefresh(t => !t);
               }}
               event={event}

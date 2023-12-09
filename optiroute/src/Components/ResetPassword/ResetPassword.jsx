@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import './ResetPassword.css'
-import jwt_decode from "jwt-decode";
 import user_icon from '../Assets/person.png'
 import email_icon from '../Assets/email.png'
 import password_icon from '../Assets/password.png'
@@ -24,7 +23,6 @@ const ResetPassword = () => {
                 setUsers(json)
                 console.log("Got users")
                 console.log(users);
-
             }
         }
         fetchUsers()
@@ -44,13 +42,13 @@ const ResetPassword = () => {
 
     const handleClick = async event => {
         let userFound = false;
-    
+
         for (let i = 0; i < users.length; i++) {
             let isMatch = phone ? (users[i].phoneNumber === telEmail) : (users[i].email === telEmail);
-    
+
             if (isMatch) {
-                userFound = true; 
-    
+                userFound = true;
+
                 if (users[i].securityQuestion === securityQuestion) {
                     users[i].password = password;
                     const response = await fetch('/api/users/' + users[i]._id, {
@@ -60,15 +58,12 @@ const ResetPassword = () => {
                             'Content-Type': 'application/json'
                         }
                     });
-    
+
                     if (response.ok) {
                         alert("Password successfully reset");
                         navigate("/login");
-                    } else {
-                        // Handle response errors here
                     }
-    
-                    return; // Exit the function after processing the found user
+                    return;
                 } else {
                     alert("Invalid Security Phrase");
                     navigate("/reset-password");
@@ -76,19 +71,15 @@ const ResetPassword = () => {
                 }
             }
         }
-    
         if (!userFound) {
             // User not found, show invalid email/phone alert
             alert(`Invalid ${phone ? "Phone Number" : "Email"}`);
             navigate("/reset-password");
         }
     };
-    
+
     // Navigate to PW reset
     const navigate = useNavigate();
-    //Change to work with Mongo
-    //State does not work as well
-    const [user, setUser] = useState({});
     const [action, setAction] = useState("Reset Password");
     const [phone, setPhone] = useState(false);
     return (

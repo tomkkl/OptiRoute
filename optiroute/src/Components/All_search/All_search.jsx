@@ -22,6 +22,10 @@ function All_search() {
     navigate('/calendar');
   };
 
+  const handleRecurrenceChange = (e) => {
+    setRecurrence(e.target.value);
+  };
+
   useEffect(() => {
     fetch('/api/colors')
       .then(response => response.json())
@@ -56,7 +60,16 @@ function All_search() {
           filteredEvents = filteredEvents.filter(event => event.title.toLowerCase().includes(title.toLowerCase()));
         }
         if (startDate) {
-          filteredEvents = filteredEvents.filter(event => new Date(event.start) >= new Date(startDate));
+          filteredEvents = filteredEvents.filter(event => {
+            const eventDate = new Date(event.start);
+            const filterDate = new Date(startDate);
+  
+            // Adjust for timezone offset
+            const eventDateUTC = new Date(eventDate.getTime() + eventDate.getTimezoneOffset() * 60000);
+            const filterDateUTC = new Date(filterDate.getTime() + filterDate.getTimezoneOffset() * 60000);
+  
+            return eventDateUTC.setHours(0,0,0,0) == filterDateUTC.setHours(0,0,0,0);
+          });
         }
 
         // Update matchedEvents state with filtered events
@@ -70,7 +83,7 @@ function All_search() {
       .catch(error => {
         console.error('Error fetching events:', error);
       });
-  }, [category, recurrence, title, triggerRefresh]);
+  }, [category, recurrence, title, startDate, triggerRefresh]);
 
   const handleDelete = () => {
     if (selectedEvent.id) {
@@ -133,7 +146,7 @@ function All_search() {
         </div>
         <div className="form-group">
           <label className="filter-label">Recurrence:</label>
-          <select className="filter-select" value={recurrence} onChange={(e) => setCategory(e.target.value)}>
+          <select className="filter-select" value={recurrence} onChange={handleRecurrenceChange}>
             <option value="">Select Recurrence</option>
             {recurrenceOptions.map((option, index) => (
               <option key={index} value={option}>{option}</option>

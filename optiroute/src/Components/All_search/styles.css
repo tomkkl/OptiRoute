@@ -1,18 +1,21 @@
   .filter-form {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center items horizontally */
+    justify-content: center;
+    /* Center items horizontally */
   }
-  
+
   .form-group {
     display: flex;
-    align-items: center; /* Center labels vertically */
-    justify-content: center; /* Center items horizontally */
+    align-items: center;
+    /* Center labels vertically */
+    justify-content: center;
+    /* Center items horizontally */
     margin-bottom: 10px;
   }
-  
+
   label {
-    min-width: 80; /* Adjust the width as needed */
+    min-width: 80;
+    /* Adjust the width as needed */
     margin-right: 10px;
   }
-  

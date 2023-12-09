@@ -1,4 +1,4 @@
-.container{
+.container {
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -6,7 +6,8 @@
     background-color: #fff;
     padding-bottom: 30px;
 }
-.header{
+
+.header {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,64 +15,73 @@
     width: 100%;
     margin-top: 30px;
 }
+
 .error-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 4vh; /* Adjust the height as needed */
-  }
-  
-  .error {
+    height: 4vh;
+    /* Adjust the height as needed */
+}
+
+.error {
     /* Your styles for the error message */
     padding: 8px;
     background-color: #ffcccc;
     color: #ff0000;
     border: 1px solid #ff0000;
-    font-size: 14px; /* Adjust the font size as needed */
-    text-align: center; /* Center-align text */
-    max-width: 80%; /* Limit the maximum width of the error message */
-  }
-.text{
+    font-size: 14px;
+    /* Adjust the font size as needed */
+    text-align: center;
+    /* Center-align text */
+    max-width: 80%;
+    /* Limit the maximum width of the error message */
+}
+
+.text {
     font-size: 48px;
     font-weight: 700;
 }
-.underline{
-    width: 61px;
-    height: 6px;
-    background-color: #C1FFD5;
-    border-radius: 9px;
-}
-.inputs{
+
+.inputs {
     margin-top: 55px;
     display: flex;
     flex-direction: column;
     gap: 25px;
 }
+
 .input {
     align-self: center;
     height: 50px;
-    width: 100%; /* Adjusted to 100% of the parent container */
-    max-width: 800px; /* Maximum width to ensure fields don't get too wide */
+    width: 100%;
+    /* Adjusted to 100% of the parent container */
+    max-width: 800px;
+    /* Maximum width to ensure fields don't get too wide */
     background: transparent;
     border: none;
     outline: none;
     color: #797979;
     font-size: 19px;
 }
-.input img{
+
+.input img {
     margin: 0px 30px;
 }
+
 .input input {
     align-self: center;
     height: 50px;
-    width: 100%; /* Adjusted to 100% of the parent container */
-    max-width: 800px; /* Maximum width to ensure fields don't get too wide */
+    width: 100%;
+    /* Adjusted to 100% of the parent container */
+    max-width: 800px;
+    /* Maximum width to ensure fields don't get too wide */
     background: transparent;
     border: none;
     outline: none;
     color: #797979;
     font-size: 19px;
 }
+
 #signInGoogleDiv {
     width: 100%;
     display: flex;
@@ -83,24 +93,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 59px; /* Consistent height */
+    height: 59px;
+    /* Consistent height */
     color: #fff;
     background-color: #3E5346;
     border-radius: 50px;
     font-size: 19px;
     font-weight: 700;
     cursor: pointer;
-    width: 50%; /* Consistent width */
-    max-width: 300px; /* Consistent max width */
-    margin: 10px auto; /* Centers the button and adds margin on top and bottom */
+    width: 50%;
+    /* Consistent width */
+    max-width: 300px;
+    /* Consistent max width */
+    margin: 10px auto;
+    /* Centers the button and adds margin on top and bottom */
 }
 
-.submit-container{
+.submit-container {
     display: flex;
     gap: 30px;
     margin: 60px auto;
 }
-.submit{
+
+.submit {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -113,7 +128,8 @@
     font-weight: 700;
     cursor: pointer;
 }
-.gray{
+
+.gray {
     background-color: #EAEAEA;
     color: #676767;
 }

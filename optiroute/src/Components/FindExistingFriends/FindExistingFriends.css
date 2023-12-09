@@ -43,7 +43,7 @@
 
 @media (max-width: 768px) {
   .form-modern {
-      padding: 15px;
+    padding: 15px;
   }
 }
 
@@ -64,7 +64,7 @@
   width: 100%;
   max-width: 400px;
   background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 15px;
   border-radius: 8px;
   margin-bottom: 20px;
@@ -74,8 +74,10 @@
   padding: 6px 10px;
   width: auto;
   align-self: flex-start;
-  margin-left: 0px; /* Add some space between the button and friend details */
-  background-color: #dc3545; /* Red color for delete button */
+  margin-left: 0px;
+  /* Add some space between the button and friend details */
+  background-color: #dc3545;
+  /* Red color for delete button */
   color: white;
   border: none;
   border-radius: 4px;
@@ -85,7 +87,8 @@
 }
 
 .delete-friend-button:hover {
-  background-color: #c82333; /* Slightly darker red on hover */
+  background-color: #c82333;
+  /* Slightly darker red on hover */
 }
 
 
@@ -96,13 +99,15 @@
   border-bottom: 1px solid #e1e1e1;
   margin-bottom: 10px;
   display: flex;
-  align-items: center; /* Align items in the list horizontally */
+  align-items: center;
+  /* Align items in the list horizontally */
   justify-content: space-between;
   flex-direction: column;
 }
 
 .curr-friend-list:last-child {
-  border-bottom: 1px solid #e1e1e1; /* Ensure the bottom line is shown */
+  border-bottom: 1px solid #e1e1e1;
+  /* Ensure the bottom line is shown */
 }
 
 .curr-friend-list-item {
@@ -119,7 +124,7 @@ form {
   max-width: 400px;
   background-color: #ffffff;
   padding: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   margin-bottom: 20px;
   display: flex;
@@ -127,19 +132,23 @@ form {
 }
 
 /* Style for both input and select elements */
-input[type="text"], .search-select {
-  width: 100%; /* Full width of the parent container */
+input[type="text"],
+.search-select {
+  width: 100%;
+  /* Full width of the parent container */
   padding: 8px;
   margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
-  box-sizing: border-box; /* Include padding and border in the width calculation */
+  box-sizing: border-box;
+  /* Include padding and border in the width calculation */
 }
 
 /* Style for button */
 button {
-  width: 100%; /* Full width of the parent container */
+  width: 100%;
+  /* Full width of the parent container */
   padding: 8px;
   border: none;
   background-color: #007bff;
@@ -148,97 +157,38 @@ button {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
-  box-sizing: border-box; /* Include padding and border in the width calculation */
+  box-sizing: border-box;
+  /* Include padding and border in the width calculation */
 }
 
 button:hover {
   background-color: #0056b3;
 }
 
-
-/* Search results */
-.search-results {
-  width: 100%;
-  max-width: 400px;
-  background-color: #ffffff;
-  padding: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 8px;
-}
-
-.search-results h3 {
-  margin-top: 0;
-  font-size: 18px;
-  color: #333;
-}
-.button-container {
-  /* Using flexbox to align buttons horizontally */
-  display: flex;
-}
 /* Adjust input, select, and button to have the same width and alignment */
-input[type="text"], .search-select, button {
+input[type="text"],
+.search-select,
+button {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
-  box-sizing: border-box; /* Include padding and border in the element's width and height */
+  box-sizing: border-box;
+  /* Include padding and border in the element's width and height */
 }
 
 /* Use flexbox for label alignment */
-.search-label, .search-input {
+.search-label {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
 }
 
-/* Align the label text vertically */
-.search-label {
-  margin-bottom: 0; /* Remove margin bottom from label */
-}
-
-/* Adjust button styling */
-button {
-  border: none;
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-/* Additional styling for alignment and aesthetics */
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch; /* Align children width to match the parent's width */
-}
-
-button {
-  width: 100%;
-  padding: 8px; /* Make padding consistent with input and select */
-  margin-bottom: 10px; /* Consistent margin with other elements */
-  border: none;
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  box-sizing: border-box; /* Include padding and border in the width and height */
-}
-
-button:hover {
-  background-color: #0056b3;
-}
 .submit {
   /* Styling for the buttons */
   display: inline-block;
   margin-top: auto;
   margin-left: auto;
   /* Add other necessary styling properties */
-  margin-right: auto; /* Adjust spacing between buttons as needed */
+  margin-right: auto;
+  /* Adjust spacing between buttons as needed */
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import design from '../Assets/design.png'
 import Sidebar from '../Sidebar/Sidebar';
 import logo from '../Assets/logo.png'
 

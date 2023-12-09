@@ -1,20 +1,17 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { ReactSession } from "react-client-session"
-import { useNavigate } from 'react-router-dom';
 import Sidebar from '../Sidebar/Sidebar';
 
 import './FindExistingFriends.css';
 
-var friendId;
 const FindExistingFriends = () => {
-  const navigate = useNavigate();
 
   // Id of current user
-  const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
+  const userId = ReactSession.get("user_id");
   const [currentUser, setCurrentUser] = useState(null)
-  const [searchBy, setSearchBy] = useState('name'); // Stores the type of info 
-  const [searchInput, setSearchInput] = useState(''); // Stores the value
+  const [searchBy, setSearchBy] = useState('name');
+  const [searchInput, setSearchInput] = useState('');
 
   // NOTE: Not the friends that the user currently has, just the ones that matched his search
   const [friends, setFriends] = useState([]); // contains all the friends that the user is looking for
@@ -91,7 +88,7 @@ const FindExistingFriends = () => {
   const handleDeleteFriend = async (friendId) => {
     // Remove the friend from the local friendList state
     const updatedFriendList = friendList.filter(id => id !== friendId);
-  
+
     try {
       // Make a PATCH request to update the friendList in the backend
       const response = await fetch(`/api/users/${userId}`, {
@@ -101,7 +98,7 @@ const FindExistingFriends = () => {
           'Content-Type': 'application/json'
         }
       });
-  
+
       if (response.ok) {
         // Update friendList and currFriends state to reflect the deletion
         setFriendList(updatedFriendList);

@@ -1,23 +1,15 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { ReactSession } from "react-client-session"
-import { useNavigate } from 'react-router-dom';
 import './FindFriends.css';
 import Sidebar from '../Sidebar/Sidebar';
-var friendId;
+
 const FindFriends = () => {
   // Id of current user
-  const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
+  const userId = ReactSession.get("user_id");
   const [currentUser, setCurrentUser] = useState(null)
-  const [user, setUser] = useState(null)
-  const navigate = useNavigate();
-
-
   const [popup, setPopup] = useState(false)
-
-  // const [friendRequestList, setFriendRequestList] = useState([]) // the fri req list of that user
   var friendRequestList = [];
-
   const [searchBy, setSearchBy] = useState('name'); // Stores the type of info 
   const [searchInput, setSearchInput] = useState(''); // Stores the value
   const [users, setUsers] = useState(null); // stores all the users
@@ -32,18 +24,11 @@ const FindFriends = () => {
       const json = await responce.json()
       if (responce.ok) {
         setCurrentUser(json)
-
-
         console.log("Successfully retrieved current user data")
-
       }
-
-
     }
     fetchUser()
   }, [])
-
-
 
   // the list of friends that the user has chosen to send friend requests to
   const [selectedFriends, setSelectedFriends] = useState([]);
@@ -52,7 +37,6 @@ const FindFriends = () => {
       try {
         const response = await fetch('/api/users');
         const json = await response.json();
-
         if (response.ok) {
           setUsers(json);
         } else {
@@ -68,6 +52,7 @@ const FindFriends = () => {
   const closePopup = () => {
     setPopup(false); // close the popup
   }
+
   const handleSearchByChange = (event) => {
     setSearchBy(event.target.value);
   };
@@ -94,32 +79,18 @@ const FindFriends = () => {
     const response = await fetch('/api/users/' + friendId);
     const json = await response.json();
 
-
-    // setUser(json);// problem is here probably
-
     if (response.ok && json) {
       console.log("This line has been ")
-      // setFriendRequestList(json.friendRequestList)
       console.log("executed")
-      // user = json
-
       console.log("Successfully retrieved the info of: " + json.name)
-      // console.log("Successfully retrieved the info of:2 " + user.name)
-
       console.log("fri req list before adding current user: " + json.friendRequestList)
       friendRequestList = json.friendRequestList
       console.log("Local list is: " + friendRequestList)
-
     }
   };
-  //   fetchUserData(friendId)
-  // }, [user, friendId])
-
-  // make this wait for friendrequestlist
 
   const handleSendFriendRequest = async () => {
     setPopup(true);
-
     console.log('Sending friend request to:', selectedFriends);
 
     for (const friendId of selectedFriends) {
@@ -154,26 +125,14 @@ const FindFriends = () => {
     }
   };
 
-  // end here
-
-
-
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    // Perform the action based on the selected search option and input
-    // console.log(`Searching by ${searchBy}: ${searchInput}`);
-
-    // Send the search criteria to the backend or perform some other action here
-
-    // Filter users based on the search criteria
-    // Will include yourself if you fit the criteria as well
     var filteredUsers = users.filter((user) =>
       user[searchBy].toLowerCase().includes(searchInput.toLowerCase())
     );
 
     console.log("Current user id: " + currentUser._id)
     console.log("Current user name: " + currentUser.name)
-
 
     var indexToRemove = -1;
     for (let i = 0; i < filteredUsers.length; i++) {
@@ -185,19 +144,13 @@ const FindFriends = () => {
     if (indexToRemove >= 0 && indexToRemove < filteredUsers.length) {
       filteredUsers.splice(indexToRemove, 1); // Removes 1 element at the specified index
     }
-
-
-
     // Update the state with the filtered users
     setFriends(filteredUsers);
   };
 
-  // TODO: Loop through users and
-  // TODO: Fri req checkbox  
-  // console.log(friends)
   return (
     <>
-      <Sidebar /> {/* Include Sidebar component */}
+      <Sidebar />
       <div className="FEF-page-container">
         <div className="friend-list-sidebar">
           <h2>Find Friends</h2>
@@ -242,12 +195,22 @@ const FindFriends = () => {
                       checked={selectedFriends.includes(friend._id)}
                     />
                     <span className="curr-friend-list-item">Username: {friend.name}</span>
-                    {/* Additional details can be included as in FEF.jsx */}
                   </label>
                 </li>
               ))}
             </ul>
             <button onClick={handleSendFriendRequest}>Send Friend Request</button>
+            {popup && (
+              <div className="popup">
+                <div className="popup-content">
+                  <span onClick={closePopup} className="close-btn">
+                    &times;
+                  </span>
+                  <h2>Friend Request Sent!</h2>
+
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
