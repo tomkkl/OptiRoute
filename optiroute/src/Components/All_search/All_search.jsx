@@ -40,14 +40,12 @@ function All_search() {
       });
   }, []); // Empty dependency array to run the effect only once on component mount
 
-
   useEffect(() => {
     fetch('/api/events')
       .then(response => response.json())
       .then(data => {
         const userId = ReactSession.get("user_id");
-        const userEvents = data.filter((event) => event.user_id === userId);
-        let filteredEvents = userEvents;
+        let filteredEvents = data.filter((event) => event.user_id === userId);
 
         // Apply filters
         if (category) {
@@ -68,23 +66,24 @@ function All_search() {
             const eventDateUTC = new Date(eventDate.getTime() + eventDate.getTimezoneOffset() * 60000);
             const filterDateUTC = new Date(filterDate.getTime() + filterDate.getTimezoneOffset() * 60000);
   
-            return eventDateUTC.setHours(0,0,0,0) == filterDateUTC.setHours(0,0,0,0);
+            return eventDateUTC.setHours(0,0,0,0) === filterDateUTC.setHours(0,0,0,0);
           });
         }
 
-        // Update matchedEvents state with filtered events
-        setMatchedEvents(filteredEvents.map(event => ({
+        // Convert event start and end times to Date objects
+        const eventsWithDateObjects = filteredEvents.map(event => ({
           ...event,
-          id: event._id,
           start: new Date(event.start),
           end: new Date(event.end),
-        })));
+        }));
+
+        // Update matchedEvents state
+        setMatchedEvents(eventsWithDateObjects);
       })
       .catch(error => {
         console.error('Error fetching events:', error);
       });
   }, [category, recurrence, title, startDate, triggerRefresh]);
-
   const handleDelete = () => {
     if (selectedEvent.id) {
       fetch(`/api/events/${selectedEvent.id}`, {
@@ -126,6 +125,7 @@ function All_search() {
 
   // Sort the matched events by start date/time
   const sortedEvents = matchedEvents.sort((a, b) => a.start - b.start);
+  console.log(selectedEvent)
 
   return (
     <div className="search-results-container">
@@ -176,7 +176,7 @@ function All_search() {
           setSelectedEvent(null);
           setTriggerRefresh(t => !t);
         }}
-        event_id={selectedEvent?.id}
+        event_id={selectedEvent?._id}
         onEdit={updateEvent}
         onDelete={handleDelete}
       />
