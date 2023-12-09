@@ -1,25 +1,15 @@
-const express = require('express')
-const mongoose = require('mongoose')
 const User = require('../models/userModel')
-const {
-    createUser,
-    getUsers,
-    getUser,
-    deleteUser,
-    updateUser
-} = require('../controllers/userController')
+const mongoose = require('mongoose')
 
-const router = express.Router();
-
-//This gets all users
-router.get('/', async (req, res) => {
+//get all users
+const getUsers = async (req, res) => {
     const users = await User.find({}).sort({ createdAt: -1 })
 
     res.status(200).json(users)
-})
+}
 
-//Get a single user
-router.get('/:id', async (req, res) => {
+//get a single user
+const getUser = async (req, res) => {
     const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ error: 'No such user' })
@@ -32,23 +22,22 @@ router.get('/:id', async (req, res) => {
     }
 
     res.status(200).json(user)
-})
+}
 
-//Post a new user
-router.post('/', async (req, res) => {
-    const { name, email, phoneNumber, password, securityQuestion } = req.body
-    console.log("Security Q:\n" + securityQuestion);
+//create new user
+const createUser = async (req, res) => {
+    const { name, email, password } = req.body
 
     try {
-        const user = await User.create({ name, email, phoneNumber, password, securityQuestion });
+        const user = await User.create({ name, email, password });
         res.status(200).json(user)
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
-})
+}
 
-//Delete a user
-router.delete('/:id', async (req, res) => {
+//delete a user
+const deleteUser = async (req, res) => {
     const { id } = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -63,10 +52,9 @@ router.delete('/:id', async (req, res) => {
 
     res.status(200).json(user)
 
-})
-
-//Update a user
-router.patch('/:id', async (req, res) => {
+}
+//update a user
+const updateUser = async (req, res) => {
     const { id } = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -82,7 +70,12 @@ router.patch('/:id', async (req, res) => {
     }
 
     res.status(200).json(user)
-})
+}
 
-module.exports = router
-
+module.export = {
+    getUsers,
+    getUser,
+    createUser,
+    deleteUser,
+    updateUser
+}

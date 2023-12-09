@@ -20,8 +20,7 @@ const FindExistingFriends = () => {
   const [friends, setFriends] = useState([]); // contains all the friends that the user is looking for
 
   const [currFriends, setCurrFriends] = useState([]); // contains all the friends that the user is looking for
-  // Get and Set Current User
-
+  const [friendList, setFriendList] = useState([]);
 
   const fetchUsers = async (currentUserNow) => {
     try {
@@ -47,7 +46,8 @@ const FindExistingFriends = () => {
       const responce = await fetch('/api/users/' + userId)
       const json = await responce.json()
       if (responce.ok) {
-        setCurrentUser(json)
+        setCurrentUser(json);
+        setFriendList(json.friendList);
         console.log("Successfully retrieved current user data")
       }
       fetchUsers(json);
@@ -64,23 +64,12 @@ const FindExistingFriends = () => {
   };
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    // Perform the action based on the selected search option and input
-    // console.log(`Searching by ${searchBy}: ${searchInput}`);
-
-    // Send the search criteria to the backend or perform some other action here
-
-    // Filter users based on the search criteria
-    // Will include yourself if you fit the criteria as well
-
-
-
     var filteredUsers = currFriends.filter((user) =>
       user[searchBy].toLowerCase().includes(searchInput.toLowerCase())
     );
 
     console.log("Current user id: " + currentUser._id)
     console.log("Current user name: " + currentUser.name)
-
 
     var indexToRemove = -1;
     for (let i = 0; i < filteredUsers.length; i++) {
@@ -98,9 +87,35 @@ const FindExistingFriends = () => {
     console.log(friends)
 
   };
-  // TODO: Loop through users and
-  // TODO: Fri req checkbox  
-  // console.log(friends)
+
+  const handleDeleteFriend = async (friendId) => {
+    // Remove the friend from the local friendList state
+    const updatedFriendList = friendList.filter(id => id !== friendId);
+  
+    try {
+      // Make a PATCH request to update the friendList in the backend
+      const response = await fetch(`/api/users/${userId}`, {
+        method: "PATCH",
+        body: JSON.stringify({ friendList: updatedFriendList }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      if (response.ok) {
+        // Update friendList and currFriends state to reflect the deletion
+        setFriendList(updatedFriendList);
+        setCurrFriends(currFriends.filter(friend => friend._id !== friendId));
+        console.log('Successfully deleted friend');
+      } else {
+        throw new Error('Failed to update friend list in the backend');
+      }
+    } catch (error) {
+      console.error('Error deleting friend:', error);
+      // Handle errors such as network issues, etc.
+    }
+  };
+
   return (
     <>
       <Sidebar />
@@ -112,37 +127,40 @@ const FindExistingFriends = () => {
               <span className="curr-friend-list-item">Username: {friend.name}</span>
               <span className="curr-friend-list-item">Email: {friend.email}</span>
               <span className="curr-friend-list-item">Phone: {friend.phoneNumber}</span>
+              <button className="delete-friend-button" onClick={() => handleDeleteFriend(friend._id)}>
+                Delete Friend
+              </button>
             </li>
           ))}
         </div>
         <div className="friend-list-sidebar">
-        <h2>Find Existing Friends</h2>
-        <form className="form-modern" onSubmit={handleSearchSubmit}>
-          <label htmlFor="searchBy" className="search-label">
-            Search By:
-            <select
-              id="searchBy"
-              className="search-select"
-              value={searchBy}
-              onChange={handleSearchByChange}
-            >
-              <option value="name">Name</option>
-              <option value="email">Email</option>
-              <option value="phoneNumber">Phone number</option>
-            </select>
-          </label>
-          <br />
-          <label>
-            {`Enter ${searchBy}: `}
-            <input
-              type="text"
-              value={searchInput}
-              onChange={handleSearchInputChange}
-            />
-          </label>
-          <br />
-          <button className="submit">Search</button>
-        </form>
+          <h2>Find Existing Friends</h2>
+          <form className="form-modern" onSubmit={handleSearchSubmit}>
+            <label htmlFor="searchBy" className="search-label">
+              Search By:
+              <select
+                id="searchBy"
+                className="search-select"
+                value={searchBy}
+                onChange={handleSearchByChange}
+              >
+                <option value="name">Name</option>
+                <option value="email">Email</option>
+                <option value="phoneNumber">Phone number</option>
+              </select>
+            </label>
+            <br />
+            <label>
+              {`Enter ${searchBy}: `}
+              <input
+                type="text"
+                value={searchInput}
+                onChange={handleSearchInputChange}
+              />
+            </label>
+            <br />
+            <button className="submit">Search</button>
+          </form>
         </div>
 
         {friends && (

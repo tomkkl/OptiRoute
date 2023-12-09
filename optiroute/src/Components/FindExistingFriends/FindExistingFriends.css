@@ -70,6 +70,25 @@
   margin-bottom: 20px;
 }
 
+.delete-friend-button {
+  padding: 6px 10px;
+  width: auto;
+  align-self: flex-start;
+  margin-left: 0px; /* Add some space between the button and friend details */
+  background-color: #dc3545; /* Red color for delete button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.delete-friend-button:hover {
+  background-color: #c82333; /* Slightly darker red on hover */
+}
+
+
 /* List styles */
 .curr-friend-list {
   list-style: none;
@@ -77,6 +96,8 @@
   border-bottom: 1px solid #e1e1e1;
   margin-bottom: 10px;
   display: flex;
+  align-items: center; /* Align items in the list horizontally */
+  justify-content: space-between;
   flex-direction: column;
 }
 
@@ -85,8 +106,9 @@
 }
 
 .curr-friend-list-item {
+  align-self: flex-start;
   margin-bottom: 5px;
-  font-size: 14px;
+  font-size: 16px;
   color: #555;
 }
 
