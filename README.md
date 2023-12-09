@@ -1,8 +1,8 @@
-![new](https://github.com/tomkkl/OptiRoute/assets/91853199/ae70d79d-54f4-49de-8430-152fb98149ba)
-# OptiRoute
+  ![new](https://github.com/tomkkl/OptiRoute/assets/91853199/ae70d79d-54f4-49de-8430-152fb98149ba)
+# optiroute
 
 
-OptiRoute is a web application designed to streamline the process of event scheduling and route planning, while also offering social interaction features. 
+optiroute is a web application designed to streamline the process of event scheduling and route planning, while also offering social interaction features. 
 
 ## Features
 
