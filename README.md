@@ -13,8 +13,7 @@ OptiRoute is a web application designed to streamline the process of event sched
 - **Social Interactions**: Connect with friends, share events, and manage friend requests.
 - **Notifications**: Customize notification settings and receive email/text notifications for any upcoming events.
 
-## Technologies Used
-
+## Tech Stack
 - Frontend: React.js
 - Backend: Node.js, Express.js
 - Database: MongoDB
