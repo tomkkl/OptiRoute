@@ -1,3 +1,25 @@
+.user-profile-container {
+    display: flex;
+    flex-direction: row; /* side-by-side layout */
+    align-items: flex-start;
+    gap: 20px; /* Adjust as needed */
+    padding: 20px;
+}
+
+.user-profile-content {
+    margin-left: 250px; /* Margin equal to the sidebar width */
+    flex-grow: 1;
+    padding: 1rem;
+}
+
+@media (max-width: 800px) {
+    .main-content {
+        margin-left: 0; /* No margin for smaller screens */
+        width: 100%;
+    }
+}
+
+
 .section {
     background-color: #f9f9f9;
     align-content: center;

@@ -235,108 +235,112 @@ const UserProfile = () => {
   return (
     <>
       <div className="user-profile">
-        <Sidebar />
-        {invalidAccess ? null : (
-          <div className='profile-container'>
-            <div className='header'>
-              <div className='text'>Profile Settings</div>
-              <div className='underline'></div>
-            </div>
-
-            <div className='section'>
-              <div className='section-header'>
-                <span className='section-header-icon'>👤</span> {/* Icon for the section */}
-                <h1>Username: {name} </h1>
-              </div>
-              <div className='inputs'>
-                <div className='input'>
-                  <input
-                    value={newUsername}
-                    onChange={(e) => setNewUsername(e.target.value)}
-                    placeholder="Enter new username"
-                  />
+        <div className='user-profile-container'>
+          <Sidebar />
+          <div className='user-profile-content'>
+            {invalidAccess ? null : (
+              <div className='profile-container'>
+                <div className='header'>
+                  <div className='text'>Profile Settings</div>
+                  <div className='underline'></div>
                 </div>
-              </div>
-              <div className="submit2" onClick={handleUsernameUpdate}>Update Username</div>
 
-            </div>
+                <div className='section'>
+                  <div className='section-header'>
+                    <span className='section-header-icon'>👤</span> {/* Icon for the section */}
+                    <h1>Username: {name} </h1>
+                  </div>
+                  <div className='inputs'>
+                    <div className='input'>
+                      <input
+                        value={newUsername}
+                        onChange={(e) => setNewUsername(e.target.value)}
+                        placeholder="Enter new username"
+                      />
+                    </div>
+                  </div>
+                  <div className="submit2" onClick={handleUsernameUpdate}>Update Username</div>
 
-            <div className='section'>
-              <div className='section-header'>
-                <span className='section-header-icon'>📧</span> {/* Icon for the section */}
-                <h1>Email: {email} </h1>
-              </div>
-              <div className='inputs'>
-                <div className='input'>
-                  <input
-                    value={newEmail}
-                    onChange={(e) => setNewEmail(e.target.value)}
-                    placeholder="Enter new Email"
-                  />
                 </div>
-              </div>
-              <div className="submit2" onClick={handleEmailUpdate}>Update Email</div>
-            </div>
 
-            <div className='section'>
-              <div className='section-header'>
-                <span className='section-header-icon'>📞</span> {/* Icon for the section */}
-                <h1>Phone Number: {phone} </h1>
-              </div>
-              <div className='inputs'>
-                <div className='input'>
-                  <input
-                    value={newPhonenumber}
-                    onChange={(e) => setNewPhonenumber(e.target.value)}
-                    placeholder="Enter new phone number"
-                  />
+                <div className='section'>
+                  <div className='section-header'>
+                    <span className='section-header-icon'>📧</span> {/* Icon for the section */}
+                    <h1>Email: {email} </h1>
+                  </div>
+                  <div className='inputs'>
+                    <div className='input'>
+                      <input
+                        value={newEmail}
+                        onChange={(e) => setNewEmail(e.target.value)}
+                        placeholder="Enter new Email"
+                      />
+                    </div>
+                  </div>
+                  <div className="submit2" onClick={handleEmailUpdate}>Update Email</div>
                 </div>
-              </div>
-              <div className="submit2" onClick={handlePhonenumberUpdate}>Update Phone Number</div>
-            </div>
 
-            <div className='section'>
-              <div className='section-header'>
-                <span className='section-header-icon'>📝</span> {/* Icon for the section */}
-                <h1>Bio: {bio} </h1>
-              </div>
-              <div className='inputs'>
-                <div className='input'>
-                  <textarea
-                    value={newBio}
-                    onChange={(e) => setNewBio(e.target.value)}
-                    placeholder="Enter new bio"
-                    rows="4"  // Adjust the number of rows as needed
-                  />
+                <div className='section'>
+                  <div className='section-header'>
+                    <span className='section-header-icon'>📞</span> {/* Icon for the section */}
+                    <h1>Phone Number: {phone} </h1>
+                  </div>
+                  <div className='inputs'>
+                    <div className='input'>
+                      <input
+                        value={newPhonenumber}
+                        onChange={(e) => setNewPhonenumber(e.target.value)}
+                        placeholder="Enter new phone number"
+                      />
+                    </div>
+                  </div>
+                  <div className="submit2" onClick={handlePhonenumberUpdate}>Update Phone Number</div>
                 </div>
-              </div>
-              <div className="submit2" onClick={handleBioUpdate}>Update Bio</div>
 
-            </div>
+                <div className='section'>
+                  <div className='section-header'>
+                    <span className='section-header-icon'>📝</span> {/* Icon for the section */}
+                    <h1>Bio: {bio} </h1>
+                  </div>
+                  <div className='inputs'>
+                    <div className='input'>
+                      <textarea
+                        value={newBio}
+                        onChange={(e) => setNewBio(e.target.value)}
+                        placeholder="Enter new bio"
+                        rows="4"  // Adjust the number of rows as needed
+                      />
+                    </div>
+                  </div>
+                  <div className="submit2" onClick={handleBioUpdate}>Update Bio</div>
 
-            <div className='section'>
-            <div className="delete" onClick={deleteProfile}>Delete Profile</div>
-            </div>
+                </div>
 
-            {/* Profile Deletion Section */}
-            {showDialog && (
-              <div className="confirmation-dialog">
-                <p>Are you sure you want to delete your profile?</p>
-                <button onClick={() => {
-                  executeProfileDelete();
-                  setShowDialog(false);
-                }}>
-                  Confirm
-                </button>
-                <button onClick={() => {
-                  setShowDialog(false);
-                }}>
-                  Cancel
-                </button>
+                <div className='section'>
+                  <div className="delete" onClick={deleteProfile}>Delete Profile</div>
+                </div>
+
+                {/* Profile Deletion Section */}
+                {showDialog && (
+                  <div className="confirmation-dialog">
+                    <p>Are you sure you want to delete your profile?</p>
+                    <button onClick={() => {
+                      executeProfileDelete();
+                      setShowDialog(false);
+                    }}>
+                      Confirm
+                    </button>
+                    <button onClick={() => {
+                      setShowDialog(false);
+                    }}>
+                      Cancel
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
-        )}
+        </div>
       </div>
     </>
   )
