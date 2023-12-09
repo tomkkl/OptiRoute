@@ -26,49 +26,38 @@ const eventSchema = new Schema({
     recurrence  : {
         type: String,
         required: true
-        
     },
     category: {
         type: String,
-        
-        // You can specify additional validation or constraints if needed
     },
     location: {
         type: String,
         required: true
-        // You can specify additional validation or constraints if needed
     },
     address: {
         type: String,
         required: true
-        // You can specify additional validation or constraints if needed
     },
     longitude: {
         type: Number,
         required: true
-        // You can specify additional validation or constraints if needed
     },
     latitude: {
         type: Number,
         required: true
-        // You can specify additional validation or constraints if needed
     },
     description: {
         type: String,
         required: true
-        // You can specify additional validation or constraints if needed
     },
     startRecur: {
         type: Date,
-        // You can specify additional validation or constraints if needed
     },
     endRecur: {
         type: Date,
-        // You can specify additional validation or constraints if needed
     }, 
     colorID: {
         type: String,
-        // You can specify additional validation or constraints if needed
     }, 
     travelTime: {
         type: Number,

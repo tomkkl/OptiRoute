@@ -1,33 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -37,45 +7,69 @@
   }
 }
 
-
-/* App.css */
-
-.timeout-modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.timeout-modal-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
 .custom-overlay {
+  background-color: rgba(0, 0, 0, 0.75); /* Darker overlay for enhanced focus */
   display: flex;
   align-items: center;
   justify-content: center;
-  
+  position: fixed; /* Ensure overlay covers the whole screen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999; /* Below the modal but above other content */
 }
 
 .custom-modal {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 300px;
-  max-width: 80%; /* Adjust as needed */
+  background-color: #f2f2f2; /* Light grey background */
+  padding: 25px;
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+  width: 350px;
+  max-width: 90%;
   text-align: center;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed; /* Fixed position */
-  top: 30%;
+  z-index: 1000; /* Above the overlay */
+  position: fixed;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 2px solid black; /* Add a black border */
+  border: 1px solid #ddd; /* Subtle border */
+  font-family: 'Arial', sans-serif; /* More readable font */
+}
+
+.custom-modal p {
+  font-size: 16px; /* Larger text for readability */
+  color: #333; /* Darker color for better contrast */
+  margin-bottom: 20px;
+}
+
+.custom-modal button:first-of-type {
+  background-color: #4CAF50; /* Green color for 'Yes' button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 10px;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.custom-modal button:first-of-type:hover {
+  background-color: #45a049; /* Slightly darker on hover */
+}
+
+.custom-modal button:last-of-type {
+  background-color: #f44336; /* Red color for 'No' button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 10px;
+}
+
+.custom-modal button:last-of-type:hover {
+  background-color: #e53935; /* Slightly darker on hover */
 }

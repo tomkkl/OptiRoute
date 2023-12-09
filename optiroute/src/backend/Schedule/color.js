@@ -13,7 +13,6 @@ const router = express.Router();
 
 // Get all colors
 router.get('/', async (req, res) => {
-    // BEN WORK 
     const { query } = req.query;
 
     if (query) {
@@ -25,14 +24,7 @@ router.get('/', async (req, res) => {
         const colors = await Color.find({}).sort({ createdAt: -1 });
         return res.status(200).json(colors);
     }
-
-    // BEN WORK
-
-    /* this below here is the previous work that was here. keeping this incase my shit breaks everything */
-    //const colors = await Color.find({}).sort({ createdAt: -1 });
-    //res.status(200).json(colors);
 });
-
 
 // Get a single color
 router.get('/:id', async (req, res) => {

@@ -12,7 +12,6 @@ const router = express.Router();
 
 // Get all notifications
 router.get('/', async (req, res) => {
-    // BEN WORK 
     const { query } = req.query;
 
     if (query) {
@@ -24,7 +23,6 @@ router.get('/', async (req, res) => {
         const notifications = await Notification.find({}).sort({ createdAt: -1 });
         return res.status(200).json(notifications);
     }
-
 });
 
 

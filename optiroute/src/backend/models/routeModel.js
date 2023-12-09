@@ -5,18 +5,18 @@ const Schema = mongoose.Schema;
 const waypointSchema = new Schema({
   latitude: Number,
   longitude: Number,
-  title: String, // Add a name field
-  time: Date // Add a time field
+  title: String,
+  time: Date
 }, { _id: false });
 
 const routeSchema = new Schema({
     user_id: {
         type: String,
         required: true,
-        ref: 'User' // Replace with your user model reference if needed
+        ref: 'User'
     },
     name: {
-        type: String, // Optional name for the route
+        type: String,
         default: 'Unnamed Route'
     },
     travelMode: {

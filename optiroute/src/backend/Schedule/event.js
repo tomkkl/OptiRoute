@@ -13,7 +13,6 @@ const router = express.Router();
 
 // Get all events
 router.get('/', async (req, res) => {
-    // BEN WORK 
     const { query } = req.query;
 
     if (query) {
@@ -25,12 +24,6 @@ router.get('/', async (req, res) => {
         const events = await Event.find({}).sort({ createdAt: -1 });
         return res.status(200).json(events);
     }
-
-    // BEN WORK
-    
-    /* this below here is the previous work that was here. keeping this incase my shit breaks everything */
-    //const events = await Event.find({}).sort({ createdAt: -1 });
-    //res.status(200).json(events);
 });
 
 

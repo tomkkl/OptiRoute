@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import LoginSignup from './Components/LoginSignup/LoginSignup';
 import ResetPassword from './Components/ResetPassword/ResetPassword';
@@ -44,7 +43,8 @@ function App() {
   };
 
   const updateExpireTime = () => {
-    const expireTime = Date.now() + 100000000000;
+    // time out set at 10 minutes
+    const expireTime = Date.now() + 600000;
 
     localStorage.setItem("expireTime", expireTime);
   }
@@ -266,7 +266,6 @@ function App() {
         <Route path="/login" element={<LoginSignup />} />
         <Route path="/about" element={<About />} />
         <Route path="/calendar" element={<CalendarMain />} />
-        {/* <Route path="/calendar" element={<CalendarComponent />} /> */}
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/category" element={<Category />} />
         <Route path="/recurring-events" element={<Recurrence />} />
