@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 import { ReactSession } from 'react-client-session';
 
 const Sidebar = () => {
     const userId = ReactSession.get('user_id');
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         // Clear the session and perform any additional logout logic
@@ -12,6 +13,7 @@ const Sidebar = () => {
         // Add any other necessary logout actions
 
         // Refresh the page
+        navigate('/');
         window.location.reload();
     };
 
