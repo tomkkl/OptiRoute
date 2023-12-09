@@ -23,6 +23,8 @@ const ResetPassword = () => {
             if (responce.ok) {
                 setUsers(json)
                 console.log("Got users")
+                console.log(users);
+
             }
         }
         fetchUsers()
@@ -41,47 +43,47 @@ const ResetPassword = () => {
     };
 
     const handleClick = async event => {
-        console.log("here")
+        let userFound = false;
+    
         for (let i = 0; i < users.length; i++) {
-            // console.log(users[i].email)
-            //Change so it does different ifs for phone and tel
-            if (users[i].email === telEmail || users[i].phoneNumber === telEmail) {
+            let isMatch = phone ? (users[i].phoneNumber === telEmail) : (users[i].email === telEmail);
+    
+            if (isMatch) {
+                userFound = true; 
+    
                 if (users[i].securityQuestion === securityQuestion) {
-                    console.log("LOGGED IN YIPEEEE")
-                    users[i].password = password
-                    console.log(users[i]._id)
+                    users[i].password = password;
                     const response = await fetch('/api/users/' + users[i]._id, {
                         method: "PATCH",
-                        body: JSON.stringify(users[i]),
+                        body: JSON.stringify({ password: password }), // Only send necessary data
                         headers: {
                             'Content-Type': 'application/json'
                         }
-                    })
-                    const json = await response.json()
-
-                    // if (!response.ok) {
-                    //     setError(json.error)
-                    // }
-
+                    });
+    
                     if (response.ok) {
-                        // setError(null)
-                        alert("Password successfully reset")
-                        { navigate("/login") }
-
+                        alert("Password successfully reset");
+                        navigate("/login");
+                    } else {
+                        // Handle response errors here
                     }
+    
+                    return; // Exit the function after processing the found user
                 } else {
-                    //Handle errors
-                    alert("Invalid Security Phrase")
-                    navigate("/reset-password")
+                    alert("Invalid Security Phrase");
+                    navigate("/reset-password");
+                    return;
                 }
-            } else {
-                alert("Invalid Email")
-                navigate("/reset-password")
-                return;
             }
         }
-    }
-
+    
+        if (!userFound) {
+            // User not found, show invalid email/phone alert
+            alert(`Invalid ${phone ? "Phone Number" : "Email"}`);
+            navigate("/reset-password");
+        }
+    };
+    
     // Navigate to PW reset
     const navigate = useNavigate();
     //Change to work with Mongo
