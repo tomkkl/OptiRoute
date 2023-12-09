@@ -37,7 +37,7 @@ class EditEventModal extends Component {
   async componentDidMount() {
     const { event } = this.props;
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDxtuA0Hdx5B0t4X3L0n9STcsGeDXNTYXY&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD6tcgjAS5huUamv55fAu_ayLxl61NET34&libraries=places`;
     script.async = true;
     script.defer = true;
     script.onload = this.initAutocomplete;
@@ -133,7 +133,7 @@ class EditEventModal extends Component {
 
   render() {
     const { isOpen, closeModal } = this.props;
-    const { title, start, end, location, description, recurrence, category, notification_time, startRecur, endRecur, categoryOptions } = this.state;
+    const { title, start, end, location, address, description, recurrence, category, notification_time, startRecur, endRecur, categoryOptions } = this.state;
 
     const recurrenceOptions = ['No recurrence', 'Daily', 'Weekly'];
     console.log(this.categoryOptions)
@@ -148,17 +148,6 @@ class EditEventModal extends Component {
         className="modal"
         overlayClassName="overlay"
       >
-        {/* <div className="modal-content">
-          <h2>Edit Event</h2>
-          <label>Title:</label>
-          <input type="text" value={title} onChange={(e) => this.setState({ title: e.target.value })} />
-
-          <button onClick={this.handleEditEvent}>Save Changes</button>
-          <button onClick={closeModal}>Cancel</button>
-        </div> */}
-
-
-
         <div className="modal-content">
           <h2>Edit Event</h2>
           <label>Title:</label>
@@ -196,11 +185,7 @@ class EditEventModal extends Component {
           <input type="text" value={location} onChange={(e) => this.setState({ location: e.target.value })} />
           <label>Address:</label>
           <div>
-            <input
-              type="text"
-              placeholder="Enter an address"
-              ref={this.inputRef}
-            />
+            <input type="text" value={address} ref={this.inputRef} onChange={(e) => this.setState({ address: e.target.value })} />
           </div>
           <div>
             <label>Recurrence:</label>

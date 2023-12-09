@@ -114,14 +114,6 @@ button.cancel:hover {
     /* Add margin between buttons */
 }
 
-.select-field {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
 .modal-content .button-container {
     display: flex;
     justify-content: center;

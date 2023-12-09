@@ -7,13 +7,16 @@
     flex-wrap: wrap;
     gap: 40px;
     padding: 40px;
-    margin-top: 50px; /* Adjusted margin-top to give some space */
+    margin-top: 50px;
+    /* Adjusted margin-top to give some space */
     margin-bottom: 50px;
     margin-left: 200px;
     justify-content: center;
     background-color: #f5f5f5;
-    width: 100%; /* Ensure the content takes up the rest of the space */
-    max-width: calc(100vw - 200px); /* Adjust this based on the sidebar's width */
+    width: 100%;
+    /* Ensure the content takes up the rest of the space */
+    max-width: calc(100vw - 200px);
+    /* Adjust this based on the sidebar's width */
 }
 
 .team-member {
@@ -39,7 +42,8 @@
 
 .team-member-title {
     font-size: 20px;
-    color: #3E5346;  /* Using the color from your previous CSS */
+    color: #3E5346;
+    /* Using the color from your previous CSS */
     margin-bottom: 15px;
 }
 

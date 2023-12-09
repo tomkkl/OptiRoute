@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import Datetime from "react-datetime";
 import interactionPlugin from '@fullcalendar/interaction';
 import EventDetailsModal from './EventDetailsModal'; // Import the EventDetailsModal component
 import AddEventModal from './AddEventModal';
@@ -11,7 +10,6 @@ import AddColorModal from './AddColorModal';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { ReactSession } from "react-client-session"
-
 
 import './CalendarMain.css';
 
@@ -47,7 +45,7 @@ export class CalendarMain extends React.Component {
   }
 
   componentDidMount() {
-    const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
+    const userId = ReactSession.get("user_id");
     // fetch events from the API endpoint
     fetch(`/api/events?user_id=${userId}`)
       .then((response) => response.json())
@@ -64,13 +62,10 @@ export class CalendarMain extends React.Component {
           let startRecur = null;
           let endRecur = null;
 
-
           if (event.endRecur) {
             endRecur = new Date(event.endRecur).toISOString();
           }
           console.log(endRecur);
-
-
 
           if (event.recurrence !== "No recurrence") {
             if (event.recurrence === "Daily") {
@@ -115,7 +110,6 @@ export class CalendarMain extends React.Component {
       });
   }
 
-  // Ben work
   handleSearchChange = (e) => {
     this.setState({ searchTerm: e.target.value });
   };
@@ -186,13 +180,8 @@ export class CalendarMain extends React.Component {
     transition: 'background-color 0.3s'
   };
   //
-
-
   render() {
-
-
     return (
-
       <div>
         <AddEventModal
           isOpen={this.state.isAddEventModalOpen}
@@ -216,20 +205,12 @@ export class CalendarMain extends React.Component {
             editable={true}
             selectable={true}
             firstDay={1}
-            events={this.state.events} // Use events prop instead of initialEvents
-            //eventContent={renderEventContent} // custom render function
+            events={this.state.events}
             eventClick={this.handleEventClick}
-            eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
+            eventsSet={this.handleEvents}
             allDaySlot={false}
             stickyHeaderDates={true}
             height={'auto'}
-          // options={{
-          //   allDaySlot: false, // Set the allDaySlot option to false
-          //   aspectRatio:  3, 
-          //   height: "auto",
-          //   stickyHeaderDates: true,
-          // }}
-
           />
         </div>
         <EventDetailsModal
@@ -243,16 +224,12 @@ export class CalendarMain extends React.Component {
           <button onClick={this.openAddEventModal} className='common-dimensions'>Add Event</button>
           <button onClick={() => this.props.navigate("/multi_filter")} className='common-dimensions'>Filter Events</button>
           <button onClick={() => this.props.navigate("/map")} className='common-dimensions'>Route Your Day!</button>
-          <button onClick={this.openAddColorModal} className='common-dimensions'>Add Category</button>
+          <button onClick={this.openAddColorModal} className='common-dimensions'>Manage Categories</button>
           <button onClick={() => this.props.navigate("/profile")} className='common-dimensions'>Profile Page</button>
         </div>
-
-
       </div>
-
     )
   }
-
 
   handleWeekendsToggle = () => {
     this.setState({
@@ -268,10 +245,7 @@ export class CalendarMain extends React.Component {
       selectedEvent: clickInfo.event.id,
       isModalOpen: true,
     });
-
-
   };
-
 
   closeModal = () => {
     this.setState({
@@ -389,28 +363,6 @@ export class CalendarMain extends React.Component {
       });
   };
 
-  // getColorCode = async (categoryName) => {
-  //   try {
-  //     const response = await fetch('/api/colors');
-  //     const data = await response.json();
-
-  //     const colorObject = data.find((color) => color.colorName === categoryName);
-
-  //     if (colorObject) {
-  //       // If color object is found, update the eventColor state
-  //       this.setState({ eventColor: colorObject.colorCode });
-  //     } else {
-  //       // If color object is not found, set a default color code
-  //       this.setState({ eventColor: 'blue' }); // or any default color code you prefer
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching color code:', error);
-  //     // Set a default color code in case of an error
-  //     this.setState({ eventColor: 'blue' }); // or any default color code you prefer
-  //   }
-  // };
-
-
   addColor = ({ userId, colorName, colorCode }) => {
     // Make a POST request to your API endpoint to save the event to MongoDB
     const user_id = userId;
@@ -454,45 +406,9 @@ export class CalendarMain extends React.Component {
     }
   };
 
-
-  //   updateEvent = ({ id, title, start, end, location, description, recurrence, category }) => {
-  //   // Make a PUT request to update the event in the database
-  //   fetch(`/api/events/${id}`, {
-  //     method: 'PATCH',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({ title, start, end, location, description, recurrence, category }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((updatedEvent) => {
-  //       // Handle the updated event data as needed
-  //       console.log('Event updated successfully:', updatedEvent);
-
-  //       // Find the index of the updated event in the state
-  //       const updatedEventIndex = this.state.events.findIndex((event) => event.id === id);
-
-  //       // Update the events state to reflect the changes
-  //       if (updatedEventIndex !== -1) {
-  //         this.setState((prevState) => {
-  //           const updatedEvents = [...prevState.events];
-  //           updatedEvents[updatedEventIndex] = updatedEvent;
-  //           return {
-  //             events: updatedEvents,
-  //             isModalOpen: false,
-  //             selectedEvent: null,
-  //           };
-  //         });
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error updating event:', error);
-  //     });
-  // };
-
   updateEvent = ({ id, title, start, end, location, address, longitude, latitude, description, recurrence, category, notification_time, startRecur, endRecur }) => {
     let colorID = '';
-    const userId = ReactSession.get("user_id"); // Convert to string explicitly    console.log(userId)
+    const userId = ReactSession.get("user_id");
 
     fetch('/api/colors')
       .then((response) => response.json())
@@ -567,8 +483,7 @@ export class CalendarMain extends React.Component {
                 startRecur: startRecur,
                 endRecur: endRecur,
               };
-
-
+              
               this.setState((prevState) => {
                 const updatedEvents = [...prevState.events];
                 updatedEvents[updatedEventIndex] = newEvent;
@@ -582,15 +497,6 @@ export class CalendarMain extends React.Component {
           .catch((error) => {
             console.error('Error updating event:', error);
           });
-
       })
-
-
-
-
-
   };
-
-
-
 } export default CalendarMainWrapper;

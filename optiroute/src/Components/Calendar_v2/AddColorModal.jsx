@@ -28,6 +28,7 @@ const AddColorModal = ({ isOpen, closeModal, addColor }) => {
                 console.error('Error fetching categories:', error);
             });
     }, [userId]); // Add userId as a dependency to refresh when user changes
+    
     const handleAddColor = () => {
         if (colorName && colorCode) {
             const confirmation = window.confirm(`Add color "${colorName}" with code "${colorCode}"?`);
@@ -80,7 +81,6 @@ const AddColorModal = ({ isOpen, closeModal, addColor }) => {
         }
     };
 
-
     return (
         <Modal
             isOpen={isOpen}
@@ -90,7 +90,7 @@ const AddColorModal = ({ isOpen, closeModal, addColor }) => {
             overlayClassName="overlay"
         >
             <div className="modal-content">
-                <h2>Add Category and Color</h2>
+                <h2>Add and Delete Categories</h2>
 
                 <div className="field-container">
                     <label className="label">New Category:</label>

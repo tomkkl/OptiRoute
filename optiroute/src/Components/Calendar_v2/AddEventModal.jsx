@@ -5,7 +5,6 @@ import "react-datetime/css/react-datetime.css";
 import './AddEventModal.css'; // Import your CSS file for modal styling
 import { ReactSession } from "react-client-session"
 
-
 Modal.setAppElement('#root');
 
 const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
@@ -140,9 +139,6 @@ const AddEventModal = ({ isOpen, closeModal, addEvent }) => {
     fetch('/api/colors')
       .then(response => response.json())
       .then(data => {
-        // Update categoryOptions state with the received categories
-        // console.log(data);
-        // console.log(data.colorName);
         const userId = ReactSession.get("user_id");
         data = data.filter((event) => event.user_id === userId);
         setCategoryOptions(data);

@@ -35,7 +35,7 @@ const Team = () => {
             image: ben
         },
     ];
-    
+
 
     return (
         <div className="main-container">

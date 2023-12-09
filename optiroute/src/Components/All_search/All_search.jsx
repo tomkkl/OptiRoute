@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import EventDetailModal from "../Calendar_v2/EventDetailsModal";
 import './styles.css'; // Import the CSS file
+import './search.css'; // Import the CSS file
 import { ReactSession } from "react-client-session"
 
 
@@ -15,6 +16,11 @@ function All_search() {
   const [triggerRefresh, setTriggerRefresh] = useState(false);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const recurrenceOptions = ['No recurrence', 'Daily', 'Weekly'];
+  const navigate = useNavigate();
+
+  const navigateToCalendar = () => {
+    navigate('/calendar');
+  };
 
   useEffect(() => {
     fetch('/api/colors')
@@ -113,40 +119,34 @@ function All_search() {
       <h1>Filter Events</h1>
       <div className="filter-form">
         <div className="form-group">
-          <label style={{ minWidth: '80px' }}>Title:</label>
-          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} style={{ flex: 1, maxWidth: '70%' }} />
+          <label className="filter-label">Title:</label>
+          <input type="text" className="filter-input" value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
         <div className="form-group">
-          <label style={{ minWidth: '80px' }}>Category:</label>
-          <select value={category} onChange={(e) => setCategory(e.target.value)} style={{ flex: 1, maxWidth: '70%' }}>
+          <label className="filter-label">Category:</label>
+          <select className="filter-select" value={category} onChange={(e) => setCategory(e.target.value)}>
             <option value="">Select Category</option>
             {categoryOptions.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
+              <option key={index} value={option}>{option}</option>
             ))}
           </select>
         </div>
         <div className="form-group">
-          <label style={{ minWidth: '80px' }}>Recurrence:</label>
-          <select value={recurrence} onChange={(e) => setCategory(e.target.value)} style={{ flex: 1, maxWidth: '70%' }}>
+          <label className="filter-label">Recurrence:</label>
+          <select className="filter-select" value={recurrence} onChange={(e) => setCategory(e.target.value)}>
             <option value="">Select Recurrence</option>
             {recurrenceOptions.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
+              <option key={index} value={option}>{option}</option>
             ))}
           </select>
         </div>
-        {/* <div className="form-group">
-          <label style={{ minWidth: '80px' }}>Recurrence:</label>
-          <input type="text" value={recurrence} onChange={(e) => setRecurrence(e.target.value)} style={{ flex: 1 }} />
-        </div> */}
         <div className="form-group">
-          <label style={{ minWidth: '80px' }}>Start Date:</label>
-          <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} style={{ flex: 1, maxWidth: '70%' }} />
+          <label className="filter-label">Start Date:</label>
+          <input type="date" className="filter-input" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
         </div>
-        {/* <button onClick={() => setTriggerRefresh(t => !t)}>Apply Filters</button> */}
+        <div className="form-group">
+          <button className="filter-button" onClick={navigateToCalendar}>Back To Calendar</button>
+        </div>
       </div>
       <h1>Search Results:</h1>
       <div className="events-list">

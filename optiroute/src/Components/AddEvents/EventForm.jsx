@@ -13,7 +13,7 @@ const EventForm = ({ onClose }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-  
+
     // For datetime-local inputs, format the date and time strings properly
     if (name === 'startDateTime' || name === 'endDateTime') {
       // Convert the input value to a format accepted by datetime-local inputs
@@ -41,11 +41,11 @@ const EventForm = ({ onClose }) => {
       </label>
       <label>
         Start:
-        <input type="datetime-local" value={eventData.startDateTime} onChange={handleInputChange}/>
+        <input type="datetime-local" value={eventData.startDateTime} onChange={handleInputChange} />
       </label>
       <label>
         End:
-        <input type="datetime-local" value={eventData.endDateTime} onChange={handleInputChange}/>
+        <input type="datetime-local" value={eventData.endDateTime} onChange={handleInputChange} />
       </label>
       <label>
         Repeat:

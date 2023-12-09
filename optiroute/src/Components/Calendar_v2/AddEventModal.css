@@ -6,16 +6,21 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    padding: 40px; /* Increase padding for a larger modal box */
+    padding: 40px;
+    /* Increase padding for a larger modal box */
     border: 1px solid #ccc;
-    border-radius: 10px; /* Increase border radius for rounded corners */
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3); /* Increase box shadow for depth effect */
+    border-radius: 10px;
+    /* Increase border radius for rounded corners */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3);
+    /* Increase box shadow for depth effect */
     z-index: 1000;
-    width: 80%; /* Set a specific width for the modal */
-    max-width: 400px; /* Optionally, set a maximum width for the modal */
+    width: 80%;
+    /* Set a specific width for the modal */
+    max-width: 400px;
+    /* Optionally, set a maximum width for the modal */
     height: 850px;
     overflow-y: auto;
-    
+
 }
 
 .overlay {
@@ -33,7 +38,8 @@
 
 .modal-content {
     text-align: left;
-    margin-bottom: 20px; /* Increase bottom margin for spacing */
+    margin-bottom: 20px;
+    /* Increase bottom margin for spacing */
 }
 
 .label {
@@ -50,20 +56,24 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
-    resize: vertical; /* Allow vertical resizing */
+    resize: vertical;
+    /* Allow vertical resizing */
 }
 
 
 button {
     background-color: #4caf50;
     color: white;
-    padding: 12px 24px; /* Increase padding for larger button */
+    padding: 12px 24px;
+    /* Increase padding for larger button */
     border: none;
-    border-radius: 8px; /* Increase border radius for rounded button */
+    border-radius: 8px;
+    /* Increase border radius for rounded button */
     cursor: pointer;
     margin-right: 10px;
     font-size: 16px;
-    transition: background-color 0.3s ease; /* Add a smooth transition effect */
+    transition: background-color 0.3s ease;
+    /* Add a smooth transition effect */
 }
 
 button.cancel {
@@ -80,13 +90,17 @@ button.cancel:hover {
 
 .button-container {
     display: flex;
-    justify-content: space-between; /* Adjust as necessary */
-    padding: 10px 0; /* Add padding at top and bottom */
+    justify-content: space-between;
+    /* Adjust as necessary */
+    padding: 10px 0;
+    /* Add padding at top and bottom */
 }
 
 .button-container button {
-    flex: 1; /* Make buttons take equal space */
-    margin: 0 5px; /* Add margin between buttons */
+    flex: 1;
+    /* Make buttons take equal space */
+    margin: 0 5px;
+    /* Add margin between buttons */
 }
 
 .select-field {
@@ -95,7 +109,7 @@ button.cancel:hover {
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
+}
 
 .modal-content .button-container {
     display: flex;
@@ -103,5 +117,6 @@ button.cancel:hover {
 }
 
 .modal-content button {
-    margin: 0 10px; /* Add some margin between the buttons */
+    margin: 0 10px;
+    /* Add some margin between the buttons */
 }
