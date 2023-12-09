@@ -248,7 +248,7 @@ const LoginSignup = () => {
                 return;
             }
 
-
+            console.log(users);
             //Do check if email or phone number
             for (let i = 0; i < users.length; i++) {
                 // console.log(users[i].email)
