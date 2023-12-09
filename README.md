@@ -32,3 +32,14 @@ PORT=4000
 MONGO_URI=mongodb+srv://user:password@mycluster.vsmdces.mongodb.net/?retryWrites=true&w=majority
 ```
 5. Run `npm start` in `optiroute` and run `npm run dev` in `optiroute/src/backend`
+
+## Required API Keys
+You will be required to acquire API keys to fully utilize all features of optiroute.
+- SMS Notification - textflow.me
+  - Replace `apiKey` in `optiroute/src/App.js` with your key
+  - Replace `apiKey` in `optiroute/src/Components/NotificationSetting/NotificationSetting.jsx` with your key
+- Google OAuth
+  - Replace `client_id` in `optiroute/src/Components/LoginSignup/LoginSignup.jsx with your key
+- Google Maps API
+  - Replace `apiKey` in `optiroute/src/Components/MapV2/GMapV2.jsx` with your key
+ 
